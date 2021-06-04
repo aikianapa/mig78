@@ -3,7 +3,6 @@
     <header>
         <div class="container">
             <div class="row align-items-center">
-                <!-- Header Logo Start -->
                 <div class="col">
                     <div class="header-logo">
                         <a href="/">
@@ -14,9 +13,6 @@
                         </a>
                     </div>
                 </div>
-                <!-- Header Logo End -->
-
-                <!-- Header Menu Start -->
                 <div class="col text-end">
                     <nav class="main-menu d-none d-lg-block">
                         <ul class="d-flex">
@@ -24,14 +20,15 @@
                                 <li><a href="{{link}}">{{button.{{_sess.lang}}}}</a></li>
                             </wb-foreach>
                             <li>
-                            <a href="javascript:void(0)">{{_sess.lang}}</a>
-                            <ul class="sub-menu d-flex">
-                                <wb-foreach wb-call="explode(',','{{_sett.locales}}')">
-                                    <li class="sub-menu-item">
-                                        <a class="sub-menu-link text-center" href="/module/lang/{{_val}}/set">{{_val}}</a>
-                                    </li>
-                                </wb-foreach>
-                            </ul>
+                                <a href="javascript:void(0)">{{_sess.lang}}</a>
+                                <ul class="sub-menu d-flex">
+                                    <wb-foreach wb-call="explode(',','{{_sett.locales}}')">
+                                        <li class="sub-menu-item">
+                                            <a class="sub-menu-link text-center"
+                                                href="/module/lang/{{_val}}/set">{{_val}}</a>
+                                        </li>
+                                    </wb-foreach>
+                                </ul>
                             </li>
                         </ul>
                     </nav>
@@ -41,7 +38,6 @@
                         <span class="icon-bottom"></span>
                     </button>
                 </div>
-                <!-- Header Menu End -->
             </div>
         </div>
     </header>
@@ -65,7 +61,7 @@
                 <input class="form-control" type="text" name="link" placeholder="{{_lang.link}}">
             </div>
         </wb-multiinput>
-    </wb-multilang>
+        </wb-multilang>
 
     </div>
 
