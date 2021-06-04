@@ -1,8 +1,8 @@
-/engine
-/database/_cache
-/uploads/_cache
-/functions.php
-/modules/yonger
-/tpl/page.php
-/form/news
-/form/pages
+engine
+database/_cache
+uploads/_cache
+functions.php
+modules/yonger
+tpl/page.php
+forms/news
+forms/pages
