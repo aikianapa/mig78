@@ -91,7 +91,6 @@
                             <textarea class="form-control" name="top_text" rows="auto" placeholder="{{_lang.text}}"></textarea>
                         </div>
                     </div>
-
             </div>
         </div>
 

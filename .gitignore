@@ -1,3 +1,3 @@
-engine
-database/_cache
-uploads/_cache
+/engine
+/database/_cache
+/uploads/_cache
