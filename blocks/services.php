@@ -32,10 +32,10 @@
                         </wb-foreach>
                     </div>
                 </div>
-
                 <div class="col-xl-4 mb-7 order-md-1 order-xl-0">
                     <div class="service-media-img text-center">
-                        <img src="assets/images/service/media.png" alt="images_not_found">
+                        <img class="logo" width="400" height="384" src="assets/images/service/media.png" alt="{{top_header1}}" wb-if="'{{image.0.img}}' == ''">
+                        <img class="logo" width="400" height="384" src="/thumb/400x384/src/{{image.0.img}}" alt="{{top_header1}}" wb-if="'{{image.0.img}}' > ''">
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4 mb-7">
