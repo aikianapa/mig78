@@ -68,7 +68,7 @@
 
     </section>
 </view>
-<edit header="Услуги">
+<edit header="{{_lang.header}}">
     <div>
         <wb-include wb-src="/modules/yonger/common/blocks/common.inc.php" />
     </div>
@@ -170,12 +170,12 @@
     </wb-multilang>
     <wb-lang>
         [ru]
-        header = Заголовок
+        header = Услуги
         text = Текст
         link = Ссылка
         button = Кнопка
         [en]
-        header = Header
+        header = Services
         text = Text
         link = Link
         button = Button
