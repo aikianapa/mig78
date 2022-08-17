@@ -35,7 +35,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-6 mb-7 offset-xl-1">
+                    <div class="col-lg-4 col-sm-6 mb-7">
                         <div class="footer-widget">
                             <h4 class="title">Quick Link</h4>
                             <ul class="footer-menu">
