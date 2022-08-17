@@ -47,6 +47,9 @@
         </wb-foreach>
 </view>
 <edit header="Мобильное меню">
+<div>
+        <wb-module wb="module=yonger&mode=edit&block=common.inc" />
+    </div>
 
 </edit>
 </html>

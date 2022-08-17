@@ -81,7 +81,9 @@
 </view>
 <edit header="{{_lang.header}}">
     <div>
-        <wb-include wb-src="/modules/yonger/common/blocks/common.inc.php" />
+<div>
+        <wb-module wb="module=yonger&mode=edit&block=common.inc" />
+    </div>
 
         <div class="divider-text">Иконки блоков</div>
         <div class="row">

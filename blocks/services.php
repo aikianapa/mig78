@@ -1,5 +1,6 @@
 <html>
 <view>
+
     <section class="service-section section-pt position-relative">
         <div class="container">
             <div class="row">
@@ -20,10 +21,8 @@
                     <div class="service-media-wrapper media-spacing-left">
                         <wb-foreach wb-from="left">
                             <div class="service-media">
-                                <img class="logo" width="74" height="74" src="assets/images/service/icon/1.png"
-                                    alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
-                                <img class="logo" width="74" height="74" src="/thumb/74x74/src/{{image.0.img}}"
-                                    alt="{{header}}" wb-if="'{{image.0.img}}' > ''">
+                                <img class="logo" width="74" height="74" src="assets/images/service/icon/1.png" alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
+                                <img class="logo" width="74" height="74" src="/thumb/74x74/src/{{image.0.img}}" alt="{{header}}" wb-if="'{{image.0.img}}' > ''">
                                 <div class="service-media-body">
                                     <h4 class="title">
                                         <a href="{{link}}">
@@ -38,20 +37,16 @@
                 </div>
                 <div class="col-xl-4 mb-7 order-md-1 order-xl-0">
                     <div class="service-media-img text-center">
-                        <img class="logo" width="400" height="384" src="assets/images/service/media.png"
-                            alt="{{top_header1}}" wb-if="'{{image.0.img}}' == ''">
-                        <img class="logo" width="400" height="384" src="/thumb/400x384/src/{{image.0.img}}"
-                            alt="{{top_header1}}" wb-if="'{{image.0.img}}' > ''">
+                        <img class="logo" width="400" height="384" src="assets/images/service/media.png" alt="{{top_header1}}" wb-if="'{{image.0.img}}' == ''">
+                        <img class="logo" width="400" height="384" src="/thumb/400x384/src/{{image.0.img}}" alt="{{top_header1}}" wb-if="'{{image.0.img}}' > ''">
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4 mb-7">
                     <div class="service-media-wrapper media-spacing-right">
                         <wb-foreach wb-from="right">
                             <div class="service-media">
-                                <img class="logo" width="74" height="74" src="assets/images/service/icon/1.png"
-                                    alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
-                                <img class="logo" width="74" height="74" src="/thumb/74x74/src/{{image.0.img}}"
-                                    alt="{{header}}" wb-if="'{{image.0.img}}' > ''">
+                                <img class="logo" width="74" height="74" src="assets/images/service/icon/1.png" alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
+                                <img class="logo" width="74" height="74" src="/thumb/74x74/src/{{image.0.img}}" alt="{{header}}" wb-if="'{{image.0.img}}' > ''">
                                 <div class="service-media-body">
                                     <h4 class="title"><a href="{{link}}">{{header}}</a></h4>
                                     <p>{{text}}</p>
@@ -70,7 +65,7 @@
 </view>
 <edit header="{{_lang.header}}">
     <div>
-        <wb-include wb-src="/modules/yonger/common/blocks/common.inc.php" />
+        <wb-module wb="module=yonger&mode=edit&block=common.inc" />
     </div>
 
     <wb-multilang wb-lang="{{_sett.locales}}" name="lang">
@@ -98,8 +93,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 mb-2">
-                                <textarea class="form-control" name="top_text" rows="auto"
-                                    placeholder="{{_lang.text}}"></textarea>
+                                <textarea class="form-control" name="top_text" rows="auto" placeholder="{{_lang.text}}"></textarea>
                             </div>
                         </div>
                     </div>
@@ -126,8 +120,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 mb-2">
-                                <textarea class="form-control" name="text" rows="auto"
-                                    placeholder="{{_lang.text}}"></textarea>
+                                <textarea class="form-control" name="text" rows="auto" placeholder="{{_lang.text}}"></textarea>
                             </div>
                         </div>
                     </div>
@@ -154,8 +147,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 mb-2">
-                                <textarea class="form-control" name="text" rows="auto"
-                                    placeholder="{{_lang.text}}"></textarea>
+                                <textarea class="form-control" name="text" rows="auto" placeholder="{{_lang.text}}"></textarea>
                             </div>
                         </div>
                     </div>
@@ -163,9 +155,9 @@
             </div>
         </div>
         <script>
-        $('.accordion').accordion({
-            heightStyle: 'content'
-        });
+            $('.accordion').accordion({
+                heightStyle: 'content'
+            });
         </script>
     </wb-multilang>
     <wb-lang>

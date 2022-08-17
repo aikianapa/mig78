@@ -44,7 +44,9 @@
 </view>
 <edit header="Меню сайта">
     <div>
-        <wb-include wb-src="/modules/yonger/common/blocks/common.inc.php" />
+<div>
+        <wb-module wb="module=yonger&mode=edit&block=common.inc" />
+    </div>
 
         <div class="form-group row">
             <label class="col-lg-3">Логотип</label>
