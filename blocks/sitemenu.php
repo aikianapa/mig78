@@ -5,18 +5,18 @@
             <div class="row align-items-center">
                 <div class="col">
                     <div class="header-logo">
-                        <a href="/">
-                            <img src="assets/images/logo/logo.png" alt="{{_sett.header}}"
-                                wb-if="'{{logo.0.img}}'==''" />
-                            <img src="/thumbc/220x41/src/{{logo.0.img}}" width="220" height="41" alt="{{_sett.header}}"
-                                wb-if="'{{logo.0.img}}'!==''" />
+                        <a href="/" wb-if="'{{logo.0.img}}'==''">
+                            Мигрант 78
+                        </a>
+                        <a href="/" wb-if="'{{logo.0.img}}'!==''">
+                            <img src="/thumbc/220x41/src/{{logo.0.img}}" width="220" height="41" alt="{{_sett.header}}"/>
                         </a>
                     </div>
                 </div>
                 <div class="col text-end">
                     <nav class="main-menu d-none d-lg-block">
                         <ul class="d-flex">
-                            <wb-foreach wb-from="menu">
+                            <wb-foreach wb-from="menu" wb-tpl="false">
                                 <li><a href="{{link}}">{{button.{{_sess.lang}}}}</a></li>
                             </wb-foreach>
                             <li>
@@ -63,7 +63,6 @@
                 <input class="form-control" type="text" name="link" placeholder="{{_lang.link}}">
             </div>
         </wb-multiinput>
-        </wb-multilang>
 
     </div>
 

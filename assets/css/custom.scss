@@ -1,5 +1,9 @@
 $link-hover-color: #59e3a7;
 
+.text-break {
+    white-space: break-spaces;
+}
+
 nav {
     &.main-menu {
         .sub-menu {
@@ -7,8 +11,56 @@ nav {
             right: 0;
             width: auto;
         }
+
         .active {
             color: $link-hover-color;
         }
     }
+}
+
+.header-logo, .footer-logo {
+    font-size: 40px;
+    font-weight: bold;
+    color: #263238;
+    white-space: nowrap;
+    text-transform: uppercase;
+    word-spacing: -5px;
+    letter-spacing: -1px;
+
+    a {
+        color: #263238;
+        &:hover {
+            color: $link-hover-color
+        }
+    }
+}
+
+
+.hero-slide-content {
+    .title {
+        font-size: 35px;
+    }
+
+    .subtitle {
+        padding-top: 20px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .hero-slide-content {
+        .title {
+            font-size: 25px;
+        }
+
+        .subtitle {
+            padding-top: 16px;
+            font-size: 16px;
+        }
+    }
+
+    .header-logo, .footer-logo {
+        font-size: 30px;
+    }
+
 }

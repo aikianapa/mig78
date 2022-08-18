@@ -8,12 +8,13 @@
 
             <div class="modal-dialog offcanvas-dialog">
                 <div class="modal-content">
-                    <div class="modal-header offcanvas-header">
-                        <a href="/">
-                            <img src="assets/images/logo/logo.png" alt="{{_sett.header}}"
-                                wb-if="'{{logo.0.img}}'==''" />
-                            <img src="/thumbc/220x41/src/{{logo.0.img}}" width="220" height="41" alt="{{_sett.header}}"
-                                wb-if="'{{logo.0.img}}'!==''" />
+                    <div class="modal-header header-logo offcanvas-header">
+
+                        <a href="/" wb-if="'{{logo.0.img}}'==''">
+                            Мигрант 78
+                        </a>
+                        <a href="/" wb-if="'{{logo.0.img}}'!==''">
+                            <img src="/thumbc/220x41/src/{{logo.0.img}}" width="220" height="41" alt="{{_sett.header}}"/>
                         </a>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>

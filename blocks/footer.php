@@ -2,6 +2,23 @@
     <div>
         <wb-module wb="module=yonger&mode=edit&block=common.inc" />
     </div>
+    <wb-multiinput name="menu">
+            <div class="col-lg-5 mb-2">
+                <input name="button" class="form-control" placeholder="Заголовок" wb="module=langinp" required>
+            </div>
+            <div class="col-lg-7 mb-2">
+                <input class="form-control" type="text" name="link" placeholder="Ссылка">
+            </div>
+    </wb-multiinput>
+    <wb-multilang wb-lang="{{_sett.locales}}" name="lang">
+        <div class="form-group row">
+            <label class="col-lg-3">Адрес</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="text" name="address" placeholder="Адрес">
+            </div>
+        </div>
+    </wb-multilang>
+
 </edit>
 <view>
     <footer>
@@ -12,12 +29,13 @@
                 <div class="row mb-n7">
                     <div class="col-lg-4 col-sm-6 mb-7">
                         <div class="footer-widget">
-                            <a class="footer-logo mb-9" href="index.html">
-                                <img src="assets/images/logo/logo-footer.png" alt="footer-logo" />
+                            <div class="footer-logo mb-9">
+                            <a class="" href="/">
+                            Мигрант 78
                             </a>
+                            </div>
                             <p>
-                                Pleasure rationally encounter consequences that extremely painful.
-                                Nor again is there
+                            Помощь иностранным гражданам для легального проживания на территории РФ
                             </p>
                             <ul class="footer-social-links">
                                 <li>
@@ -35,36 +53,30 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-6 mb-7">
+                    <div class="col-lg-3 col-sm-6 mb-7">
                         <div class="footer-widget">
-                            <h4 class="title">Quick Link</h4>
+                            <h4 class="title">Меню</h4>
                             <ul class="footer-menu">
-                                <li><a class="footer-link" href="index.html#">About us</a></li>
-                                <li><a class="footer-link" href="index.html#">Pricing Plan</a></li>
-                                <li><a class="footer-link" href="index.html#">Conditions</a></li>
-                                <li><a class="footer-link" href="index.html#">Blog Post</a></li>
-                                <li><a class="footer-link" href="index.html#">Our Clients</a></li>
-                                <li><a class="footer-link" href="index.html#">Contact us</a></li>
+                            <wb-foreach wb-from="menu" wb-tpl="false">
+                                <li><a class="footer-link" href="{{link}}">{{button.{{_sess.lang}}}}</a></li>
+                            </wb-foreach>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-sm-12 mb-7">
+                    <div class="col-lg-5 col-sm-12 mb-7">
                         <div class="footer-widget">
-                            <h4 class="title">Contact info</h4>
-                            <p>245 Southern Street, Apt. 147 New York, USA</p>
+                            <h4 class="title">Контакты</h4>
+                            <p>{{address}}</p>
                             <ul class="address">
                                 <li>
-                                    <a class="address-link" href="tel:+12354569874">+12354 569 874</a>
+                                    <a class="address-link" href="tel:{{text2tel({{_sett.phone}})}}">{{_sett.phone}}</a>
                                 </li>
                                 <li>
-                                    <a class="address-link" href="tel:+98745612398">+98745 612 398</a>
+                                    <a class="address-link" href="mailto:{{_sett.email}}">{{_sett.email}}</a>
                                 </li>
                                 <li>
-                                    <a class="address-link" href="mailto:info@example.com">info@example.com</a>
-                                </li>
-                                <li>
-                                    <a class="address-link" href="mailto:info@example.com">www.example.com</a>
+                                    <a class="address-link" href="{{_route.host}}">{{_route.hostname}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -79,10 +91,10 @@
                     <div class="col-12">
                         <div class="copyright-info text-center">
                             <p>
-                                Copyright © <span id="currentYear"></span>
-                                Made with <i class="icofont-heart-alt"></i> By
-                                <a href="https://hasthemes.com/" target="_blank">
-                                    HasThemes</a>, All Rights Reserved
+                                Сделано © <span id="currentYear"></span>
+                                с помощью
+                                <a href="http://digiport.ru/" target="_blank">
+                                WebBasic</a>, легко и просто
                             </p>
                         </div>
                     </div>

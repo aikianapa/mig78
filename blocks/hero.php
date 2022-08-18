@@ -17,10 +17,11 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="hero-slide-content">
-                            <h2 class="title animated">
-                                {{header1}} <br />
-                                {{header2}}
+                            <h2 wb-if="'{{header1}}'>''" class="title animated">
+                                {{header1}}
+                                <div class="subtitle" wb-if="'{{header2}}'>''">{{header2}}</div>
                             </h2>
+
                             <a href="{{link1}}" wb-if="button1 > ''"
                                 class="btn btn-lg animated delay1 btn-dark btn-hover-dark me-4 mb-3 mb-sm-0">{{button1}}</a>
                             <a href="{{link2}}"
