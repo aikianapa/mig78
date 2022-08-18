@@ -25,7 +25,6 @@ nav {
     white-space: nowrap;
     word-spacing: -5px;
     letter-spacing: -1px;
-
     a {
         color: #263238;
         &:hover {
@@ -33,7 +32,6 @@ nav {
         }
     }
 }
-
 
 .hero-slide-content {
     .title {
@@ -51,15 +49,12 @@ nav {
         .title {
             font-size: 25px;
         }
-
         .subtitle {
             padding-top: 16px;
             font-size: 16px;
         }
     }
-
     .header-logo, .footer-logo {
         font-size: 30px;
     }
-
 }
