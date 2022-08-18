@@ -27,7 +27,7 @@
             <img class="footer-shape" src="assets/images/footer/1.png" alt="shape">
             <div class="container">
                 <div class="row mb-n7">
-                    <div class="col-lg-4 col-sm-6 mb-7">
+                    <div class="col-lg-5 col-sm-6 mb-7">
                         <div class="footer-widget">
                             <div class="footer-logo mb-9">
                             <a class="" href="/">
@@ -38,6 +38,7 @@
                             Помощь иностранным гражданам для легального проживания на территории РФ
                             </p>
                             <ul class="footer-social-links">
+                                <!--
                                 <li>
                                     <a class="footer-social-link" href="index.html#"><i class="icofont-facebook"></i></a>
                                 </li>
@@ -47,13 +48,14 @@
                                 <li>
                                     <a class="footer-social-link" href="index.html#"><i class="icofont-twitter"></i></a>
                                 </li>
+                                -->
                                 <li>
-                                    <a class="footer-social-link" href="index.html#"><i class="icofont-whatsapp"></i></a>
+                                    <a class="footer-social-link" href="{{_sett.telegram}}"><h2><i class="icofont-telegram"></i></h2></a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 mb-7">
+                    <!--div class="col-lg-3 col-sm-6 mb-7">
                         <div class="footer-widget">
                             <h4 class="title">Меню</h4>
                             <ul class="footer-menu">
@@ -62,15 +64,15 @@
                             </wb-foreach>
                             </ul>
                         </div>
-                    </div>
+                    </div-->
 
-                    <div class="col-lg-5 col-sm-12 mb-7">
+                    <div class="col-lg-7 col-sm-6 mb-7">
                         <div class="footer-widget">
                             <h4 class="title">Контакты</h4>
-                            <p>{{address}}</p>
+                            <p>{{_sett.address}}</p>
                             <ul class="address">
                                 <li>
-                                    <a class="address-link" href="tel:{{text2tel({{_sett.phone}})}}">{{_sett.phone}}</a>
+                                    <a class="address-link" href="tel:+{{text2tel({{_sett.phone}})}}">{{_sett.phone}}</a>
                                 </li>
                                 <li>
                                     <a class="address-link" href="mailto:{{_sett.email}}">{{_sett.email}}</a>
