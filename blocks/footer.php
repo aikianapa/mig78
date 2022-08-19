@@ -2,23 +2,18 @@
     <div>
         <wb-module wb="module=yonger&mode=edit&block=common.inc" />
     </div>
-    <wb-multiinput name="menu">
+    <!--wb-multiinput name="menu">
             <div class="col-lg-5 mb-2">
                 <input name="button" class="form-control" placeholder="Заголовок" wb="module=langinp" required>
             </div>
             <div class="col-lg-7 mb-2">
                 <input class="form-control" type="text" name="link" placeholder="Ссылка">
             </div>
+    </wb-multiinput-->
+    <div class="divider-text">Дополнительные адреса</div>
+    <wb-multiinput name="add">
+        <input name="address" class="form-control" placeholder="Заголовок" wb="module=langinp" required>
     </wb-multiinput>
-    <wb-multilang wb-lang="{{_sett.locales}}" name="lang">
-        <div class="form-group row">
-            <label class="col-lg-3">Адрес</label>
-            <div class="col-lg-9">
-                <input class="form-control" type="text" name="address" placeholder="Адрес">
-            </div>
-        </div>
-    </wb-multilang>
-
 </edit>
 <view>
     <footer>
@@ -70,6 +65,9 @@
                         <div class="footer-widget">
                             <h4 class="title">Контакты</h4>
                             <p>{{_sett.address}}</p>
+                            <wb-foreach wb-from="add">
+                                {{address.{{_sess.lang}}}}
+                            </wb-foreach>
                             <ul class="address">
                                 <li>
                                     <a class="address-link" href="tel:+{{text2tel({{_sett.phone}})}}">{{_sett.phone}}</a>
