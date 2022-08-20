@@ -21,8 +21,9 @@
                     <div class="service-media-wrapper media-spacing-left">
                         <wb-foreach wb-from="left">
                             <div class="service-media">
-                                <img class="logo" width="74" height="74" src="assets/images/service/icon/1.png" alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
+                                <img class="logo" width="74" height="74" src="{{_parent.lang.ru.left.{{_idx}}.image.0.img}}" alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
                                 <img class="logo" width="74" height="74" src="/thumb/74x74/src/{{image.0.img}}" alt="{{header}}" wb-if="'{{image.0.img}}' > ''">
+                                
                                 <div class="service-media-body">
                                     <h4 class="title">
                                         <a href="{{link}}">
@@ -45,7 +46,7 @@
                     <div class="service-media-wrapper media-spacing-right">
                         <wb-foreach wb-from="right">
                             <div class="service-media">
-                                <img class="logo" width="74" height="74" src="assets/images/service/icon/1.png" alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
+                                <img class="logo" width="74" height="74" src="{{_parent.lang.ru.right.{{_idx}}.image.0.img}}" alt="{{header}}" wb-if="'{{image.0.img}}' == ''">
                                 <img class="logo" width="74" height="74" src="/thumb/74x74/src/{{image.0.img}}" alt="{{header}}" wb-if="'{{image.0.img}}' > ''">
                                 <div class="service-media-body">
                                     <h4 class="title"><a href="{{link}}">{{header}}</a></h4>

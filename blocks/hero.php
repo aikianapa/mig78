@@ -12,20 +12,21 @@
         </div>
         <!-- hero-shape two end -->
         <!-- hero-slider start -->
+        
         <div class="hero-slider">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="hero-slide-content">
-                            <h2 wb-if="'{{header1}}'>''" class="title animated">
-                                {{header1}}
-                                <div class="subtitle" wb-if="'{{header2}}'>''">{{header2}}</div>
+                            <h2 class="title animated" wb-if="'{{lang.{{_sess.lang}}.header1}}'>''">
+                                {{lang.{{_sess.lang}}.header1}}
+                                <div class="subtitle">{{lang.{{_sess.lang}}.header2}}</div>
                             </h2>
 
-                            <a href="{{link1}}" wb-if="button1 > ''"
-                                class="btn btn-lg animated delay1 btn-dark btn-hover-dark me-4 mb-3 mb-sm-0">{{button1}}</a>
-                            <a href="{{link2}}"
-                                class="btn btn-lg animated delay2 btn-secondary btn-hover-secondary mb-3 mb-sm-0">{{button2}}</a>
+                            <a href="{{lang.{{_sess.lang}}.link1}}" wb-if="'{{lang.{{_sess.lang}}.button1}}' > ''"
+                                class="btn btn-lg animated delay1 btn-dark btn-hover-dark me-4 mb-3 mb-sm-0">{{lang.{{_sess.lang}}.button1}}</a>
+                            <a href="{{lang.{{_sess.lang}}.link2}}"
+                                class="btn btn-lg animated delay2 btn-secondary btn-hover-secondary mb-3 mb-sm-0">{{lang.{{_sess.lang}}.button2}}</a>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -39,6 +40,7 @@
                 </div>
             </div>
         </div>
+        </wb-var>
         <!-- hero-slider end -->
     </section>
 </view>
@@ -46,7 +48,7 @@
 <div>
         <wb-module wb="module=yonger&mode=edit&block=common.inc" />
     </div>
-
+    
     <wb-multilang wb-lang="{{_sett.locales}}" name="lang">
         <div class="form-group row">
             <label class="col-lg-3">Заголовок</label>
@@ -81,6 +83,7 @@
             </div>
         </div>
 
+        </wb-multilang>
         <div class="form-group row">
             <label class="col-lg-3">Изображение</label>
             <div class="col-lg-6">
@@ -88,7 +91,6 @@
             </div>
         </div>
 
-    </wb-multilang>
 </edit>
 
 </html>

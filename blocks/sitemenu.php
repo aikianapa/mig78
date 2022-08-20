@@ -6,7 +6,9 @@
                 <div class="col">
                     <div class="header-logo">
                         <a href="/" wb-if="'{{logo.0.img}}'==''">
-                            Мигрант 78
+                            <wb-var logo="name_{{_sess.lang}}" />
+                            <wb-var logo="{{_sett.{{_var.logo}} }}" />
+                            {{_var.logo}}
                         </a>
                         <a href="/" wb-if="'{{logo.0.img}}'!==''">
                             <img src="/thumbc/220x41/src/{{logo.0.img}}" width="220" height="41" alt="{{_sett.header}}"/>

@@ -26,7 +26,7 @@
                         <div class="footer-widget">
                             <div class="footer-logo mb-9">
                             <a class="" href="/">
-                            Мигрант 78
+                            {{_var.logo}}
                             </a>
                             </div>
                             <p>
