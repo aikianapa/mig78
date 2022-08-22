@@ -2,14 +2,12 @@
     <div>
         <wb-module wb="module=yonger&mode=edit&block=common.inc" />
     </div>
-    <!--wb-multiinput name="menu">
-            <div class="col-lg-5 mb-2">
-                <input name="button" class="form-control" placeholder="Заголовок" wb="module=langinp" required>
+    <div class="form-group row">
+            <label class="col-lg-3">Слоган</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="text" name="slogan" wb="module=langinp">
             </div>
-            <div class="col-lg-7 mb-2">
-                <input class="form-control" type="text" name="link" placeholder="Ссылка">
-            </div>
-    </wb-multiinput-->
+        </div>
     <div class="divider-text">Дополнительные адреса</div>
     <wb-multiinput name="add">
         <input name="address" class="form-control" placeholder="Заголовок" wb="module=langinp" required>
