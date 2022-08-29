@@ -89,10 +89,7 @@
                     <div class="col-12">
                         <div class="copyright-info text-center">
                             <p>
-                                Сделано © <span id="currentYear"></span>
-                                с помощью
-                                <a href="http://digiport.ru/" target="_blank">
-                                WebBasic</a>, легко и просто
+                                © <span id="currentYear"></span>
                             </p>
                         </div>
                     </div>
