@@ -11,6 +11,9 @@
                             {{top_header2}}
                         </h3>
                         <p>{{top_text}}</p>
+                        <a href="{{_sett.telegram}}" class="text-primary" target="_blank">
+                            <img src="/thumbc/300x400/src/assets/images/about/telqr.png" alt="@migrant_78">
+                        </a>
                     </div>
                 </div>
             </div>
