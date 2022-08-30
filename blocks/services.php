@@ -12,7 +12,8 @@
                         </h3>
                         <p>{{top_text}}</p>
                         <a href="{{_sett.telegram}}" class="text-primary" target="_blank">
-                            <img src="/thumbc/200x250/src/assets/images/about/telqr.png" alt="@migrant_78">
+                            <!--img src="/thumbc/200x250/src/assets/images/about/telqr.png" alt="@migrant_78"-->
+                            @migrant_78
                         </a>
                     </div>
                 </div>
