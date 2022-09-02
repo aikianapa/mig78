@@ -1,5 +1,4 @@
 $link-hover-color: #59e3a7;
-
 .text-break {
     white-space: break-spaces;
 }
@@ -11,14 +10,17 @@ nav {
             right: 0;
             width: auto;
         }
-
         .active {
             color: $link-hover-color;
+        }
+        li {
+            white-space: nowrap
         }
     }
 }
 
-.header-logo, .footer-logo {
+.header-logo,
+.footer-logo {
     font-size: 40px;
     font-weight: bold;
     color: #263238;
@@ -37,7 +39,6 @@ nav {
     .title {
         font-size: 35px;
     }
-
     .subtitle {
         padding-top: 20px;
         font-size: 20px;
@@ -54,7 +55,8 @@ nav {
             font-size: 16px;
         }
     }
-    .header-logo, .footer-logo {
+    .header-logo,
+    .footer-logo {
         font-size: 30px;
     }
 }
