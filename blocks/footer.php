@@ -76,6 +76,9 @@
                                 <li>
                                     <a class="address-link" href="{{_route.host}}">{{_route.hostname}}</a>
                                 </li>
+                                <li>
+                                    <a class="address-link" href="/oferta">Договор-оферта</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
