@@ -82,7 +82,7 @@
 
 <script wb-app>
     var port = 4010
-    var host = 'migrant.loc'
+    var host = '{{_route.hostname}}'
     var chanel = host
     var password = 'accept'
     var hash = md5(chanel, password)
@@ -173,8 +173,8 @@
         })
 
         // закрывая форму снимаем блок
-        $(document).undelegate('#modalPeoplesEdit','hide.bs.modal');
-        $(document).delegate('#modalPeoplesEdit','hide.bs.modal',function(){
+        $(document).undelegate('#modalScansEdit','hide.bs.modal');
+        $(document).delegate('#modalScansEdit','hide.bs.modal',function(){
             let id = $(this).data("id");
             $.post('/api/v2/func/scans/unblock', {id: id}, function() {
                 conn.publish({
@@ -202,7 +202,6 @@
             $('#scansList').find('tr[data-id]').removeClass('d-none');
             console.log(res);
             $(res.blocks).each(function(i, id) {
-                console.log(id);
                 $('#scansList').find('tr[data-id="' + id + '"]').addClass('d-none');
             })
         }
