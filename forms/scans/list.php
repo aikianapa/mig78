@@ -286,8 +286,4 @@
         }
     });
 </script>
-<wb-lang>
-    [ru] scans = Документы search = Поиск newDoc = Новый документ [en] scans = Documents search = Search newDoc = New document
-</wb-lang>
-
 </html>
