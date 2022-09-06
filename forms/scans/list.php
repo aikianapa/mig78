@@ -60,20 +60,18 @@
                         class="d-inline">
                         <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
                     </a>
-                    </div>
+                </div>
             </li>
             {{/each}}
         </ul>
-
+        {{#if ~/pages != 1}}
         <nav aria-label="Page navigation">
             <ul class="pagination mg-b-0 mg-t-10">
-                {{#each pagination}}
-                {{#if ~/page == .page}}
+                {{#each pagination}} {{#if ~/page == .page}}
                 <li class="page-item active">
                     <a class="page-link" data-page="{{.page}}" on-click="setPage" href="#">{{.label}}</a>
                 </li>
-                {{/if}}
-                {{#if ~/page != .page}}
+                {{/if}} {{#if ~/page != .page}}
                 <li class="page-item">
                     <a class="page-link" data-page="{{.page}}" on-click="setPage" href="#">{{.label}}</a>
                 </li>
@@ -88,17 +86,16 @@
                     -->
         </nav>
 
-        </ul>
+        {{/if}}
     </div>
     <script>
         var list = new Ractive({
             el: "#scansListNew",
             template: $("#scansListNew").html(),
             data: {
-                "base": "/api/v2/list/docs/?@size=10&@sort=fullname",
+                "base": "/api/v2/list/docs/?@size=10&@sort=fullname&@return=fullname,doc_ser,doc_num,id",
                 "result": [],
-                "pagination": [],
-                "page": 1
+                "pagination": []
             },
             on: {
                 init() {
@@ -106,6 +103,8 @@
                     wbapp.post(`${base}`, {}, function(data) {
                         list.set("result", data.result);
                         list.set("pagination", data.pagination);
+                        list.set("page", data.page);
+                        list.set("pages", data.pages);
                     })
                 },
                 setPage(ev) {
@@ -113,6 +112,7 @@
                     let base = this.get("base");
                     wbapp.post(`${base}&@page=${page}`, {}, function(data) {
                         list.set("page", data.page);
+                        list.set("pages", data.page);
                         list.set("pagination", data.pagination);
                         list.set("result", data.result);
                     })
