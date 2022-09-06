@@ -1,3 +1,38 @@
+@font-face {
+    font-family: "Gotham Pro";
+    src: url("../fonts/GothamPro/GothamProRegular.eot");
+    src: url("../fonts/GothamPro/GothamProRegular.eot?#iefix") format("embedded-opentype"), url("../fonts/GothamPro/GothamProRegular.woff") format("woff"), url("../fonts/GothamPro/GothamProRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Gotham Pro";
+    src: url("../fonts/GothamPro/GothamProBold.eot");
+    src: url("../fonts/GothamPro/GothamProBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GothamPro/GothamProBold.woff") format("woff"), url("../fonts/GothamPro/GothamProBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 700;
+}
+
+body {
+    font-family: "Gotham Pro";
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+    font-family: "Gotham Pro";
+}
+
 $link-hover-color: #59e3a7;
 .text-break {
     white-space: break-spaces;
