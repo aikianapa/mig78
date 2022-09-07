@@ -46,6 +46,7 @@
                                     <a class="footer-social-link" href="{{_sett.telegram}}"><h2><i class="icofont-telegram"></i></h2></a>
                                 </li>
                             </ul>
+                            <p><a class="address-link" href="/oferta">Договор-оферта</a></p>
                         </div>
                     </div>
                     <!--div class="col-lg-3 col-sm-6 mb-7">
@@ -76,10 +77,8 @@
                                 <li>
                                     <a class="address-link" href="{{_route.host}}">{{_route.hostname}}</a>
                                 </li>
-                                <li>
-                                    <a class="address-link" href="/oferta">Договор-оферта</a>
-                                </li>
                             </ul>
+                            <p class="mt-5">* <small>Услуга оказывается в электронном виде. Результатом услуги явлется пакет документов в формате PDF, высылаемый по каналам электронной связи.</small></p>
                         </div>
                     </div>
                 </div>
