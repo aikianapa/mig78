@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header row">
                 <div class="col-5">
-                    <h5>Мигрант</h5>
+                    <h5>Первичные данные</h5>
                 </div>
                 <div class="col-7">
                     <h5 class='header'></h5>
@@ -17,20 +17,6 @@
                     <meta name="scan" content="{{_route.params.scan}}">
                     <input type="hidden" name="inprint">
                     <input type="hidden" name="status" value='new' wb-if="'{{status}}'==''">
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-control-label">Код конверта с картой</label>
-                            <input type="text" name="code" class="form-control" placeholder="Код конверта с картой" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-control-label">Телефон</label>
-                            <input wb-module="mask" wb-mask="89999999999" name="phone" class="form-control" placeholder="Телефон" required>
-                        </div>
-                    </div>
 
                     <div class="col-sm-3">
                         <div class="form-group">
@@ -74,16 +60,25 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Дата рождения</label>
-                            <input type="date" name="birth_date" class="form-control" placeholder="Дата рождения" required>
+                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="birth_date" class="form-control" placeholder="Дата рождения" required>
                         </div>
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Место рождения</label>
                             <input type="text" name="birth_place" class="form-control" placeholder="Место рождения" required>
                         </div>
                     </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label class="form-control-label">Телефон</label>
+                            <input wb-module="mask" wb-mask="89999999999" name="phone" class="form-control" placeholder="Телефон" required>
+                        </div>
+                    </div>
+
+
                     <div class="col-12">
                         <div class="divider-text">Паспорт</div>
                     </div>
@@ -118,14 +113,14 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Дата выдачи</label>
-                            <input type="date" name="doc_date" class="form-control" placeholder="Дата выдачи" required>
+                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="doc_date" class="form-control" placeholder="Дата выдачи" required>
                         </div>
                     </div>
 
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Дата окончания</label>
-                            <input type="date" name="doc_expire" class="form-control" placeholder="Дата окончания">
+                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="doc_expire" class="form-control" placeholder="Дата окончания">
                         </div>
                     </div>
 
@@ -169,7 +164,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 form-control-label">Срок пребывания</label>
                             <div class="col-sm-9">
-                                <input type="date" name="date_out" class="form-control" placeholder="Срок пребывания" required>
+                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="date_out" class="form-control" placeholder="Срок пребывания" required>
                             </div>
                         </div>
                     </div>
@@ -266,12 +261,12 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label class="form-control-label">Дата выдачи</label>
-                                <input type="date" name="mc_date" class="form-control" placeholder="Дата выдачи" required>
+                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="mc_date" class="form-control" placeholder="Дата выдачи" required>
                             </div>
 
                             <div class="form-group col-sm-6">
                                 <label class="form-control-label">Дата окончания</label>
-                                <input type="date" name="mc_expire" class="form-control" placeholder="Дата окончания" required>
+                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="mc_expire" class="form-control" placeholder="Дата окончания" required>
                             </div>
                         </div>
                     </div>
@@ -286,6 +281,9 @@
                         </a>
                     </wb-foreach>
                 </div>
+                <div style="margin-bottom:200px;">
+                    &nbsp;
+                </div>
 
             </div>
             <div class="modal-footer pd-x-20 pd-b-20 pd-t-0 bd-t-0">
@@ -294,5 +292,17 @@
         </div>
     </div>
 </div>
+<style wb-module="less">
+    .row.photoswipe {
+position: fixed;
+    top: 0;
+    left: -81px;
+    height: 100vh;
+    width: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display:block;
+    }
 
+</style>
 </html>

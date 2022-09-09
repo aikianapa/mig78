@@ -12,38 +12,21 @@
             <form class="form-inline mg-t-10 mg-lg-0  ml-auto">
                 <div class="form-group">
                     <input class="form-control mg-r-10 col-auto" type="search" placeholder="Поиск..." aria-label="Поиск..." data-ajax="{'target':'#{{_form}}List','filter_add':{'$or':[{ 'doc_num' : {'$like' : '$value'} }, { 'fullname': {'$like' : '$value'} }]} }">
-                    <wb-module id="scansImport" wb="{
-                            'module':'filepicker',
-                            'button': 'Импорт',
-                            'width':'200',
-                            'height':'200',
-                            'mode':'button',
-                            'original': false
-                        }" wb-ext="zip" wb-path='/uploads/tmp/' />
                 </div>
             </form>
         </div>
     </nav>
-
-    <wb-var date="" />
-    <wb-var filter="{'_site' : {'$in': [null,'{{_sett.site}}']}}" />
-    <wb-var filter="{'_site' : {'$in': [null,'{{_sett.site}}']},'_creator':'{{_sess.user.id}}'}" wb-if="in_array({{_sess.user.role}},['partner','',null])"
-    />
-
-
-    <div class="yongerscans-wait d-none my-3">
-        <div class="alert alert-secondary">
-            Выполняется импорт данных. Ждите...
-            <span class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></span>
-        </div>
-    </div>
-
-
-
-    <div id="scansListNew">
+<!--
+<form enctype="multipart/form-data" action="http://mig78.loc/api/v2/upload/" method="POST">
+    Отправить этот файл: <input name="file" type="file" />
+    <input name="path" value="/test">
+    <input type="submit" value="Отправить файл" />
+</form>
+-->
+    <div id="scansList">
         <ul class="list-group">
             {{#each result}}
-            <li data-id="{{id}}" class="list-group-item">
+            <li data-id="{{.id}}" class="list-group-item">
                 <div>{{.fullname}}</div>
                 <div class="tx-12">{{.doc_ser}} {{.doc_num}}</div>
                 <div class="tx-right pos-absolute t-10 r-10">
@@ -64,36 +47,34 @@
             </li>
             {{/each}}
         </ul>
-        {{#if ~/pages != 1}}
+        {{#~/pages }} {{#if ~/pages != 1 }}
         <nav aria-label="Page navigation">
             <ul class="pagination mg-b-0 mg-t-10">
                 {{#each pagination}} {{#if ~/page == .page}}
                 <li class="page-item active">
-                    <a class="page-link" data-page="{{.page}}" on-click="setPage" href="#">{{.label}}</a>
+                    <a class="page-link" data-page="{{.page}}" on-click="setPage" href="#">
+                        {{.label}}
+                    </a>
                 </li>
                 {{/if}} {{#if ~/page != .page}}
                 <li class="page-item">
-                    <a class="page-link" data-page="{{.page}}" on-click="setPage" href="#">{{.label}}</a>
+                    <a class="page-link" data-page="{{.page}}" on-click="setPage" href="#">
+                        {{#if .label == "prev"}}
+                        <img src="/module/myicons/interface-essential-181.svg?size=18&stroke=0168fa" class="d-inline">{{/if}} {{#if .label == "next"}}
+                        <img src="/module/myicons/interface-essential-35.svg?size=18&stroke=0168fa" class="d-inline">{{/if}} {{#if .label != "prev"}}{{#if .label != "next"}}{{.label}}{{/if}}{{/if}}
+                    </a>
                 </li>
-                {{/if}}
-                {{/each}}
+                {{/if}} {{/each}}
             </ul>
-            <!--
-    <li class="page-item disabled"><a class="page-link page-link-icon" href="#"><i data-feather="chevron-left"></i></a></li>
-    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link page-link-icon" href="#"><i data-feather="chevron-right"></i></a></li>
-                    -->
         </nav>
-
-        {{/if}}
+        {{/if}} {{/pages}}
     </div>
     <script>
         var list = new Ractive({
-            el: "#scansListNew",
-            template: $("#scansListNew").html(),
+            el: "#scansList",
+            template: $("#scansList").html(),
             data: {
-                "base": "/api/v2/list/docs/?@size=10&@sort=fullname&@return=fullname,doc_ser,doc_num,id",
+                "base": "/api/v2/list/scans/?@size=10&@sort=_created:d&@return=fullname,doc_ser,doc_num,id",
                 "result": [],
                 "pagination": []
             },
@@ -112,7 +93,7 @@
                     let base = this.get("base");
                     wbapp.post(`${base}&@page=${page}`, {}, function(data) {
                         list.set("page", data.page);
-                        list.set("pages", data.page);
+                        list.set("pages", data.pages);
                         list.set("pagination", data.pagination);
                         list.set("result", data.result);
                     })
@@ -191,6 +172,32 @@
             }, 3000)
         }
 
+        let itemBlock = function(id) {
+            $.post('/api/v2/func/scans/block', {
+                id: id
+            }, function() {
+                conn.publish({
+                    'type': 'ajax',
+                    'url': document.location.origin + '/api/v2/func/scans/getblock',
+                    'post': {},
+                    func: 'afterGetBlocks'
+                });
+            })
+        }
+
+        let itemUnblock = function(id) {
+            $.post('/api/v2/func/scans/unblock', {
+                id: id
+            }, function() {
+                conn.publish({
+                    'type': 'ajax',
+                    'url': document.location.origin + '/api/v2/func/scans/getblock',
+                    'post': {},
+                    func: 'afterGetBlocks'
+                });
+            })
+        }
+
         // эвент сохранения записи
         wbapp.on('wb-save-done', function(e, data) {
             conn.publish({
@@ -205,33 +212,15 @@
         // открывая форму ставим блок
         $('#scansList').undelegate('a[data-ajax]', wbapp.evClick);
         $('#scansList').delegate('a[data-ajax]', wbapp.evClick, function() {
-            let id = $(this).parents('tr').data('id');
-            $.post('/api/v2/func/scans/block', {
-                id: id
-            }, function() {
-                conn.publish({
-                    'type': 'ajax',
-                    'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {},
-                    func: 'afterGetBlocks'
-                });
-            })
+            let id = $(this).parents('[data-id]').data('id');
+            itemBlock(id)
         })
 
         // закрывая форму снимаем блок
         $(document).undelegate('#modalScansEdit', 'hide.bs.modal');
         $(document).delegate('#modalScansEdit', 'hide.bs.modal', function() {
             let id = $(this).data("id");
-            $.post('/api/v2/func/scans/unblock', {
-                id: id
-            }, function() {
-                conn.publish({
-                    'type': 'ajax',
-                    'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {},
-                    func: 'afterGetBlocks'
-                });
-            })
+            itemUnblock(id)
         })
 
         // эвент сохранения записи
@@ -247,10 +236,9 @@
 
         // функция обновления блокировок
         let afterGetBlocks = function(res) {
-            $('#scansList').find('tr[data-id]').removeClass('d-none');
-            console.log(res);
+            $('#scansList').find('[data-id]').removeClass('d-none');
             $(res.blocks).each(function(i, id) {
-                $('#scansList').find('tr[data-id="' + id + '"]').addClass('d-none');
+                $('#scansList').find('[data-id="' + id + '"]').addClass('d-none');
             })
         }
 
@@ -259,7 +247,7 @@
             let form = data.form;
             let item = data.item;
             let table = data.table;
-            $('#scansList').find('tr[data-id="' + item + '"]').remove();
+            $('#scansList').find('[data-id="' + item + '"]').remove();
         }
 
     }
@@ -286,4 +274,5 @@
         }
     });
 </script>
+
 </html>
