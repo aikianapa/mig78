@@ -177,12 +177,13 @@
 
         let itemBlock = function(id) {
             $.post('/api/v2/func/scans/block', {
-                id: id
+                id: id,
+                __token: wbapp._session.token
             }, function() {
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {},
+                    'post': {__token: wbapp._session.token},
                     func: 'afterGetBlocks'
                 });
             })
@@ -190,12 +191,13 @@
 
         let itemUnblock = function(id) {
             $.post('/api/v2/func/scans/unblock', {
-                id: id
+                id: id,
+                __token: wbapp._session.token
             }, function() {
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {},
+                    'post': {__token: wbapp._session.token},
                     func: 'afterGetBlocks'
                 });
             })
@@ -266,7 +268,7 @@
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/cms/ajax/form/scans/block/getblock',
-                    'post': {}
+                    'post': {__token: wbapp._session.token}
                 });
             });
         } else {
