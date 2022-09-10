@@ -174,8 +174,10 @@
 
         let itemBlock = function(id) {
             $.post('/api/v2/func/scans/block', {
-                id: id
+                id: id,
+                __token: wbapp._session.token
             }, function() {
+                if (!conn) return
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
@@ -187,8 +189,10 @@
 
         let itemUnblock = function(id) {
             $.post('/api/v2/func/scans/unblock', {
-                id: id
+                id: id,
+                __token: wbapp._session.token
             }, function() {
+                if (!conn) return
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
