@@ -106,6 +106,7 @@
 </div>
 
 <script wb-app>
+(function() {  
     var port = 4010
     var host = '{{_route.hostname}}'
     var chanel = host
@@ -171,6 +172,8 @@
                 }
             }, 3000)
         }
+    }
+    synapse_connect();
 
         let itemBlock = function(id) {
             $.post('/api/v2/func/scans/block', {
@@ -254,8 +257,6 @@
             $('#scansList').find('[data-id="' + item + '"]').remove();
         }
 
-    }
-    synapse_connect();
 
     $('#yongerscans').off('mod-filepicker-done');
     $('#yongerscans').on('mod-filepicker-done', function(ev, data) {
@@ -277,6 +278,7 @@
             });
         }
     });
+    })()
 </script>
 
 </html>
