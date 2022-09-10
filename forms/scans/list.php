@@ -105,7 +105,7 @@
     <modals></modals>
 </div>
 
-<script wb-app remove>
+<script wb-app>
     var port = 4010
     var host = '{{_route.hostname}}'
     var chanel = host
@@ -175,7 +175,7 @@
     }
     synapse_connect();
 
-        let itemBlock = function(id) {
+        var itemBlock = function(id) {
             $.post('/api/v2/func/scans/block', {
                 id: id,
                 __token: wbapp._session.token
@@ -189,7 +189,7 @@
             })
         }
 
-        let itemUnblock = function(id) {
+        var itemUnblock = function(id) {
             $.post('/api/v2/func/scans/unblock', {
                 id: id,
                 __token: wbapp._session.token
@@ -240,14 +240,14 @@
 
 
         // функция обновления блокировок
-        let afterGetBlocks = function(res) {
+        var afterGetBlocks = function(res) {
             $('#scansList').find('[data-id]').removeClass('d-none');
             $(res.blocks).each(function(i, id) {
                 $('#scansList').find('[data-id="' + id + '"]').addClass('d-none');
             })
         }
 
-        let afterFormsave = function(data) {
+        var afterFormsave = function(data) {
             if (!$('#scansList').length) return;
             let form = data.form;
             let item = data.item;
