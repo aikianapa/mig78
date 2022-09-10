@@ -105,8 +105,7 @@
     <modals></modals>
 </div>
 
-<script wb-app>
-(function() {  
+<script wb-app remove>
     var port = 4010
     var host = '{{_route.hostname}}'
     var chanel = host
@@ -172,19 +171,18 @@
                 }
             }, 3000)
         }
+
     }
     synapse_connect();
 
         let itemBlock = function(id) {
             $.post('/api/v2/func/scans/block', {
-                id: id,
-                __token: wbapp._session.token
+                id: id
             }, function() {
-                if (!conn) return
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {__token: wbapp._session.token},
+                    'post': {},
                     func: 'afterGetBlocks'
                 });
             })
@@ -192,14 +190,12 @@
 
         let itemUnblock = function(id) {
             $.post('/api/v2/func/scans/unblock', {
-                id: id,
-                __token: wbapp._session.token
+                id: id
             }, function() {
-                if (!conn) return
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {__token: wbapp._session.token},
+                    'post': {},
                     func: 'afterGetBlocks'
                 });
             })
@@ -224,15 +220,15 @@
         })
 
         // закрывая форму снимаем блок
-        $(document).undelegate('#modalScansEdit', 'hide.bs.modal');
-        $(document).delegate('#modalScansEdit', 'hide.bs.modal', function() {
+        $(document).undelegate('#modalScansEdit', 'hidden.bs.modal');
+        $(document).delegate('#modalScansEdit', 'hidden.bs.modal', function() {
             let id = $(this).data("id");
             itemUnblock(id)
         })
 
         // эвент сохранения записи
-        $(document).undelegate('#docsEditForm', 'wb-form-save');
-        $(document).delegate('#docsEditForm', 'wb-form-save', function(e, data) {
+        $(document).undelegate('#scansEditForm', 'wb-form-save');
+        $(document).delegate('#scansEditForm', 'wb-form-save', function(e, data) {
             conn.publish({
                 type: 'func',
                 func: 'afterFormsave',
@@ -258,6 +254,7 @@
         }
 
 
+
     $('#yongerscans').off('mod-filepicker-done');
     $('#yongerscans').on('mod-filepicker-done', function(ev, data) {
         let synapse = $('#scansList').synapse;
@@ -278,7 +275,6 @@
             });
         }
     });
-    })()
 </script>
 
 </html>
