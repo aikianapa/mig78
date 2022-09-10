@@ -184,7 +184,7 @@
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {},
+                    'post': {__token: wbapp._session.token},
                     func: 'afterGetBlocks'
                 });
             })
@@ -199,7 +199,7 @@
                 conn.publish({
                     'type': 'ajax',
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
-                    'post': {},
+                    'post': {__token: wbapp._session.token},
                     func: 'afterGetBlocks'
                 });
             })
