@@ -11,7 +11,8 @@ class scansClass extends cmsFormsClass
         } else {
             $data->set('active', '');
         }
-        $item['sernum'] = $item['doc_ser'].$item['doc_num'];
+        $item['doc_sernum'] = $item['doc_ser'].$item['doc_num'];
+        $item['srclen'] = isset($item['sources']) ? count((array)$item['sources']) : 0;
     }
 
     function block() {

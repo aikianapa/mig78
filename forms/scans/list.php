@@ -23,26 +23,23 @@
     <input type="submit" value="Отправить файл" />
 </form>
 -->
-    <div id="scansList">
+    <div id="scansList" wb-off>
         <ul class="list-group">
             {{#each result}}
             <li data-id="{{.id}}" class="list-group-item">
-                <div>{{.fullname}}</div>
-                <div class="tx-12">{{.doc_ser}} {{.doc_num}}</div>
+                <div>{{.fullname}} <span class="badge badge-info">Сканов: {{.srclen}}</span></div>
+                <div class="tx-12">{{.doc_sernum}}</div>
                 <div class="tx-right pos-absolute t-10 r-10">
-                    <a href="javascript:" wb-if="'{{active}}'=='on'" data-ajax="{'url':'/cms/ajax/form/docs/editpeoples/{{.id}}?scan=true','html':'#yongerscans modals'}"
-                        class="d-inline">
-                        <img src="/module/myicons/content-edit-pen.svg?size=24&stroke=10b759">
-                    </a>
-
-                    <a href="javascript:" wb-if="'{{active}}'==''" data-ajax="{'url':'/cms/ajax/form/scans/edit/{{.id}}','html':'#yongerscans modals'}"
+                    <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/scans/edit/{{.id}}','html':'#yongerscans modals'}"
                         class="d-inline">
                         <img src="/module/myicons/content-edit-pen.svg?size=24&stroke=323232">
                     </a>
-                    <a href="javascript:" wb-if="'{{_sess.user.role}}' == 'admin'" data-ajax="{'url':'/ajax/rmitem/scans/{{id}}','update':'cms.list.scans','html':'#yongerscans modals'}"
+                    {{#if ~/user.role == 'admin'}}
+                    <a href="javascript:" data-ajax="{'url':'/ajax/rmitem/scans/{{id}}','update':'cms.list.scans','html':'#yongerscans modals'}"
                         class="d-inline">
                         <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
                     </a>
+                    {{/if}}
                 </div>
             </li>
             {{/each}}
@@ -74,9 +71,10 @@
             el: "#scansList",
             template: $("#scansList").html(),
             data: {
-                "base": "/api/v2/list/scans/?@size=10&@sort=_created:d&@return=fullname,doc_ser,doc_num,id",
-                "result": [],
-                "pagination": []
+                base: "/api/v2/list/scans/?@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id",
+                result: [],
+                pagination: [],
+                user: wbapp._session.user
             },
             on: {
                 init() {
