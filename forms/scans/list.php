@@ -16,13 +16,13 @@
             </form>
         </div>
     </nav>
-<!--
+
 <form enctype="multipart/form-data" action="http://mig78.loc/api/v2/upload/" method="POST">
     Отправить этот файл: <input name="file" type="file" />
     <input name="path" value="/test">
     <input type="submit" value="Отправить файл" />
 </form>
--->
+
     <div id="scansList" wb-off>
         <ul class="list-group">
             {{#each result}}
