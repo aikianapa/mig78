@@ -1,11 +1,21 @@
 <?php
+
 class scansClass extends cmsFormsClass
 {
+    private $synapse = 0;
+    public function list()
+    {
+        $out = $this->app->fromFile(__DIR__.'/list.php');
+        $out->fetch();
+        echo $out->outer();
+    }
     public function afterItemRead(&$item)
     {
-        if (!$item) return $item;
+        if (!$item) {
+            return $item;
+        }
         $data = $this->app->Dot($item);
-        if ($data->get('sources.0') > '' 
+        if ($data->get('sources.0') > ''
         && $data->get('sources.1') > '') {
             $data->set('active', 'on');
         } else {
@@ -15,7 +25,8 @@ class scansClass extends cmsFormsClass
         $item['srclen'] = isset($item['sources']) ? count((array)$item['sources']) : 0;
     }
 
-    function block() {
+    public function block()
+    {
         $block = wbItemRead('tmp', 'blockedscans');
         $block ? null : $block = ['_id'=>'blockedscans','blocks'=>[]];
         if ($this->app->vars('_post.id') > '') {
@@ -26,7 +37,8 @@ class scansClass extends cmsFormsClass
         return ['msg'=>'scanblocks','blocks'=>array_keys($block['blocks'])];
     }
 
-    function unblock() {
+    public function unblock()
+    {
         $block = wbItemRead('tmp', 'blockedscans');
         $block ? null : $block = ['_id'=>'blockedscans','blocks'=>[]];
         if ($this->app->vars('_post.id') > '') {
@@ -39,7 +51,8 @@ class scansClass extends cmsFormsClass
         return ['msg'=>'scanblocks','blocks'=>array_keys($block['blocks'])];
     }
 
-    function getblock() {
+    public function getblock()
+    {
         $block = wbItemRead('tmp', 'blockedscans');
         $block ? null : $block = ['_id'=>'blockedscans','blocks'=>[]];
         foreach ($block['blocks'] as $id => $time) {
@@ -53,20 +66,23 @@ class scansClass extends cmsFormsClass
         return ['msg'=>'scanblocks','blocks'=>array_keys($block['blocks'])];
     }
 
-    function import() {
+    public function import()
+    {
         $file = $this->app->normalizePath($this->app->vars('_env.path_app').$this->app->vars('_post.img'));
         if (is_file($file)) {
             $zip = new ZipArchive();
             $path = '/uploads/tmp';
             $dir = $this->app->vars('_env.path_app').$path;
-            if (!is_dir($dir)) mkdir($dir,0777);
+            if (!is_dir($dir)) {
+                mkdir($dir, 0777);
+            }
             if ($zip->open($file)) {
                 for ($i = 0; $i < $zip->numFiles; $i++) {
                     $fn = $zip->getNameIndex($i);
                     $name = substr($fn, 0, -4);
                     $ext = strtolower(substr($fn, -4));
                     $dir = $this->app->vars('_env.path_app').$path.'/'.$name;
-                    if ($ext == '.pdf' && !strpos(' '.$name,'MACOSX')) {
+                    if ($ext == '.pdf' && !strpos(' '.$name, 'MACOSX')) {
                         if (is_numeric(substr($name, 0, 2))) {
                             $ser = '';
                             $num = $name;
@@ -101,22 +117,20 @@ class scansClass extends cmsFormsClass
                 $zip->close();
                 $this->app->tableFlush('scans');
             }
-
-            
         }
     }
 
-    private function extractImages($pdf) {
+    private function extractImages($pdf)
+    {
         $url = $this->app->route->host.'/module/pdfer/extract/';
-        $name = array_pop(explode('/',$pdf));
-        $name = array_shift(explode('.',$name));
+        $name = array_pop(explode('/', $pdf));
+        $name = array_shift(explode('.', $name));
         $post = [
             'pdf' => $pdf,
             'name' => $name,
             '__token' => $this->app->vars('_sess.token')
         ];
         $res = $this->app->authPostContents($url, $post);
-        return json_decode($res,true);
+        return json_decode($res, true);
     }
 }
-?>

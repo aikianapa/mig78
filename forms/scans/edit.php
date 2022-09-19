@@ -18,6 +18,15 @@
                     <input type="hidden" name="inprint">
                     <input type="hidden" name="status" value='new' wb-if="'{{status}}'==''">
 
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-control-label">Тема запроса</label>
+                            <select name="citizen" class="form-control select2" placeholder="Тема запроса" wb-tree="item=reqlist&tpl=false" required>
+                                <option data-docs="{{data.doc}}" value="{{id}}">{{name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Фамилия</label>
@@ -60,7 +69,8 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Дата рождения</label>
-                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="birth_date" class="form-control" placeholder="Дата рождения" required>
+                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="birth_date" class="form-control" placeholder="Дата рождения"
+                                required>
                         </div>
                     </div>
 
@@ -113,14 +123,15 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Дата выдачи</label>
-                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="doc_date" class="form-control" placeholder="Дата выдачи" required>
+                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="doc_date" class="form-control" placeholder="Дата выдачи"
+                                required>
                         </div>
                     </div>
 
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-control-label">Дата окончания</label>
-                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="doc_expire" class="form-control" placeholder="Дата окончания">
+                            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="doc_expire" class="form-control" placeholder="Дата окончания">
                         </div>
                     </div>
 
@@ -138,38 +149,15 @@
 
                     <div class="col-12">
                         <div class="form-group row">
-                            <label class="col-sm-3 form-control-label">Регистрация</label>
-                            <div class="col-sm-3">
-                                <wb-module wb="module=switch" name="reg_flag" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--div class="col-12 location">
-                        <div class="form-group row">
-                            <label class="col-sm-3 form-control-label">Место пребывания</label>
-                            <div class="col-sm-9">
-                                <select name="place" class="form-control select2" placeholder="Место пребывания" data-required>
-                                    <option value="" data-employer="">Ввод вручную</option>
-                                    <wb-foreach wb="table=places">
-                                        <option value="{{id}}" data-employer="{{employer}}">{{title}}</option>
-                                    </wb-foreach>
-                                </select>
-                                <input type="hidden" name="employer">
-                            </div>
-                        </div>
-                    </div-->
-
-                    <div class="col-12">
-                        <div class="form-group row">
                             <label class="col-sm-3 form-control-label">Срок пребывания</label>
                             <div class="col-sm-9">
-                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="date_out" class="form-control" placeholder="Срок пребывания" required>
+                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="date_out" class="form-control" placeholder="Срок пребывания"
+                                    required>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 address d-none">
+                    <div class="col-12 address">
                         <div class="divider-text">Регистрация</div>
                         <div class="form-group row">
                             <label class=" col-sm-3 form-control-label">Регион</label>
@@ -261,12 +249,14 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label class="form-control-label">Дата выдачи</label>
-                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="mc_date" class="form-control" placeholder="Дата выдачи" required>
+                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="mc_date" class="form-control" placeholder="Дата выдачи"
+                                    required>
                             </div>
 
                             <div class="form-group col-sm-6">
                                 <label class="form-control-label">Дата окончания</label>
-                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999"  name="mc_expire" class="form-control" placeholder="Дата окончания" required>
+                                <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="mc_expire" class="form-control" placeholder="Дата окончания"
+                                    required>
                             </div>
                         </div>
                     </div>
@@ -292,17 +282,23 @@
         </div>
     </div>
 </div>
-<style wb-module="less">
-    .row.photoswipe {
-position: fixed;
-    top: 0;
-    left: -81px;
-    height: 100vh;
-    width: 100px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    display:block;
-    }
+<style>
+    @media screen and (min-width: 1350px) {
+        .row.photoswipe {
+            position: fixed;
+            top: 0;
+            left: -81px;
+            height: 100vh;
+            width: 100px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            display: block;
+        }
+        .row.photoswipe img {
+                margin-bottom: 10px;
+            }
 
+    }
 </style>
+
 </html>

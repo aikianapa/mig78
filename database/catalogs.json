@@ -1,1 +1,816 @@
-{"reqlist":{"active":"on","_id":"reqlist","name":"Справочник списков документов по заявкам","tree":{"data":{"rvp":{"id":"rvp","name":"Заявление РВП","active":"on","__token":"$2y$10$QPSHzXiFb87kv2dHd\/c\/xuVirT8TA9L2P90iX9SXDowQbLLiLoDim","data":{"doc":["pasp","mig","reg"]}},"mig":{"id":"mig","name":"Временная регистрация","active":"on","data":{"doc":["pasp","mig"]},"__token":"$2y$10$QPSHzXiFb87kv2dHd\/c\/xuVirT8TA9L2P90iX9SXDowQbLLiLoDim"},"regspr":{"id":"regspr","name":"Уведомление По Подтверждению Проживания","active":"on","data":{"doc":["pasp","reg"]},"__token":"$2y$10$QPSHzXiFb87kv2dHd\/c\/xuVirT8TA9L2P90iX9SXDowQbLLiLoDim"}},"dict":[{"name":"doc","label":{"ru":"Документы","uz":"","tg":""},"type":"treeselect","value":"","prop":{"treeselect":"doc_types","branch":"","parent":"true","childs":"true","multiple":"on","class":"","style":"","unwrap":""}}]},"_site":null,"_login":null,"id":"reqlist","_form":"catalogs","_table":"catalogs","_created":"2022-09-08 23:45:39","_creator":"id60b9091924a7","_lastdate":"2022-09-08 23:55:35","_lastuser":"id60b9091924a7","_sort":"999999999"},"doc_types":{"active":"on","_id":"doc_types","name":"Типы документов","tree":{"data":{"pasp":{"id":"pasp","name":"Паспорт","active":"on","__token":"$2y$10$CUVUHAhSuwFBVEsil0qzmOfFLMYu5PnvNv3ICQjLcGY4i8ekMarAC"},"mig":{"id":"mig","name":"Миграционная карта","active":"on","__token":"$2y$10$CUVUHAhSuwFBVEsil0qzmOfFLMYu5PnvNv3ICQjLcGY4i8ekMarAC"},"reg":{"id":"reg","name":"Регистрация","active":"on","__token":"$2y$10$CUVUHAhSuwFBVEsil0qzmOfFLMYu5PnvNv3ICQjLcGY4i8ekMarAC"}}},"_site":null,"_login":null,"id":"doc_types","_form":"catalogs","_table":"catalogs","_created":"2022-09-08 23:46:09","_creator":"id60b9091924a7","_lastdate":"2022-09-08 23:46:45","_lastuser":"id60b9091924a7","_sort":"999999999"}}
+{
+    "reqlist": {
+        "active": "on",
+        "_id": "reqlist",
+        "name": "Справочник списков документов по заявкам",
+        "tree": {
+            "data": {
+                "mig": {
+                    "id": "mig",
+                    "name": "Уведомление о прибытии (Миграционный учёт)",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig"],
+                        "text": "Миграционный учёт ( Заполнение Бланка уведомления о прибытие ) - подача в ГУ МВД \r\nОт клиента: \r\n ⁃ паспорт \r\n ⁃ Миграционная карта\r\n ⁃ Документы принимающей стороны"
+                    },
+                    "__token": "$2y$10$QPSHzXiFb87kv2dHd\/c\/xuVirT8TA9L2P90iX9SXDowQbLLiLoDim"
+                },
+                "migpro": {
+                    "id": "migpro",
+                    "name": "Продление миграционного учёта",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig", "mig_acc", "patent", "patent_pays", "emp_contract"],
+                        "text": "Продление миграционного учёта  ( Заполнение Бланка о прибытии ) - подача в ГУ МВД  \r\nОт клиента: \r\n ⁃ паспорт\r\n ⁃ миграционная карта \r\n ⁃ Действующий миграционный учёт \r\n ⁃ Патент \r\n ⁃ Все чеки, которые были оплачены по патенту\r\n ⁃ Трудовой договор"
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "jobcon": {
+                    "id": "jobcon",
+                    "name": " Трудовой договор",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig", "reg"],
+                        "text": " Трудовой договор"
+                    },
+                    "__token": "$2y$10$Hh6VxTU.zyjSpKUEKHJgfu2S7EEAOYzSfEEfm1jBnoTzYVlzc1CZO"
+                },
+                "snils": {
+                    "id": "snils",
+                    "name": "Оформление СНИЛС",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig", "mig_acc", "emp_contract", "employer"],
+                        "text": "Оформление СНИЛС ( Заполнение заявления на оформление СНИЛС ) подача документов в ПФР \r\nОт клиента: \r\n ⁃ паспорт\r\n ⁃ миграционная карта \r\n ⁃ действующий миграционный учёт \r\n ⁃ трудовой договор ( необходимо дата приема и профессия ) \r\n ⁃ данные о компании (работодателе ) "
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "nrya": {
+                    "id": "nrya",
+                    "name": "Заявление на НРЯ",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig", "nrya_reason"],
+                        "text": "Получения статуса НРЯ ( заполнение заявления ) \r\nОт клиента: \r\n ⁃ паспорт\r\n ⁃ Миграционная карта \r\n ⁃ Основание для получения статуса НРЯ \r\n\r\nОснования для получения статуса НРЯ \r\n ⁃ родственник по прямой восходящей линии, проживающий или ранее приживающий на территории РФ\r\n ⁃ Свободное владение Русским языком \r\n ⁃ адвокатский запрос на получение архивной справки "
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "citizen_quote": {
+                    "id": "citizen_quote",
+                    "name": "Заявление на гражданство ",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig_acc", "reg", "2ndfl", "birth_cert", "marriage_cert", "inn", "edu_cert"],
+                        "text": "Заполнение заявления на РВП\/ВНЖ\/ гражданство  ( заполнение заявления на РВП\/ВНЖ  ) \r\nОт клиента: \r\n ⁃ паспорт \r\n ⁃ Свидетельство о рождении \r\n ⁃ Свидетельство о браке \/ расторжении брака \r\n ⁃ Регистрация \/ Миграционный учёт \r\n ⁃ ИНН \r\n ⁃ Документ об образовании \r\n ⁃ Справка о доходах ( для ВНЖ )"
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "vnj": {
+                    "id": "vnj",
+                    "name": "Заявление на ВНЖ",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig", "rvp_reason"],
+                        "text": "Оформление ВНЖ \r\nОт клиента: \r\n ⁃ паспорт\r\n ⁃ Миграционная карта \r\n ⁃ Основание для получения РВП\r\n\r\nДействия \r\n ⁃ заполнение заявления \r\n ⁃ Получение сертификата \r\n ⁃ Получения медицинского заключения \r\n ⁃ Перевод паспорта \r\n ⁃ Тестирование "
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "regspr": {
+                    "id": "regspr",
+                    "name": "Уведомление проживания по ВНЖ",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "reg", "2ndfl"],
+                        "text": "Уведомление по подтверждению проживания по РВП\/ ВНЖ ( заполнение уведомления по подтверждению проживания по РВП\/ВНЖ ) \r\nОт клиента: \r\n ⁃ Паспорт с пометкой РВП\/ВНЖ\r\n ⁃ Прописка\/ временная регистрация \r\n ⁃ Справка 2ндфл\/ выписка с банка"
+                    },
+                    "__token": "$2y$10$QPSHzXiFb87kv2dHd\/c\/xuVirT8TA9L2P90iX9SXDowQbLLiLoDim"
+                },
+                "rvp_approve": {
+                    "id": "rvp_approve",
+                    "name": "Заявление на РВП",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig", "rvp_reason"],
+                        "text": "Разрешение на временное проживание  ( РВП ) \r\nОт клиента: \r\n ⁃ паспорт \r\n ⁃ миграционная карта \r\n ⁃ основание для получения РВП \r\nДействия \r\n ⁃ перевод паспорта  ( получение перевода паспорта ) \r\n ⁃ Прохождение медицинской комиссии ( получение медицинского заключения ) \r\n ⁃ Прохождение тестирования по русскому языку, истории России и законодательству РФ ( получение сертификата ) \r\n ⁃ Заявление "
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "inn": {
+                    "id": "inn",
+                    "name": "Уведомление проживания по РВП",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig_acc"],
+                        "text": "Уведомление по подтверждению проживания по РВП"
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "rvp_quota": {
+                    "id": "rvp_quota",
+                    "name": "Заявление на получение КВОТУ на РВП ",
+                    "active": "on",
+                    "data": {
+                        "doc": ["pasp", "mig", "reg"],
+                        "text": "Заполнение заявления на КВОТУ на РВП \r\nОт клиента: \r\n ⁃ паспорт \r\n ⁃ Регистрация \r\n ⁃ Миграционная карта"
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                }
+            },
+            "dict": [{
+                "name": "doc",
+                "label": {
+                    "ru": "Документы",
+                    "uz": "",
+                    "tg": ""
+                },
+                "type": "treeselect",
+                "value": "",
+                "prop": {
+                    "treeselect": "doc_types",
+                    "branch": "",
+                    "parent": "true",
+                    "childs": "true",
+                    "multiple": "on",
+                    "class": "",
+                    "style": "",
+                    "unwrap": ""
+                }
+            }, {
+                "name": "text",
+                "label": {
+                    "ru": "Описание",
+                    "uz": "",
+                    "tg": ""
+                },
+                "type": "text",
+                "value": ""
+            }]
+        },
+        "_site": null,
+        "_login": null,
+        "id": "reqlist",
+        "_form": "catalogs",
+        "_table": "catalogs",
+        "_created": "2022-09-08 23:45:39",
+        "_creator": "id60b9091924a7",
+        "_lastdate": "2022-09-16 09:25:19",
+        "_lastuser": "id60b9091924a7",
+        "_sort": "999999999"
+    },
+    "doc_types": {
+        "active": "on",
+        "_id": "doc_types",
+        "name": "Типы документов",
+        "tree": {
+            "data": {
+                "pasp": {
+                    "id": "pasp",
+                    "name": "Паспорт",
+                    "active": "on",
+                    "__token": "$2y$10$CUVUHAhSuwFBVEsil0qzmOfFLMYu5PnvNv3ICQjLcGY4i8ekMarAC"
+                },
+                "mig": {
+                    "id": "mig",
+                    "name": "Миграционная карта",
+                    "active": "on",
+                    "__token": "$2y$10$CUVUHAhSuwFBVEsil0qzmOfFLMYu5PnvNv3ICQjLcGY4i8ekMarAC"
+                },
+                "mig_acc": {
+                    "id": "mig_acc",
+                    "name": "Миграционный учёт",
+                    "active": "on",
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "reg": {
+                    "id": "reg",
+                    "name": "Регистрация",
+                    "active": "on",
+                    "__token": "$2y$10$CUVUHAhSuwFBVEsil0qzmOfFLMYu5PnvNv3ICQjLcGY4i8ekMarAC"
+                },
+                "patent": {
+                    "id": "patent",
+                    "name": "Патент",
+                    "active": "on",
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "patent_pays": {
+                    "id": "patent_pays",
+                    "name": "Все чеки, которые были оплачены по патенту",
+                    "active": "on",
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "emp_contract": {
+                    "id": "emp_contract",
+                    "name": "Трудовой договор",
+                    "active": "on",
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "employer": {
+                    "id": "employer",
+                    "name": "Данные о работодателе",
+                    "active": "on",
+                    "data": {
+                        "text": ""
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "rvp_reason": {
+                    "id": "rvp_reason",
+                    "name": "Основание для получения РВП",
+                    "active": "on",
+                    "data": {
+                        "text": ""
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "nrya_reason": {
+                    "id": "nrya_reason",
+                    "name": "Основание для получения НРЯ",
+                    "active": "on",
+                    "data": {
+                        "text": "Основания для получения статуса НРЯ \r\n ⁃ родственник по прямой восходящей линии, проживающий или ранее приживающий на территории РФ\r\n ⁃ Свободное владение Русским языком \r\n ⁃ адвокатский запрос на получение архивной справки"
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "2ndfl": {
+                    "id": "2ndfl",
+                    "name": "Справка 2ндфл \/ выписка с банка",
+                    "active": "on",
+                    "data": {
+                        "text": ""
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "birth_cert": {
+                    "id": "birth_cert",
+                    "name": "Свидетельство о рождении",
+                    "active": "on",
+                    "data": {
+                        "text": ""
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "marriage_cert": {
+                    "id": "marriage_cert",
+                    "name": "Свидетельство о браке \/ расторжении брака",
+                    "active": "on",
+                    "data": {
+                        "text": ""
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "inn": {
+                    "id": "inn",
+                    "name": "ИНН",
+                    "active": "on",
+                    "data": {
+                        "text": ""
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                },
+                "edu_cert": {
+                    "id": "edu_cert",
+                    "name": "Документ об образовании",
+                    "active": "on",
+                    "data": {
+                        "text": ""
+                    },
+                    "__token": "$2y$10$q067DWAKZgcT1CFykKiBRu4k3wJIEQGXNmNC5bUf\/5bcQ6ly\/TR82"
+                }
+            },
+            "dict": [{
+                "name": "text",
+                "label": {
+                    "ru": "Описание",
+                    "uz": "",
+                    "tg": ""
+                },
+                "type": "text",
+                "value": ""
+            }]
+        },
+        "_site": null,
+        "_login": null,
+        "id": "doc_types",
+        "_form": "catalogs",
+        "_table": "catalogs",
+        "_created": "2022-09-08 23:46:09",
+        "_creator": "id60b9091924a7",
+        "_lastdate": "2022-09-12 09:42:21",
+        "_lastuser": "id60b9091924a7",
+        "_sort": "999999999"
+    },
+    "countries": {
+        "_id": "countries",
+        "name": "Страны",
+        "tree": {
+            "data": {
+                "31": {
+                    "id": "31",
+                    "name": "Айзербайджан",
+                    "active": "on",
+                    "__token": "$2y$10$Hh6VxTU.zyjSpKUEKHJgfu2S7EEAOYzSfEEfm1jBnoTzYVlzc1CZO"
+                },
+                "417": {
+                    "id": "417",
+                    "name": "Киргизия",
+                    "active": "on",
+                    "__token": "$2y$10$Hh6VxTU.zyjSpKUEKHJgfu2S7EEAOYzSfEEfm1jBnoTzYVlzc1CZO"
+                },
+                "762": {
+                    "id": "762",
+                    "name": "Таджикистан",
+                    "active": "on",
+                    "__token": "$2y$10$Hh6VxTU.zyjSpKUEKHJgfu2S7EEAOYzSfEEfm1jBnoTzYVlzc1CZO"
+                },
+                "860": {
+                    "id": "860",
+                    "name": "Узбекистан",
+                    "active": "on",
+                    "__token": "$2y$10$Hh6VxTU.zyjSpKUEKHJgfu2S7EEAOYzSfEEfm1jBnoTzYVlzc1CZO"
+                }
+            }
+        },
+        "active": "on",
+        "_site": null,
+        "_login": null,
+        "id": "countries",
+        "_form": "catalogs",
+        "_table": "catalogs",
+        "_created": "2022-09-15 15:05:11",
+        "_creator": "id60b9091924a7",
+        "_lastdate": "2022-09-15 15:05:13",
+        "_lastuser": "id60b9091924a7",
+        "_sort": "999999999"
+    },
+    "locations": {
+        "_id": "locations",
+        "name": "Справочник для локаций",
+        "tree": {
+            "data": {
+                "regions": {
+                    "id": "regions",
+                    "name": "Регионы",
+                    "active": "on",
+                    "data": {
+                        "short": ""
+                    },
+                    "__token": "$2y$10$r6878yDxzE8IvBzPcpp\/2.QMcjfJL7if5n.Cz1yX.H..q7ZYca5d2",
+                    "children": {
+                        "47": {
+                            "id": "47",
+                            "name": "г.Санкт-Петербург",
+                            "active": "on",
+                            "data": {
+                                "short": "СПб"
+                            },
+                            "__token": "$2y$10$x3rK19eEhgzNMDxHF6KSvO6kLKO8DJj73tOylPu4uKC8j9HGm9X.i"
+                        },
+                        "78": {
+                            "id": "78",
+                            "name": "Ленинградская область",
+                            "active": "on",
+                            "data": {
+                                "short": ""
+                            },
+                            "__token": "$2y$10$x3rK19eEhgzNMDxHF6KSvO6kLKO8DJj73tOylPu4uKC8j9HGm9X.i",
+                            "open": "false",
+                            "children": {
+                                "bks": {
+                                    "id": "bks",
+                                    "name": "Бокситогорский  район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "vls": {
+                                    "id": "vls",
+                                    "name": "Волосовский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "vlh": {
+                                    "id": "vlh",
+                                    "name": "Волховский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "vsv": {
+                                    "id": "vsv",
+                                    "name": "Всеволожский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "vbg": {
+                                    "id": "vbg",
+                                    "name": "Выборгский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "gat": {
+                                    "id": "gat",
+                                    "name": "Гатчинский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "kgs": {
+                                    "id": "kgs",
+                                    "name": "Кингисеппский  район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "krs": {
+                                    "id": "krs",
+                                    "name": "Киришский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "kir": {
+                                    "id": "kir",
+                                    "name": "Кировский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "lod": {
+                                    "id": "lod",
+                                    "name": "Лодейнопольский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "lom": {
+                                    "id": "lom",
+                                    "name": "Ломоносовский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "lug": {
+                                    "id": "lug",
+                                    "name": "Лужский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "pdp": {
+                                    "id": "pdp",
+                                    "name": "Подпорожский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "prz": {
+                                    "id": "prz",
+                                    "name": "Приозерский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "sln": {
+                                    "id": "sln",
+                                    "name": "Сланцевский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "tih": {
+                                    "id": "tih",
+                                    "name": "Тихвинский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                },
+                                "tos": {
+                                    "id": "tos",
+                                    "name": "Тосненский район",
+                                    "active": "on",
+                                    "data": {
+                                        "short": ""
+                                    },
+                                    "__token": "$2y$10$6DkdtW8B8DYOTKfsQMEDceNdUoBmvlXLUK.AEvOS4wJkFu5FaQdm2"
+                                }
+                            }
+                        }
+                    }
+                },
+                "square_type": {
+                    "id": "square_type",
+                    "name": "Типы помещений",
+                    "active": "on",
+                    "__token": "$2y$10$r6878yDxzE8IvBzPcpp\/2.QMcjfJL7if5n.Cz1yX.H..q7ZYca5d2",
+                    "children": {
+                        "id62110600169e": {
+                            "id": "id62110600169e",
+                            "name": "Жилое помещение",
+                            "active": "on",
+                            "data": {
+                                "short": "жил"
+                            }
+                        },
+                        "id621107f721b6": {
+                            "id": "id621107f721b6",
+                            "name": "Нежилое помещение",
+                            "active": "on",
+                            "data": {
+                                "short": "неж"
+                            }
+                        }
+                    },
+                    "open": "false"
+                },
+                "city_type": {
+                    "id": "city_type",
+                    "name": "Тип населённого пункта",
+                    "active": "on",
+                    "data": {
+                        "short": ""
+                    },
+                    "children": {
+                        "id62110ebe14a0": {
+                            "id": "id62110ebe14a0",
+                            "name": "Город",
+                            "active": "on",
+                            "data": {
+                                "short": "г."
+                            }
+                        },
+                        "id62110f7c003c": {
+                            "id": "id62110f7c003c",
+                            "name": "Посёлок",
+                            "active": "on",
+                            "data": {
+                                "short": "пос."
+                            }
+                        },
+                        "id62110d7a18e2": {
+                            "id": "id62110d7a18e2",
+                            "name": "Поселок городского типа",
+                            "active": "on",
+                            "data": {
+                                "short": "пгт."
+                            }
+                        },
+                        "id621110170276": {
+                            "id": "id621110170276",
+                            "name": "Деревня",
+                            "active": "on",
+                            "data": {
+                                "short": "д."
+                            }
+                        },
+                        "id62110d4f1ea0": {
+                            "id": "id62110d4f1ea0",
+                            "name": "Село",
+                            "active": "on",
+                            "data": {
+                                "short": "с."
+                            }
+                        },
+                        "id62110d4d1766": {
+                            "id": "id62110d4d1766",
+                            "name": "Станция",
+                            "active": "on",
+                            "data": {
+                                "short": "ст."
+                            }
+                        }
+                    },
+                    "__token": "$2y$10$r6878yDxzE8IvBzPcpp\/2.QMcjfJL7if5n.Cz1yX.H..q7ZYca5d2",
+                    "open": "false"
+                },
+                "street_type": {
+                    "id": "street_type",
+                    "name": "Типы улиц",
+                    "active": "on",
+                    "children": {
+                        "id6211078b1856": {
+                            "id": "id6211078b1856",
+                            "name": "улица",
+                            "active": "on",
+                            "__token": "$2y$10$r6878yDxzE8IvBzPcpp\/2.QMcjfJL7if5n.Cz1yX.H..q7ZYca5d2",
+                            "data": {
+                                "short": "ул."
+                            }
+                        },
+                        "id621107d1230a": {
+                            "id": "id621107d1230a",
+                            "name": "проспект",
+                            "active": "on",
+                            "data": {
+                                "short": "пр."
+                            }
+                        },
+                        "id621108a70eb0": {
+                            "id": "id621108a70eb0",
+                            "name": "переулок",
+                            "active": "on",
+                            "data": {
+                                "short": "пер."
+                            }
+                        },
+                        "id621107830302": {
+                            "id": "id621107830302",
+                            "name": "площадь",
+                            "active": "on",
+                            "data": {
+                                "short": "пл."
+                            }
+                        },
+                        "id621109bf091a": {
+                            "id": "id621109bf091a",
+                            "name": "проезд",
+                            "active": "on",
+                            "data": {
+                                "short": "пр-д."
+                            }
+                        },
+                        "id6211085e07b2": {
+                            "id": "id6211085e07b2",
+                            "name": "аллея",
+                            "active": "on",
+                            "data": {
+                                "short": "ал."
+                            }
+                        },
+                        "id621108460884": {
+                            "id": "id621108460884",
+                            "name": "шоссе",
+                            "active": "on",
+                            "data": {
+                                "short": "ш."
+                            }
+                        },
+                        "id621107cd0e7e": {
+                            "id": "id621107cd0e7e",
+                            "name": "дорога",
+                            "active": "on",
+                            "data": {
+                                "short": "дор."
+                            }
+                        },
+                        "id621109e42472": {
+                            "id": "id621109e42472",
+                            "name": "набережная",
+                            "active": "on",
+                            "data": {
+                                "short": "наб."
+                            }
+                        },
+                        "id62d968231888": {
+                            "id": "id62d968231888",
+                            "name": "бульвар",
+                            "active": "on",
+                            "data": {
+                                "short": "б-р"
+                            }
+                        }
+                    },
+                    "__token": "$2y$10$r6878yDxzE8IvBzPcpp\/2.QMcjfJL7if5n.Cz1yX.H..q7ZYca5d2",
+                    "open": "true"
+                },
+                "obj_type": {
+                    "id": "obj_type",
+                    "name": "Тип объекта адресации",
+                    "active": "on",
+                    "data": {
+                        "short": ""
+                    },
+                    "__token": "$2y$10$r6878yDxzE8IvBzPcpp\/2.QMcjfJL7if5n.Cz1yX.H..q7ZYca5d2",
+                    "children": {
+                        "id6211104d07bc": {
+                            "id": "id6211104d07bc",
+                            "name": "дом",
+                            "active": "on",
+                            "data": {
+                                "short": "д."
+                            }
+                        },
+                        "id62110fdb0d53": {
+                            "id": "id62110fdb0d53",
+                            "name": "владение",
+                            "active": "on",
+                            "data": {
+                                "short": "влд."
+                            }
+                        },
+                        "id62110eb500a0": {
+                            "id": "id62110eb500a0",
+                            "name": "участок",
+                            "active": "on",
+                            "data": {
+                                "short": "уч."
+                            }
+                        }
+                    },
+                    "open": "false"
+                },
+                "flat_type": {
+                    "id": "flat_type",
+                    "name": "Типы помещений",
+                    "active": "on",
+                    "data": {
+                        "short": ""
+                    },
+                    "__token": "$2y$10$r6878yDxzE8IvBzPcpp\/2.QMcjfJL7if5n.Cz1yX.H..q7ZYca5d2",
+                    "children": {
+                        "id6211100c1fd6": {
+                            "id": "id6211100c1fd6",
+                            "name": "квартира",
+                            "active": "on",
+                            "data": {
+                                "short": "кв."
+                            }
+                        },
+                        "id6211121d2530": {
+                            "id": "id6211121d2530",
+                            "name": "комната",
+                            "active": "on",
+                            "data": {
+                                "short": "ком."
+                            }
+                        },
+                        "id62111274062c": {
+                            "id": "id62111274062c",
+                            "name": "помещение",
+                            "active": "on",
+                            "data": {
+                                "short": "пом."
+                            }
+                        },
+                        "id6211120a14be": {
+                            "id": "id6211120a14be",
+                            "name": "офис",
+                            "active": "on",
+                            "data": {
+                                "short": "оф."
+                            }
+                        }
+                    },
+                    "open": "true"
+                }
+            },
+            "dict": [{
+                "name": "short",
+                "label": {
+                    "ru": "Сокращение",
+                    "en": ""
+                },
+                "type": "string",
+                "value": ""
+            }]
+        },
+        "active": "on",
+        "path": "",
+        "_site": null,
+        "_login": null,
+        "url": "\/Справочник для локаций",
+        "id": "locations",
+        "_form": "catalogs",
+        "_table": "catalogs",
+        "_creator": "id61810f8205cb",
+        "_lastdate": "2022-07-21 17:40:52",
+        "_lastuser": "id618273ec17a7",
+        "_sort": "999999999",
+        "_created": "2022-07-18 23:36:09"
+    }
+}
