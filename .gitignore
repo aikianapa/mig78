@@ -6,3 +6,5 @@ modules/yonger
 tpl/page.php
 forms/news
 forms/pages
+*.DS_Store
+._*
