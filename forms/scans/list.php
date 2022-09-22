@@ -17,17 +17,11 @@
         </div>
     </nav>
 
-<form enctype="multipart/form-data" action="http://mig78.loc/api/v2/upload/" method="POST">
-    Отправить этот файл: <input name="file" type="file" />
-    <input name="path" value="/test">
-    <input type="submit" value="Отправить файл" />
-</form>
-
     <div id="scansList" wb-off>
         <ul class="list-group">
             {{#each result}}
             <li data-id="{{.id}}" class="list-group-item">
-                <div>{{.fullname}} <span class="badge badge-info">Сканов: {{.srclen}}</span></div>
+                <div>{{.operator}} {{.quote}} <span class="badge badge-info">Сканов: {{.srclen}}</span></div>
                 <div class="tx-12">{{.doc_sernum}}</div>
                 <div class="tx-right pos-absolute t-10 r-10">
                     <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/scans/edit/{{.id}}','html':'#yongerscans modals'}"
@@ -35,10 +29,17 @@
                         <img src="/module/myicons/content-edit-pen.svg?size=24&stroke=323232">
                     </a>
                     {{#if ~/user.role == 'admin'}}
-                    <a href="javascript:" data-ajax="{'url':'/ajax/rmitem/scans/{{id}}','update':'cms.list.scans','html':'#yongerscans modals'}"
-                        class="d-inline">
-                        <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
-                    </a>
+                    <div class="dropdown dropright d-inline">
+                        <a class="cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" on-click="remove">
+                                <span class="fa fa-trash tx-danger"></span> Удалить</a>
+                            <a class="dropdown-item" href="#">
+                                <span class="fa fa-close tx-primary"></span> Отмена</a>
+                        </div>
+                    </div>
                     {{/if}}
                 </div>
             </li>
@@ -57,8 +58,10 @@
                 <li class="page-item">
                     <a class="page-link" data-page="{{.page}}" on-click="setPage" href="#">
                         {{#if .label == "prev"}}
-                        <img src="/module/myicons/interface-essential-181.svg?size=18&stroke=0168fa" class="d-inline">{{/if}} {{#if .label == "next"}}
-                        <img src="/module/myicons/interface-essential-35.svg?size=18&stroke=0168fa" class="d-inline">{{/if}} {{#if .label != "prev"}}{{#if .label != "next"}}{{.label}}{{/if}}{{/if}}
+                        <img src="/module/myicons/interface-essential-181.svg?size=18&stroke=0168fa"
+                            class="d-inline">{{/if}} {{#if .label == "next"}}
+                        <img src="/module/myicons/interface-essential-35.svg?size=18&stroke=0168fa"
+                            class="d-inline">{{/if}} {{#if .label != "prev"}}{{#if .label != "next"}}{{.label}}{{/if}}{{/if}}
                     </a>
                 </li>
                 {{/if}} {{/each}}
@@ -67,11 +70,14 @@
         {{/if}} {{/pages}}
     </div>
     <script>
+        var api = "/api/v2"
+        var form = "scans"
+        var base = api + `/list/${form}?&operator=[,${wbapp._session.user.id}]&@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id,operator,quote`
         var list = new Ractive({
             el: "#scansList",
             template: $("#scansList").html(),
             data: {
-                base: "/api/v2/list/scans/?@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id",
+                base: base,
                 result: [],
                 pagination: [],
                 user: wbapp._session.user
@@ -86,16 +92,34 @@
                         list.set("pages", data.pages);
                     })
                 },
+                setData(ev, data) {
+                    list.set("result", data.result);
+                    list.set("pagination", data.pagination);
+                    list.set("page", data.page);
+                    list.set("pages", data.pages);
+                },
                 setPage(ev) {
                     let page = $(ev.node).attr("data-page");
-                    let base = this.get("base");
-                    wbapp.post(`${base}&@page=${page}`, {}, function(data) {
-                        list.set("page", data.page);
-                        list.set("pages", data.pages);
-                        list.set("pagination", data.pagination);
-                        list.set("result", data.result);
-                    })
+                    this.fire("loadPage", page)
                     return false
+                },
+                remove(ev) {
+                    let id = $(ev.node).parents('[data-id]').attr('data-id');
+                    let result = list.get("result")
+                    let page = list.get("page") * 1
+                    let pages = list.get("pages") * 1
+                    delete result[id]
+                    if (Object.keys(result).length == 0 && pages > 0 && page >= pages) page--
+                        wbapp.post(`${api}/delete/${form}/${id}`, {}, function(data) {
+                            if (data.error == false) {
+                                list.fire("loadPage", page)
+                            }
+                        });
+                },
+                loadPage(ev, page) {
+                    wbapp.post(`${base}&@page=${page}`, {}, function(data) {
+                        list.fire("setData", null, data)
+                    })
                 }
             }
         })

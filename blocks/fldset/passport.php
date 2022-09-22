@@ -36,7 +36,8 @@
     <div class="col-sm-3">
         <div class="form-group">
             <label class="form-control-label">Дата окончания</label>
-            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="doc_expire" class="form-control" placeholder="Дата окончания" optional>
+            <input type="datepicker" wb="module=datetimepicker" wb-mask="99.99.9999" name="doc_expire" class="form-control" placeholder="Дата окончания"
+                optional>
         </div>
     </div>
 
@@ -44,8 +45,8 @@
 
 
         <div class="form-group row">
-            <label class="col-sm-4 form-control-label">Кем выдан</label>
-            <div class="col-sm-8">
+            <label class="col-sm-3 form-control-label">Кем выдан</label>
+            <div class="col-sm-9">
                 <input type="text" name="doc_who" class="form-control" placeholder="Кем выдан">
             </div>
 

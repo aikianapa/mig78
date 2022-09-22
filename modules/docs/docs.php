@@ -24,9 +24,17 @@ class modDocs
         if ($this->post['quote'] == '') {
             return;
         }
+
+        @$req = $this->app->treeRead('reqlist')['tree']['data'];
+        $req = $this->app->treeFindBranchById($req, $this->post['quote']);
         $docs = $this->app->formClass('docs');
         $path = $this->app->vars('_route.path_app').'/uploads';
-        $file = $this->app->vars('_route.path_app').'/tpl/docs/'.$this->post['quote'].'.docx';
+        if (@$req['data']['template'][0]['img'] > '') {
+            $file = urldecode($req['data']['template'][0]['img']);
+            $file = $this->app->vars('_route.path_app').$file;
+        } else {
+            $file = $this->app->vars('_route.path_app').'/tpl/docs/'.$this->post['quote'].'.docx';
+        }
         $doc = $path.'/test.docx';
         $pdf = $path.'/test.pdf';
         $tpl = new TemplateProcessor($file);

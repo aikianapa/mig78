@@ -1,4 +1,21 @@
 <html>
+    <div class="row">
+      <div class="col-sm-3">
+    <label class="form-control-label">Шаблон печатной формы</label>
+</div>
+<div class="col-sm-9">
+        <wb-module name="template" wb="{
+        'module':'filepicker',
+        'mode':'single',
+        'width':'70',
+        'height':'70',
+        'original': true,
+        'ext': 'doc,docx,xls,xlsx',
+        'path': '/tpl/docs'
+    }" />
+</div>  
+    </div>
+
 <div class="divider-text">Наборы полей для заполнения</div>
 
 <div class="form-group col-12">

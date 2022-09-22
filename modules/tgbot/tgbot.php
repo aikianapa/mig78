@@ -23,7 +23,6 @@ class modTgbot
         if ($this->sett['active'] !== 'on' && !$app->route->mode) {
       //      exit;
         }
-
         $this->app = $app;
         $mode = $app->vars('_route.mode');
         $data = file_get_contents('php://input');
@@ -48,13 +47,10 @@ class modTgbot
                 print_r($msg);
             }
         }
-
         if ($this->data->get('callback_query')) {
             $this->callback();
         }
-        $this->message();
-
-        exit;
+        if ($this->chat_id) $this->message();
     }
 
     public function callback()

@@ -38,38 +38,41 @@
                 <input type="text" name="reg_street" class="form-control" placeholder="Название улицы">
             </div>
         </div>
-        
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="form-control-label">Тип</label>
+
+        <div class="row mb-1">
+            <label class="form-control-label col-sm-3">Тип</label>
+            <div class="col-sm-3">
                 <select name="reg_house" placeholder="Дом/участок/владение" class="form-control select2" wb-tree="item=locations&tpl=false&branch=obj_type&parent=false">
                     <option value="{{data.short}}">{{name}}</option>
                 </select>
             </div>
-            <div class="col-sm-6">
-                <label class="form-control-label">Номер</label>
+
+            <label class="form-control-label col-sm-3">Номер</label>
+            <div class="col-sm-3">
                 <input type="text" name="reg_house_num" class="form-control" placeholder="Номер дома">
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="form-control-label">Корпус</label>
+        <div class="row mb-1">
+            <label class="form-control-label col-sm-3">Корпус</label>
+            <div class="col-sm-3">
                 <input type="text" name="reg_corpse" class="form-control" placeholder="Корпус">
             </div>
-            <div class="col-sm-6">
-                <label class="form-control-label">Строение</label>
+
+            <label class="form-control-label col-sm-3">Строение</label>
+            <div class="col-sm-3">
                 <input type="text" name="reg_build" class="form-control" placeholder="Строение">
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="form-control-label">Тип (кв/комн/пом)</label>
+        <div class="row mb-1">
+            <label class="form-control-label col-sm-3">Тип (кв/комн/пом)</label>
+            <div class="col-sm-3">
                 <select name="reg_flat" class="form-control select2" placeholder="Тип помещения" wb-tree="item=locations&tpl=false&branch=flat_type&parent=false">
                     <option value="{{data.short}}">{{name}}</option>
                 </select>
             </div>
-            <div class="col-sm-6">
-                <label class="form-control-label">Номер</label>
+
+            <label class="form-control-label col-sm-3">Номер</label>
+            <div class="col-sm-3">
                 <input type="text" name="reg_flat_num" class="form-control" placeholder="Номер помещения">
             </div>
         </div>

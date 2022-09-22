@@ -16,7 +16,7 @@
                 <form class="row" method="post" id="{{_form}}EditForm">
                     <meta name="scan" content="{{_route.params.scan}}">
                     <input type="hidden" name="status" value='new' wb-if="'{{status}}'==''">
-
+                    <input type="hidden" name="operator" value='{{_sess.user.id}}' wb-if="'{{status}}'==''">
                     <div class="col-12">
                         <div class="form-group">
                             <label class="form-control-label">Тема запроса</label>
@@ -31,11 +31,12 @@
 
                 <script>
                     $('#{{_form}}EditForm [name=quote]').on('change',function(){
-                        wbapp.get('/form/docs/fldsetgen/'+$(this).val(),function(res){
+                        let scan_id = "{{id}}"
+                        wbapp.post('/form/docs/fldsetgen/'+$(this).val(),{scan_id:scan_id},function(res){
                                 $('#{{_form}}EditForm .form-content').html(res);
                                 wbapp.init();
                         });
-                    })
+                    }).trigger('change')
 
                 </script>
 

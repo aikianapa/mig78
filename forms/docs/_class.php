@@ -45,10 +45,6 @@ class docsClass extends cmsFormsClass
             $item['sources'] = [];
         }
 
-        //if ($item['reg_flag'] == '' && count($item['sources']) == 4)  $this->genRegCard($item);
-        if (count($item['sources']) == 4) {
-            $this->genRegCard($item);
-        }
     }
 
     public function afterItemSave(&$item)
@@ -63,40 +59,6 @@ class docsClass extends cmsFormsClass
         $data = $this->app->Dot($item);
         $data->get('phone') ? $item['phone'] = wbDigitsOnly(str_replace('+7', '8', $item['phone'])) : null;
         $data->get('phone_alt') ? $item['phone_alt'] = wbDigitsOnly(str_replace('+7', '8', $item['phone_alt'])) : null;
-        $data->get('status') ? null : $item['status'] = 'new';
-        $data->get('source.0.img') > '' or $data->get('code') > '' ? $item['status'] = 'progress' : null;
-        $data->get('order.0.img') > '' and $data->get('code') > '' ? $item['status'] = 'ready' : null;
-        $data->get('archive') == 'on' ? $item['status'] = 'archive' : null;
-        $data->get('date_out') == '' ? $data->set('date_out', $data->get('mc_expire')) : null;
-        isset($item['_created']) ? null : $item['_created'] = date('Y-m-d');
-        $item['date'] = date('Y-m-d', strtotime($item['_created']));
-        $item['pasp'] = preg_replace('/[^a-zA-Z0-9]/ui', '', $data->get('doc_ser').$data->get('doc_num'));
-        if ($data->get('fullname') > '' && $data->get('last_name') == '') {
-            $tmp = explode(' ', $data->get('fullname'));
-            isset($tmp[0]) ? $data->set('last_name', $tmp[0]) : null;
-            isset($tmp[1]) ? $data->set('first_name', $tmp[1]) : null;
-            unset($tmp[0]);
-            unset($tmp[1]);
-            $tmp = implode(' ', $tmp);
-            $data->set('middle_name', $tmp);
-        } elseif ($data->get('fullname') == '' && $data->get('first_name')>'') {
-            $data->set('fullname', implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]));
-        }
-        if ($this->app->vars('_route.action') == 'rep_reg') {
-            $item['month'] = wbDate('Y-m', $item['_created']);
-            $item['day'] = wbDate('d', $item['_created']);
-            $item['items'] = 1;
-        }
-        if (in_array($this->app->vars('_route.action'), ['list','oper']) && $data->get('_creator') >'') {
-            $user = $this->app->itemRead('users', $data->get('_creator'));
-            $item['_role'] = isset($user['role']) ? $user['role'] : '';
-            if ($data->get('order.0.img') > '' && in_array($item['status'], ['archive','ready'])) {
-                $order = $this->app->vars('_env.path_app').$data->get('order.0.img');
-                if (!is_file($order)) {
-                    $item['status'] = 'error';
-                }
-            }
-        }
     }
 
     public function beforeItemShow(&$item)
@@ -116,15 +78,41 @@ class docsClass extends cmsFormsClass
             } elseif ($data->get('fullname') == '' && $data->get('first_name')>'') {
                 $data->set('fullname', implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]));
             }
-            $data->get('reg_corpse') > ' ' ? $item['reg_corpse'] = 'корп.'.$item['reg_corpse'] : null;
-            $data->get('reg_build') > '' ? $data->set('reg_corpse', $data->get('reg_corpse').', стр. '.$data->get('reg_build')) : null; // Корпус + строение
-            $data->set('reg_house', trim($data->get('reg_house').' '.$data->get('reg_house_num'))); // тип дома + номер дома
-            $data->set('reg_flat', trim($data->get('reg_flat').' '.$data->get('reg_flat_num'))); // тип квартиры + номер квартиры
+            $data->get('gender') == 'М' ? $data->set('gender', 'мужской') : null;
+            $data->get('gender') == 'Ж' ? $data->set('gender', 'женский') : null;
+            $data->set('address', $this->getAddress($data));
+            $data->set('passport', $this->getPassport($data));
 
             $item['birth_date'] = wbDate('d.m.Y', $item['birth_date']);
             $item = $data->get();
         }
         return $item;
+    }
+
+    function getAddress($data, $prefix = null) {
+            $data->get('reg_corpse') > ' ' ? $data->set('reg_corpse', 'корп.'.$data->get('reg_corpse')) : null;
+            $data->get('reg_build') > '' ? $data->set('reg_corpse', $data->get('reg_corpse').', стр. '.$data->get('reg_build')) : null; // Корпус + строение
+            $data->set('reg_house', trim($data->get('reg_house').' '.$data->get('reg_house_num'))); // тип дома + номер дома
+            $data->set('reg_flat', trim($data->get('reg_flat').' '.$data->get('reg_flat_num'))); // тип квартиры + номер квартиры
+            $data->get('reg_city') > ' ' ? $data->set('reg_city', $data->get('reg_city_type').$data->get('reg_city')) : null;
+            $address = [];
+            $data->get('region') > '' ? $address[] = $data->get('region') : null;
+            $data->get('reg_city') > '' ? $address[] = $data->get('reg_city') : null;
+            $data->get('reg_street') > '' ? $address[] = $data->get('reg_street') : null;
+            $data->get('reg_house') > '' ? $address[] = $data->get('reg_house') : null;
+            $data->get('reg_corpse') > '' ? $address[] = $data->get('reg_corpse') : null;
+            $data->get('reg_flat') > '' ? $address[] = $data->get('reg_flat') : null;
+        return implode(', ',$address);
+    }
+
+    function getPassport($data, $prefix = null) {
+        $passport = [];
+        $data->get('doc_type') > '' ? $passport[] = $data->get('doc_type') : null;
+        $data->get('doc_ser') > '' ? $passport[] = 'серия '. $data->get('doc_ser') : null;
+        $data->get('doc_num') > '' ? $passport[] = '№ '. $data->get('doc_num') : null;
+        $data->get('doc_date') > '' ? $passport[] = 'выдан '. $data->get('doc_date') : null;
+        $data->get('doc_who') > '' ? $passport[] = $data->get('doc_who') : null;
+        return implode(' ', $passport);
     }
 
 
@@ -137,15 +125,6 @@ class docsClass extends cmsFormsClass
             unlink($this->app->route->path_app.'/'.$atc['img']);
         }
         unlink($this->app->route->path_app.'/'.$item['order'][0]['img']);
-    }
-
-    public function export()
-    {
-        $data = $this->app->vars('_post');
-        $doc = file_get_contents($this->app->vars('_route.path_app').'/tpl/docs/'.$data['quote'].'.pdf');
-        $doc = $this->app->setValuesStr($doc, $data);
-        file_put_contents($this->app->vars('_route.path_app').'/uploads/test.pdf', $doc);
-        echo json_encode(['path'=>'/uplads/test.pdf']);
     }
 
     public function fldsetsel()
@@ -173,13 +152,19 @@ class docsClass extends cmsFormsClass
         $path = $this->app->route->path_app.'/blocks/fldset';
         @$name = $this->app->route->item;
         @$docs = $this->app->treeRead('reqlist')['tree']['data'];
+        @$scid = $this->app->vars('_post.scan_id');
+        @$data = $this->app->itemRead('scans', $scid);
         $doc = $this->app->treeFindBranchById($docs, $name);
         $result = '';
         foreach ($doc['data']['fields'] as $i => &$item) {
             $fname = $path.'/'.$item['fldset'].'.php';
             $fldset = $this->app->fromFile($fname);
             if ($item['required'] == 'on') {
-                $fldset->find('input,textarea,select')->find(':not([type=hidden]):not([optional])')->attr('required', true);
+                $fldset->find('input')->find('input:not([type=hidden]):not([optional])')->attr('required', true);
+                $fldset->find('textarea')->find('textarea:not([type=hidden]):not([optional])')->attr('required', true);
+                $fldset->find('select')->find('select:not([type=hidden]):not([optional])')->attr('required', true);
+
+
             }
             if ($item['label'] > '') {
                 if ($fldset->find('input,textarea,select')->length == 1) {
@@ -197,7 +182,7 @@ class docsClass extends cmsFormsClass
                 }
 
             }
-            $fldset->fetch();
+            $fldset->fetch($data);
             $result .= "\n\r".$fldset->html();
         }
         echo $result;
