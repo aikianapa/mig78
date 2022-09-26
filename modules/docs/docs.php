@@ -44,6 +44,7 @@ class modDocs
             case 'regspr':
                 $item['doc_vnj'] = $docs->getDocument($item, 'vnj');
                 $item['doc_rvp'] = $docs->getDocument($item, 'rvp');
+                $item['outgoing'] = $docs->getArrOutgoing($item);
                 $docs->beforeItemShow($item);
                 break;
             

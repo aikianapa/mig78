@@ -143,6 +143,25 @@ class docsClass extends cmsFormsClass
     }
 
 
+    function getArrOutgoing($item, $prefix = null)
+    {
+        @$ctrs = $this->app->treeRead('countries')['tree']['data'];
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
+        $prefix = $prefix == null ? '' : $prefix.'_';
+        $list = (array)$data->get($prefix.'outgoing');
+        foreach($list as $key => &$vals) {
+            if ($vals['country'] == '') {
+                break;
+            }
+            $vals['country'] = $this->app->treeFindBranchById($ctrs, $vals['country'])['name'];
+            $vals['days'] = getPeriod($vals['date_out'], $vals['date_in']);
+        }
+        $data->set($prefix.'outgoing', $list);
+        return $list;
+    }
+
+
+
     public function beforeItemRemove(&$item)
     {
         foreach ($item['attaches'] as $atc) {
