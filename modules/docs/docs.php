@@ -40,6 +40,19 @@ class modDocs
         $tpl = new TemplateProcessor($file);
         $item = $this->post;
         $docs->beforeItemShow($item);
+        switch ($this->post['quote']) {
+            case 'regspr':
+                $item['doc_vnj'] = $docs->getDocument($item, 'vnj');
+                $item['doc_rvp'] = $docs->getDocument($item, 'rvp');
+                $docs->beforeItemShow($item);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+
         $fields = $tpl->getVariables();
         foreach($item as $fld => $val) {
             if (in_array($fld, $fields)) {

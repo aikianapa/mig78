@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label class="form-control-label">Тема запроса</label>
                             <select name="quote" class="form-control select2" placeholder="Тема запроса" wb-tree="item=reqlist&tpl=false" required>
-                                <option data-docs="{{data.doc}}" value="{{id}}">{{name}}</option>
+                                <option data-docs="{{data.doc}}" value="{{id}}" wb-if="'{{active}}'=='on'">{{name}}</option>
                             </select>
                         </div>
                     </div>

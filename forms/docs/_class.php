@@ -65,6 +65,7 @@ class docsClass extends cmsFormsClass
     {
         if ($this->app->vars('_route.action') !== 'edit') {
             $item ? null : $item=(array)$item;
+            $item = $this->commonFormat($item);
             $data = $this->app->Dot($item);
             $item['pasp'] = preg_replace('/[^a-zA-Z0-9]/ui', '', $data->get('doc_ser').$data->get('doc_num'));
             if ($data->get('fullname') > '' && $data->get('last_name') == '') {
@@ -82,37 +83,63 @@ class docsClass extends cmsFormsClass
             $data->get('gender') == 'Ж' ? $data->set('gender', 'женский') : null;
             $data->set('address', $this->getAddress($data));
             $data->set('passport', $this->getPassport($data));
-
-            $item['birth_date'] = wbDate('d.m.Y', $item['birth_date']);
             $item = $data->get();
         }
         return $item;
     }
 
+    function commonFormat(&$item) {
+        foreach($item as $fld => $val) {
+                if ((array)$val === $val) {
+                    $item[$fld] = $this->commonFormat($val);
+                } else {
+                    if (validateDate($val,'Y-m-d')) {
+                        $item[$fld] = wbDate('d.m.Y', $item[$fld]);
+                    }
+                }
+        }
+        return $item;
+    }
+
     function getAddress($data, $prefix = null) {
-            $data->get('reg_corpse') > ' ' ? $data->set('reg_corpse', 'корп.'.$data->get('reg_corpse')) : null;
-            $data->get('reg_build') > '' ? $data->set('reg_corpse', $data->get('reg_corpse').', стр. '.$data->get('reg_build')) : null; // Корпус + строение
-            $data->set('reg_house', trim($data->get('reg_house').' '.$data->get('reg_house_num'))); // тип дома + номер дома
-            $data->set('reg_flat', trim($data->get('reg_flat').' '.$data->get('reg_flat_num'))); // тип квартиры + номер квартиры
-            $data->get('reg_city') > ' ' ? $data->set('reg_city', $data->get('reg_city_type').$data->get('reg_city')) : null;
+            $prefix = $prefix == null ? '' : $prefix.'_';
+            $data->get($prefix.'reg_corpse') > ' ' ? $data->set($prefix.'reg_corpse', 'корп.'.$data->get($prefix.'reg_corpse')) : null;
+            $data->get($prefix.'reg_build') > '' ? $data->set($prefix.'reg_corpse', $data->get($prefix.'reg_corpse').', стр. '.$data->get($prefix.'reg_build')) : null; // Корпус + строение
+            $data->set($prefix.'reg_house', trim($data->get($prefix.'reg_house').' '.$data->get($prefix.'reg_house_num'))); // тип дома + номер дома
+            $data->set($prefix.'reg_flat', trim($data->get($prefix.'reg_flat').' '.$data->get($prefix.'reg_flat_num'))); // тип квартиры + номер квартиры
+            $data->get($prefix.'reg_city') > ' ' ? $data->set($prefix.'reg_city', $data->get($prefix.'reg_city_type').$data->get($prefix.'reg_city')) : null;
             $address = [];
-            $data->get('region') > '' ? $address[] = $data->get('region') : null;
-            $data->get('reg_city') > '' ? $address[] = $data->get('reg_city') : null;
-            $data->get('reg_street') > '' ? $address[] = $data->get('reg_street') : null;
-            $data->get('reg_house') > '' ? $address[] = $data->get('reg_house') : null;
-            $data->get('reg_corpse') > '' ? $address[] = $data->get('reg_corpse') : null;
-            $data->get('reg_flat') > '' ? $address[] = $data->get('reg_flat') : null;
+            $data->get($prefix.'region') > '' ? $address[] = $data->get($prefix.'region') : null;
+            $data->get($prefix.'reg_city') > '' ? $address[] = $data->get($prefix.'reg_city') : null;
+            $data->get($prefix.'reg_street') > '' ? $address[] = $data->get($prefix.'reg_street') : null;
+            $data->get($prefix.'reg_house') > '' ? $address[] = $data->get($prefix.'reg_house') : null;
+            $data->get($prefix.'reg_corpse') > '' ? $address[] = $data->get($prefix.'reg_corpse') : null;
+            $data->get($prefix.'reg_flat') > '' ? $address[] = $data->get($prefix.'reg_flat') : null;
         return implode(', ',$address);
     }
 
     function getPassport($data, $prefix = null) {
+        $prefix = $prefix == null ? '' : $prefix.'_';
         $passport = [];
-        $data->get('doc_type') > '' ? $passport[] = $data->get('doc_type') : null;
-        $data->get('doc_ser') > '' ? $passport[] = 'серия '. $data->get('doc_ser') : null;
-        $data->get('doc_num') > '' ? $passport[] = '№ '. $data->get('doc_num') : null;
-        $data->get('doc_date') > '' ? $passport[] = 'выдан '. $data->get('doc_date') : null;
-        $data->get('doc_who') > '' ? $passport[] = $data->get('doc_who') : null;
+        $data->get($prefix.'doc_type') > '' ? $passport[] = $data->get($prefix.'doc_type') : null;
+        $data->get($prefix.'doc_ser') > '' ? $passport[] = 'серия '. $data->get($prefix.'doc_ser') : null;
+        $data->get($prefix.'doc_num') > '' ? $passport[] = '№ '. $data->get($prefix.'doc_num') : null;
+        $data->get($prefix.'doc_date') > '' ? $passport[] = 'выдан '. $data->get($prefix.'doc_date') : null;
+        $data->get($prefix.'doc_who') > '' ? $passport[] = $data->get($prefix.'doc_who') : null;
         return implode(' ', $passport);
+    }
+
+    function getDocument($item, $prefix = null) {
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
+        $prefix = $prefix == null ? '' : $prefix.'_';
+        $document = [];
+        $data->get($prefix.'dname') > '' ? $document[] = $data->get($prefix.'dname') : null;
+        $data->get($prefix.'dser') > '' ? $document[] = 'серия '. $data->get($prefix.'dser') : null;
+        $data->get($prefix.'dnum') > '' ? $document[] = '№ '. $data->get($prefix.'dnum') : null;
+        $data->get($prefix.'ddate') > '' ? $document[] = 'выдан '. $data->get($prefix.'ddate') : null;
+        $data->get($prefix.'dwho') > '' ? $document[] = $data->get($prefix.'dwho') : null;
+        $data->get($prefix.'dexpire') > '' ? $document[] = 'истекает '. $data->get($prefix.'dexpire') : null;
+        return implode(' ', $document);
     }
 
 
