@@ -52,8 +52,7 @@ class docsClass extends cmsFormsClass
     {
         if ($this->app->vars('_route.action') !== 'edit') {
             
-//            @$this->locations = $this->app->treeRead('locations')['tree']['data'];
-
+            @$this->loc = $this->app->treeRead('locations')['tree']['data'];
             $item ? null : $item=(array)$item;
             $item = $this->commonFormat($item);
             $data = $this->app->Dot($item);
@@ -95,7 +94,11 @@ class docsClass extends cmsFormsClass
 
     function getAddress($data, $prefix = null) {
             $prefix = $prefix == null ? '' : $prefix.'_';
-            $data->get($prefix.'reg_region') > ' ' ? $data->set($prefix.'regRegion', 'корп.'.$data->get($prefix.'reg_corpse')) : null;
+            $region = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_region'));
+            $distr = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_distr'));
+            
+            $region['id']  !== 'regions' ? $data->set($prefix.'regRegion', $region['name']) : $data->set($prefix.'regRegion','');
+            $distr['id'] !== 'regions' ? $data->set($prefix.'regDistr', $distr['name']) : $data->set($prefix.'regDistr','');
 
             $data->get($prefix.'reg_corpse') > ' ' ? $data->set($prefix.'regCorpse', 'корп.'.$data->get($prefix.'reg_corpse')) : null;
             $data->get($prefix.'reg_build') > '' ? $data->set($prefix.'regCorpse', $data->get($prefix.'regCorpse').', стр. '.$data->get($prefix.'reg_build')) : null; // Корпус + строение
@@ -104,7 +107,8 @@ class docsClass extends cmsFormsClass
             $data->get($prefix.'reg_street') > ' ' ? $data->set($prefix.'regStreet', $data->get($prefix.'reg_street_type').$data->get($prefix.'reg_street')) : null;
             $data->get($prefix.'reg_city') > ' ' ? $data->set($prefix.'regCity', $data->get($prefix.'reg_city_type').$data->get($prefix.'reg_city')) : null;
             $address = [];
-            $data->get($prefix.'region') > '' ? $address[] = $data->get($prefix.'region') : null;
+            $data->get($prefix.'regRegion') > '' ? $address[] = $data->get($prefix.'regRegion') : null;
+            $data->get($prefix.'regDistr') > '' ? $address[] = $data->get($prefix.'regDistr') : null;
             $data->get($prefix.'regCity') > '' ? $address[] = $data->get($prefix.'regCity') : null;
             $data->get($prefix.'regStreet') > '' ? $address[] = $data->get($prefix.'regStreet') : null;
             $data->get($prefix.'regHouse') > '' ? $address[] = $data->get($prefix.'regHouse') : null;

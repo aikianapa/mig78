@@ -8,3 +8,7 @@ forms/news
 forms/pages
 *.DS_Store
 ._*
+database/_settings.json
+database/scans.json
+database/users.json
+database/tmp.json

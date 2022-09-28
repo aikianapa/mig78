@@ -60,6 +60,8 @@ class modDocs
                 $item['ciexCountry'] = @$this->app->treeFindBranchById($ctrs, $item['ciexCountry'])['data']['fullname'];
                 $item['ciexPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexPlace'])['name'];
                 $item['ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexOutPlace'])['name'];
+                $item['crim_on'] = $item['crim_off'] = '';
+                $item['crim_where'] > '' ? $item['crim_on'] = 'X' : $item['crim_off'] = 'X';
                 break;
             default:
                 # code...
