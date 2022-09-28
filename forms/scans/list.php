@@ -1,5 +1,5 @@
 <html>
-<div class="m-3" id="yongerscans" wb-allow="admin,reg">
+<div class="m-3" id="yongerscans" wb-allow="admin,reg,oper">
 
     <nav class="nav navbar navbar-expand-md col">
         <h3 class="tx-bold tx-spacing--2 order-1">Сканы</h3>
