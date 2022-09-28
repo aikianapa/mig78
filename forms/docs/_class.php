@@ -96,7 +96,7 @@ class docsClass extends cmsFormsClass
                     if (validateDate($val,'Y-m-d')) {
                         $item[$fld] = wbDate('d.m.Y', $item[$fld]);
                     } else if (strpos(' '.$fld,'check') && $val == 'on') {
-                        $item[$fld] = "Х";
+                        $item[$fld] = "X";
                     }
                 }
         }

@@ -29,6 +29,7 @@ class modDocs
         $req = $this->app->treeFindBranchById($req, $this->post['quote']);
         $docs = $this->app->formClass('docs');
         $path = $this->app->vars('_route.path_app').'/uploads';
+        @$ctrs = $this->app->treeRead('countries')['tree']['data'];
         if (@$req['data']['template'][0]['img'] > '') {
             $file = urldecode($req['data']['template'][0]['img']);
             $file = $this->app->vars('_route.path_app').$file;
@@ -47,7 +48,19 @@ class modDocs
                 $item['outgoing'] = $docs->getArrOutgoing($item);
                 $docs->beforeItemShow($item);
                 break;
-            
+            case 'vnj':
+                $item['male'] = $item['female'] = '';
+                $item['gender'] == 'мужской' ? $item['male']     = 'X' : null;
+                $item['gender'] == 'женский' ? $item['female']   = 'X' : null;
+                $item['marital_y'] = $item['marital_n'] = $item['marital_d'] = $item['marital_o'] = '';
+                $item['marital_'.$item['marital']] = 'X';
+                $item['other_on'] = $item['other_off'] = '';
+                $item['other_check']  == 'X' ? $item['other_on'] = 'X' : $item['other_off'] = 'X';
+                $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
+                $item['ciexCountry'] = @$this->app->treeFindBranchById($ctrs, $item['ciexCountry'])['data']['fullname'];
+                $item['ciexPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexPlace'])['name'];
+                $item['ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexOutPlace'])['name'];
+                break;
             default:
                 # code...
                 break;
