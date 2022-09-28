@@ -210,9 +210,9 @@ class docsClass extends cmsFormsClass
                 $fldset->find('select')->find('select:not([type=hidden]):not([optional])')->attr('required', true);
             }
             if ($item['label'] > '') {
-                if ($fldset->find('input,textarea,select')->length == 1) {
+                if ($fldset->find('input,textarea,select')->length == 1 OR $fldset->find('label')->length == 1) {
                     $fldset->find('label')->inner($item['label']);
-                    $fldset->find('[placeholder]')->attr('placeholder',$item['label']);
+                    if ($fldset->find('label')->length !== 1) $fldset->find('[placeholder]')->attr('placeholder',$item['label']);
                 } else {
                     $fldset->find('fieldset')->prepend('<div class="divider-text col-12">'.$item['label'].'</div>');
                 }
@@ -225,8 +225,10 @@ class docsClass extends cmsFormsClass
                 }
 
             }
-            $fldset->fetch($data);
-            $result .= "\n\r".$fldset->html();
+            if ($fldset) {
+                $fldset->fetch($data);
+                $result .= "\n\r".$fldset->html();
+            }
         }
         echo $result;
     }

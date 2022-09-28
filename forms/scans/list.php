@@ -173,9 +173,15 @@
 
                     case 'ajax':
                         data.post == undefined ? data.post = {} : null;
-                        $.post(data.url, data.post, function(res) {
-                            if (data.func > '') eval(data.func + '(res)')
-                        })
+                        if (data.async !== undefined && data.async == false) {
+                            wbapp.postSync(data.url, data.post, function(res) {
+                                if (data.func > '') eval(data.func + '(res)')
+                            })
+                        } else {
+                            $.post(data.url, data.post, function(res) {
+                                if (data.func > '') eval(data.func + '(res)')
+                            })
+                        }
                         break;
                 }
             }
@@ -204,6 +210,7 @@
             }, function() {
                 conn.publish({
                     'type': 'ajax',
+                    'async': false,
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
                     'post': {__token: wbapp._session.token},
                     func: 'afterGetBlocks'
@@ -218,6 +225,7 @@
             }, function() {
                 conn.publish({
                     'type': 'ajax',
+                    'async': false,
                     'url': document.location.origin + '/api/v2/func/scans/getblock',
                     'post': {__token: wbapp._session.token},
                     func: 'afterGetBlocks'
