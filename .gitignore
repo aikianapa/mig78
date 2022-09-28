@@ -2,7 +2,6 @@ engine
 database/_cache
 uploads/_cache
 uploads/
-functions.php
 modules/yonger
 tpl/page.php
 forms/news

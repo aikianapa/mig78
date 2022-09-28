@@ -1,11 +1,21 @@
 <html>
 <fieldset class="row" id="fldset_address" header="Адрес">
-    <div class="col-12">
+    <wb-var uid="{{wbNewId()}}"></wb-var>
+    <div class="col-12" id="{{_var.uid}}">
         <div class="form-group row">
             <label class=" col-sm-3 form-control-label">Регион</label>
             <div class="col-sm-9">
-                <select name="region" class="form-control select2" wb-tree="dict=locations&branch=regions&parent=false">
-                    <option value="{{name}}">{{name}}</option>
+                <select name="reg_region" class="form-control select2" wb-tree="dict=locations&branch=regions&children=false" wb-change="#{{_var.uid}} [name=distr]" >
+                    <option value="{{id}}">{{name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class=" col-sm-3 form-control-label">Район</label>
+            <div class="col-sm-9">
+                <select name="reg_distr" class="form-control select2" wb-tree="dict=locations&branch=regions->%value%&parent=false">
+                    <option value="{{id}}">{{name}}</option>
                 </select>
             </div>
         </div>

@@ -8,7 +8,7 @@ class docsClass extends cmsFormsClass
         $item['reg_street_type'] = strtolower($item['reg_street_type']);
         $item['reg_city'] = ucfirst($item['reg_city']);
         $item['reg_street'] = ucfirst($item['reg_street']);
-        $item['checksum'] = $this->checksum($item);
+
         $data = $this->app->Dot($item);
         $data->get('order.0.img') > '' and $data->get('code') > '' ? $item['status'] = 'ready' : null;
         if ($data->get('fullname') == '' && $data->get('first_name')>'') {
@@ -27,20 +27,7 @@ class docsClass extends cmsFormsClass
             }
             $data->set('middle_name', trim($middlename));
         }
-        if ($data->get('sign_num') =='' && $data->get('employer') > '') {
-            $emplr = $this->app->itemRead('employers', $data->get('employer'));
-            $year = date('y');
-            $start = ($year == 22 && (isset($emplr['sign_start']))) ? intval($emplr['sign_start']) : 0;
-            $ai = $this->app->module('autoinc');
-            $counter=$data->get('employer').'_'.$year;
-            $item['sign_num'] = $ai->inc('sign_num', $counter, $start);
-        }
-        if ($data->get('reg_street') =='' && $data->get('place') > '') {
-            $place = $this->app->itemRead('places', $data->get('place'));
-            foreach ($place as $k => $v) {
-                substr($k, 0, 4) == 'reg_' ? $item[$k] = $v : null;
-            }
-        }
+
         if (!isset($item['sources'])) {
             $item['sources'] = [];
         }
@@ -64,6 +51,9 @@ class docsClass extends cmsFormsClass
     public function beforeItemShow(&$item)
     {
         if ($this->app->vars('_route.action') !== 'edit') {
+            
+//            @$this->locations = $this->app->treeRead('locations')['tree']['data'];
+
             $item ? null : $item=(array)$item;
             $item = $this->commonFormat($item);
             $data = $this->app->Dot($item);
@@ -105,18 +95,21 @@ class docsClass extends cmsFormsClass
 
     function getAddress($data, $prefix = null) {
             $prefix = $prefix == null ? '' : $prefix.'_';
-            $data->get($prefix.'reg_corpse') > ' ' ? $data->set($prefix.'reg_corpse', 'корп.'.$data->get($prefix.'reg_corpse')) : null;
-            $data->get($prefix.'reg_build') > '' ? $data->set($prefix.'reg_corpse', $data->get($prefix.'reg_corpse').', стр. '.$data->get($prefix.'reg_build')) : null; // Корпус + строение
-            $data->set($prefix.'reg_house', trim($data->get($prefix.'reg_house').' '.$data->get($prefix.'reg_house_num'))); // тип дома + номер дома
-            $data->set($prefix.'reg_flat', trim($data->get($prefix.'reg_flat').' '.$data->get($prefix.'reg_flat_num'))); // тип квартиры + номер квартиры
-            $data->get($prefix.'reg_city') > ' ' ? $data->set($prefix.'reg_city', $data->get($prefix.'reg_city_type').$data->get($prefix.'reg_city')) : null;
+            $data->get($prefix.'reg_region') > ' ' ? $data->set($prefix.'regRegion', 'корп.'.$data->get($prefix.'reg_corpse')) : null;
+
+            $data->get($prefix.'reg_corpse') > ' ' ? $data->set($prefix.'regCorpse', 'корп.'.$data->get($prefix.'reg_corpse')) : null;
+            $data->get($prefix.'reg_build') > '' ? $data->set($prefix.'regCorpse', $data->get($prefix.'regCorpse').', стр. '.$data->get($prefix.'reg_build')) : null; // Корпус + строение
+            $data->set($prefix.'regHouse', trim($data->get($prefix.'reg_house').' '.$data->get($prefix.'reg_house_num'))); // тип дома + номер дома
+            $data->set($prefix.'regFlat', trim($data->get($prefix.'reg_flat').' '.$data->get($prefix.'reg_flat_num'))); // тип квартиры + номер квартиры
+            $data->get($prefix.'reg_street') > ' ' ? $data->set($prefix.'regStreet', $data->get($prefix.'reg_street_type').$data->get($prefix.'reg_street')) : null;
+            $data->get($prefix.'reg_city') > ' ' ? $data->set($prefix.'regCity', $data->get($prefix.'reg_city_type').$data->get($prefix.'reg_city')) : null;
             $address = [];
             $data->get($prefix.'region') > '' ? $address[] = $data->get($prefix.'region') : null;
-            $data->get($prefix.'reg_city') > '' ? $address[] = $data->get($prefix.'reg_city') : null;
-            $data->get($prefix.'reg_street') > '' ? $address[] = $data->get($prefix.'reg_street') : null;
-            $data->get($prefix.'reg_house') > '' ? $address[] = $data->get($prefix.'reg_house') : null;
-            $data->get($prefix.'reg_corpse') > '' ? $address[] = $data->get($prefix.'reg_corpse') : null;
-            $data->get($prefix.'reg_flat') > '' ? $address[] = $data->get($prefix.'reg_flat') : null;
+            $data->get($prefix.'regCity') > '' ? $address[] = $data->get($prefix.'regCity') : null;
+            $data->get($prefix.'regStreet') > '' ? $address[] = $data->get($prefix.'regStreet') : null;
+            $data->get($prefix.'regHouse') > '' ? $address[] = $data->get($prefix.'regHouse') : null;
+            $data->get($prefix.'regCorpse') > '' ? $address[] = $data->get($prefix.'regCorpse') : null;
+            $data->get($prefix.'regFlat') > '' ? $address[] = $data->get($prefix.'regFlat') : null;
         return implode(', ',$address);
     }
 
@@ -211,8 +204,6 @@ class docsClass extends cmsFormsClass
                 $fldset->find('input')->find('input:not([type=hidden]):not([optional])')->attr('required', true);
                 $fldset->find('textarea')->find('textarea:not([type=hidden]):not([optional])')->attr('required', true);
                 $fldset->find('select')->find('select:not([type=hidden]):not([optional])')->attr('required', true);
-
-
             }
             if ($item['label'] > '') {
                 if ($fldset->find('input,textarea,select')->length == 1) {
