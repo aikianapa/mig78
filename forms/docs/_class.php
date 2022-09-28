@@ -2,6 +2,9 @@
 
 class docsClass extends cmsFormsClass
 {
+    public $mon;
+    public $loc;
+    public $app;
     public function beforeItemSave(&$item)
     {
         $item['reg_city_type'] = strtolower($item['reg_city_type']);
@@ -53,6 +56,8 @@ class docsClass extends cmsFormsClass
         if ($this->app->vars('_route.action') !== 'edit') {
             
             @$this->loc = $this->app->treeRead('locations')['tree']['data'];
+            @$this->mon = $this->app->treeRead('money')['tree']['data'];
+
             $item ? null : $item=(array)$item;
             $item = $this->commonFormat($item);
             $data = $this->app->Dot($item);
@@ -86,6 +91,8 @@ class docsClass extends cmsFormsClass
                         $item[$fld] = wbDate('d.m.Y', $item[$fld]);
                     } else if (strpos(' '.$fld,'check') && $val == 'on') {
                         $item[$fld] = "X";
+                    } else if (strpos(' '.$fld,'money_cur')) {
+                        $item[$fld] = $this->app->treeFindBranchById($this->mon, $item[$fld])['name'];
                     }
                 }
         }

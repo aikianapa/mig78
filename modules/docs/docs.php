@@ -62,6 +62,12 @@ class modDocs
                 $item['ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexOutPlace'])['name'];
                 $item['crim_on'] = $item['crim_off'] = '';
                 $item['crim_where'] > '' ? $item['crim_on'] = 'X' : $item['crim_off'] = 'X';
+                $item['edu_do'] = $item['edu_no'] = $item['edu_oo'] = $item['edu_so'] = '';
+                $item['edu_sp'] = $item['edu_bv'] = $item['edu_mv'] = $item['edu_kv'] = '';
+                $item['edu_ks'] = $item['edu_ds'] = '';
+                $item['edu_'.$item['edu_common']] = 'X';
+                $item['edu_'.$item['edu_high']] = 'X';
+                $item['edu_'.$item['edu_science']] = 'X';
                 break;
             default:
                 # code...
