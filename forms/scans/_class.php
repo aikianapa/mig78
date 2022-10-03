@@ -9,6 +9,11 @@ class scansClass extends cmsFormsClass
         $out->fetch();
         echo $out->outer();
     }
+
+    public function afterItemRemove() {
+        // при удалении записи нужно обработать исключение
+        // когда запись удаляется при переносе в docs
+    }
     public function afterItemRead(&$item)
     {
         if (!$item) {
@@ -25,6 +30,22 @@ class scansClass extends cmsFormsClass
         $item['srclen'] = isset($item['sources']) ? count((array)$item['sources']) : 0;
     }
 
+    public function todocs() {
+        if ($this->app->vars('_post.id') > '') {
+            $item=$this->app->itemRead('scans', $this->app->vars('_post.id'));
+            $item['_form'] = $item['_table'] = 'docs';
+            $item['status'] = 'new';
+            $item['operator'] = $this->app->vars('_sess.user.id');
+            $item = $this->app->itemSave('docs', $item);
+            if ($item) {
+                $this->app->itemRemove('scans', $item['id']);
+            }
+            header("Content-type:application/json");
+            return ['error'=>false, 'msg'=>'', 'data'=>$item];
+        } else {
+            return ['error'=>true, 'msg'=>'Ошибка'];
+        }
+    }
     public function block()
     {
         $block = wbItemRead('tmp', 'blockedscans');

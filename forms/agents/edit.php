@@ -25,7 +25,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3">Телефон</label>
                             <div class="col-sm-9">
-                                <input wb-module="mask" wb-mask="(999) 999-99-99" name="phone" class="form-control" placeholder="Телефон">
+                                <input wb-module="mask" wb-mask="8 (999) 999-99-99" name="phone" class="form-control" placeholder="Телефон">
                             </div>
                         </div>
                     </div>

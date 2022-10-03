@@ -69,7 +69,7 @@
         </nav>
         {{/if}} {{/pages}}
     </div>
-    <script>
+    <script wb-app>
         var api = "/api/v2"
         var form = "scans"
         var base = api + `/list/${form}?&operator=[,${wbapp._session.user.id}]&@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id,operator,quote`
@@ -174,9 +174,8 @@
                     case 'ajax':
                         data.post == undefined ? data.post = {} : null;
                         if (data.async !== undefined && data.async == false) {
-                            wbapp.postSync(data.url, data.post, function(res) {
-                                if (data.func > '') eval(data.func + '(res)')
-                            })
+                            let res = wbapp.postSync(data.url, data.post)
+                            if (data.func > '') eval(data.func + '(res)')
                         } else {
                             $.post(data.url, data.post, function(res) {
                                 if (data.func > '') eval(data.func + '(res)')
@@ -264,7 +263,7 @@
             conn.publish({
                 type: 'func',
                 func: 'afterFormsave',
-                data: data.params
+                data: data.data
             });
         })
 
@@ -279,34 +278,11 @@
 
         var afterFormsave = function(data) {
             if (!$('#scansList').length) return;
-            let form = data.form;
-            let item = data.item;
-            let table = data.table;
+            //let form = data.form;
+            let item = data.id;
+            //let table = data.table;
             $('#scansList').find('[data-id="' + item + '"]').remove();
         }
-
-
-
-    $('#yongerscans').off('mod-filepicker-done');
-    $('#yongerscans').on('mod-filepicker-done', function(ev, data) {
-        let synapse = $('#scansList').synapse;
-        $('#yongerscans .yongerscans-wait').removeClass('d-none');
-        if (data[0] !== undefined) {
-            wbapp.post('/cms/ajax/form/scans/import', data[0], function(data) {
-                $('#yongerscans .yongerscans-wait').addClass('d-none');
-                wbapp.render('#scansList');
-                conn.publish({
-                    'type': 'ajax',
-                    'url': document.location.origin + '/cms/ajax/form/scans/block/getblock',
-                    'post': {__token: wbapp._session.token}
-                });
-            });
-        } else {
-            wbapp.toast('Ошибка!', 'Загрузка файла не удалась, попробуйте снова', {
-                bgcolor: 'danger'
-            });
-        }
-    });
 </script>
 
 </html>

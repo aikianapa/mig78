@@ -73,13 +73,14 @@
             <tr>
                 <th>Ф.И.О.</th>
                 <th>Паспорт</th>
-                <th>Код</th>
+                <th>Документ</th>
                 <th>Статус</th>
                 <th></th>
             </tr>
         </thead>
         <tbody id="docsList">
             <wb-foreach wb="table=docs&sort=_created:d&bind=cms.list.docs&sort=_created:d&size={{_sett.page_size}}"
+                wb-filter="operator={{_sess.user.id}}"
                 __wb-return="id;doc_num;doc_ser;date;@status;order;status;birth_date;fullname;_created;code;_id;_table;_form;_creator;_created;_role;_site"
                 wb-filter="{{_var.filter}}">
                 <tr wb-if="'{{_var.date}}'!=='{{date}}'" class="bg-transparent">
@@ -95,7 +96,7 @@
                     <img loading="lazy" src="/module/myicons/bookmark-favorite-minus.svg?size=18&stroke=dc3545" wb-if="'{{flag}}'=='on'">    
                     <br /><small>{{birth_date}}</small></td>
                     <td>{{doc_ser}} №{{doc_num}}</td>
-                    <td>{{code}}</td>
+                    <td wb-tree="dict=reqlist&branch={{quote}}">{{name}}</td>
                     <td>
                         <img data-src="/module/myicons/thunder-lightning-circle.1.svg?size=24&stroke=666666"
                             wb-if="'{{status}}' == 'new'">
@@ -117,10 +118,11 @@
                     <td>
                         <a href="javascript:"
                             data-ajax="{'url':'/cms/ajax/form/docs/edit/{{id}}','html':'#yongerDocs modals'}"
-                            class="d-inline">
+                            data-id="{{id}}"
+                            class="d-inline editBtn">
                             <img src="/module/myicons/content-edit-pen.svg?size=24&stroke=323232">
                         </a>
-                        <a href="javascript:" wb-if="'{{_sess.user.role}}'!=='doc'"
+                        <a href="javascript:" wb-if="'{{_sess.user.role}}'=='admin'"
                             data-ajax="{'url':'/ajax/rmitem/docs/{{id}}','update':'cms.list.docs','html':'#yongerDocs modals'}"
                             class="d-inline">
                             <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
