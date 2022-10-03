@@ -29,7 +29,7 @@
                     </div>
 
                     <script wbapp>
-                        $('#{{_form}}EditForm [name=quote]').on('change', function() {
+                        $('#{{_form}}EditForm [name=quote]').one('change', function() {
                             let scan_id = "{{id}}"
                             wbapp.post('/form/docs/fldsetgen/' + $(this).val(), {
                                 scan_id: scan_id

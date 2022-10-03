@@ -205,7 +205,7 @@ class docsClass extends cmsFormsClass
         @$name = $this->app->route->item;
         @$docs = $this->app->treeRead('reqlist')['tree']['data'];
         @$scid = $this->app->vars('_post.scan_id');
-        @$data = $this->app->itemRead('scans', $scid);
+        @$data = $this->app->itemRead('docs', $scid);
         $doc = $this->app->treeFindBranchById($docs, $name);
         $result = '';
         foreach ($doc['data']['fields'] as $i => &$item) {
