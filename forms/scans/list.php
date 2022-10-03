@@ -21,8 +21,8 @@
         <ul class="list-group">
             {{#each result}}
             <li data-id="{{.id}}" class="list-group-item">
-                <div>{{.operator}} {{.quote}} <span class="badge badge-info">Сканов: {{.srclen}}</span></div>
-                <div class="tx-12">{{.doc_sernum}}</div>
+                <div><span class="badge badge-info">Сканов: {{.srclen}}</span> {{.fullname}} {{.phone}} {{.doc_sernum}}</div>
+                <div class="tx-12">{{.quote}}</div>
                 <div class="tx-right pos-absolute t-10 r-10">
                     <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/scans/edit/{{.id}}','html':'#yongerscans modals'}"
                         class="d-inline">
