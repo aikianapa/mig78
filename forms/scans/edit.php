@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header row">
                 <div class="col-5">
-                    <h5 wb-tree="dict=reqlist&branch={{quote}}">{{name}}</h5>
+                    <h5 wb-tree="dict=reqlist&branch={{quote}}&parent=false&children=false">{{name}}</h5>
                 </div>
                 <div class="col-7">
                     <!--button class="btn btn-primary" type="button" id="exportPDF">Сформировать</button-->
