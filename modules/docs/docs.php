@@ -111,7 +111,7 @@ class modDocs
         // тестовый 1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0
         $tgbot->chat_id = '120805934'; 
         $tgbot->chat_id = $data['chat_id'];
-        $tgbot->token = '1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0';
+        $tgbot->token = '5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc';
         $file = $this->app->route->path_app . $data['uri'];
         if (!file_exists($file)) {
             return false;
