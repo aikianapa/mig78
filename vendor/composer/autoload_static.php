@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitd1880628962d34e6c61de2a9f5934b39
 {
     public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
+            'setasign\\Fpdi\\' => 14,
+        ),
         'P' => 
         array (
             'PhpOffice\\PhpWord\\' => 18,
@@ -18,6 +22,10 @@ class ComposerStaticInitd1880628962d34e6c61de2a9f5934b39
     );
 
     public static $prefixDirsPsr4 = array (
+        'setasign\\Fpdi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+        ),
         'PhpOffice\\PhpWord\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpword/src/PhpWord',

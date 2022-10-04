@@ -1,8 +1,13 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
+include_once($_SERVER['DOCUMENT_ROOT'].'/vendor/fpdf/fpdf.php'); 
+include_once($_SERVER['DOCUMENT_ROOT'].'/vendor/fpdf/fpdi_rotate.php');
 
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
+
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfReader;
 
 class modDocs
 {
@@ -14,13 +19,14 @@ class modDocs
         $this->app = $app;
         $mode = $app->vars('_route.mode');
         $this->post = $this->app->vars('_post');
-        if (method_exists($this,$mode)) {
+        if (method_exists($this, $mode)) {
             $this->$mode();
             exit;
         }
     }
 
-    function quote() {
+    public function quote()
+    {
         if ($this->post['quote'] == '') {
             return;
         }
@@ -28,7 +34,9 @@ class modDocs
         @$req = $this->app->treeRead('reqlist')['tree']['data'];
         $req = $this->app->treeFindBranchById($req, $this->post['quote']);
         $docs = $this->app->formClass('docs');
-        $path = $this->app->vars('_route.path_app').'/uploads';
+        $uri = "/uploads/docs";
+        $path = $this->app->vars('_route.path_app').$uri;
+
         @$ctrs = $this->app->treeRead('countries')['tree']['data'];
         if (@$req['data']['template'][0]['img'] > '') {
             $file = urldecode($req['data']['template'][0]['img']);
@@ -36,10 +44,14 @@ class modDocs
         } else {
             $file = $this->app->vars('_route.path_app').'/tpl/docs/'.$this->post['quote'].'.docx';
         }
-        $doc = $path.'/test.docx';
-        $pdf = $path.'/test.pdf';
         $tpl = new TemplateProcessor($file);
         $item = $this->post;
+        $dname = "{$item['quote']}_{$item['id']}";
+        $doc = $path."/{$dname}.docx";
+        $pdf = $path."/{$dname}.pdf";
+        $uri = $uri."/{$dname}.pdf";
+
+
         $docs->beforeItemShow($item);
         switch ($this->post['quote']) {
             case 'regspr':
@@ -76,7 +88,7 @@ class modDocs
 
 
         $fields = $tpl->getVariables();
-        foreach($item as $fld => $val) {
+        foreach ($item as $fld => $val) {
             if (in_array($fld, $fields)) {
                 (array)$val === $val ? $tpl->cloneRowAndSetValues($fld, $val) : $tpl->setValue($fld, $val);
             }
@@ -87,8 +99,48 @@ class modDocs
         exec('export HOME='.$path.' && lowriter  --headless  --convert-to pdf --outdir '.$path.' '.$doc);
         unlink($doc);
         header("Content-type:application/json");
-        echo json_encode(['path'=>'/uploads/test.pdf?'.wbNewId()]);
+        echo json_encode(['path'=>$pdf, 'doc'=>$uri, 'uri'=>$uri."?".wbNewId()]);
     }
 
+    public function senddemo()
+    {
+        $data = $this->app->vars('_post');
+        $tgbot = $this->app->moduleClass('tgbot');
+
+        // Основной бот 5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc
+        // тестовый 1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0
+        $tgbot->chat_id = '120805934'; 
+        $tgbot->chat_id = $data['chat_id'];
+        $tgbot->token = '1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0';
+        $file = $this->app->route->path_app . $data['uri'];
+        if (!file_exists($file)) {
+            return false;
+        }
+        $dest = dirname($file).'/'.wbNewId().'.pdf';
+        $pdf        = new PDF();
+        $pagecount    = $pdf->setSourceFile($file);
+        for ($i = 1; $i <= $pagecount ; $i++) { //проходимо по всем страницам файла
+            $tpl            = $pdf->importPage($i);
+            $size            = $pdf->getTemplateSize($tpl);
+
+            $orientation    = $size['orientation'];
+            // используем ориантацию и размер исходного файла
+            $pdf->AddPage($orientation);
+            $pdf->useTemplate($tpl, null, null, $size['width'], $size['height'], true);
+           // $pdf->SetXY(21, 90);
+            $pdf->SetTextColor(16, 13, 102);
+            $pdf->SetAlpha(0.2);
+            $pdf->SetFont('Arial', '', 120);
+            $pdf->RotatedText(20, 50, 'MIG78.RU', -45);
+        }
+        $pdf->Output($dest, "F");
+
+
+
+
+        $res = $tgbot->sendDocument($dest);
+        unlink($dest);
+        header("Content-type:application/json");
+        echo json_encode($res);
+    }
 }
-?>

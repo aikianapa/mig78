@@ -9,8 +9,8 @@ if (is_file(__DIR__.'/tgbot_ext.php')) {
 class modTgbot
 {
     public $app;
-    private $token;
-    private $chat_id;
+    public $token;
+    public $chat_id;
     public $data;
     private $is_command;
     public $sett;
@@ -32,6 +32,7 @@ class modTgbot
 
         $this->data = $app->dot($data);
         $this->chat_id = $this->data->get('callback_query') ? $this->data->get('callback_query.message.chat.id') : $this->data->get('message.chat.id');
+        $this->token = $this->sett['token'];
         $this->storage();
 
         if ($this->sett['debug'] == 'on') {
@@ -212,6 +213,22 @@ class modTgbot
                 ];
         return $this->send('sendMessage', $msg);
     }
+
+    public function sendDocument($file) {
+        $msg = [
+                    'document' => curl_file_create($file)
+                ];
+        return $this->send('sendDocument', $msg);
+    }
+
+    public function sendPhoto($file) {
+        $msg = [
+                    'photo' => curl_file_create($file)
+                ];
+        return $this->send('sendPhoto', $msg);
+    }
+
+    
     public function send($method, $response)
     {
         $response['chat_id'] = $this->chat_id;
@@ -219,7 +236,7 @@ class modTgbot
             $response['parse_mode'] = 'HTML';
             $response['text'] = $this->striptags($response['text']);
         }
-        $ch = curl_init('https://api.telegram.org/bot' . $this->sett['token'] . '/' . $method);
+        $ch = curl_init('https://api.telegram.org/bot' . $this->token . '/' . $method);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $response);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
