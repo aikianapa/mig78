@@ -18,6 +18,8 @@
                     <meta name="scan" content="{{_route.params.scan}}">
                     <input type="hidden" name="status" value='new' wb-if="'{{status}}'==''">
                     <input type="hidden" name="operator" value='{{_sess.user.id}}' wb-if="'{{status}}'==''">
+                    <input type="hidden" name="quote">
+                    <input type="hidden" name="chat_id">
 
                     <div class="col-sm-4">
                         <div class="form-group">
