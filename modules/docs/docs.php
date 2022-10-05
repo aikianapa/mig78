@@ -102,7 +102,7 @@ class modDocs
         echo json_encode(['path'=>$pdf, 'doc'=>$uri, 'uri'=>$uri."?".wbNewId()]);
     }
 
-    public function senddemo()
+    public function senddoc()
     {
         $data = $this->app->vars('_post');
         $tgbot = $this->app->moduleClass('tgbot');
@@ -116,28 +116,25 @@ class modDocs
         if (!file_exists($file)) {
             return false;
         }
-        $dest = dirname($file).'/'.wbNewId().'.pdf';
-        $pdf        = new PDF();
-        $pagecount    = $pdf->setSourceFile($file);
-        for ($i = 1; $i <= $pagecount ; $i++) { //проходимо по всем страницам файла
-            $tpl            = $pdf->importPage($i);
-            $size            = $pdf->getTemplateSize($tpl);
-
-            $orientation    = $size['orientation'];
-            // используем ориантацию и размер исходного файла
-            $pdf->AddPage($orientation);
-            $pdf->useTemplate($tpl, null, null, $size['width'], $size['height'], true);
-           // $pdf->SetXY(21, 90);
-            $pdf->SetTextColor(16, 13, 102);
-            $pdf->SetAlpha(0.2);
-            $pdf->SetFont('Arial', '', 120);
-            $pdf->RotatedText(20, 50, 'MIG78.RU', -45);
+        if ($this->app->vars('_post.demo')>'') {
+            $dest = dirname($file).'/'.wbNewId().'.pdf';
+            $pdf        = new PDF();
+            $pagecount    = $pdf->setSourceFile($file);
+            for ($i = 1; $i <= $pagecount ; $i++) { //проходимо по всем страницам файла
+                $tpl            = $pdf->importPage($i);
+                $size            = $pdf->getTemplateSize($tpl);
+                $orientation    = $size['orientation'];
+                $pdf->AddPage($orientation);
+                $pdf->useTemplate($tpl, null, null, $size['width'], $size['height'], true);
+                $pdf->SetTextColor(16, 13, 102);
+                $pdf->SetAlpha(0.2);
+                $pdf->SetFont('Arial', '', 120);
+                $pdf->RotatedText(20, 50, 'MIG78.RU', -45);
+            }
+            $pdf->Output($dest, "F");
+        } else {
+            $dest = $file;
         }
-        $pdf->Output($dest, "F");
-
-
-
-
         $res = $tgbot->sendDocument($dest);
         unlink($dest);
         header("Content-type:application/json");

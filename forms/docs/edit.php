@@ -69,9 +69,10 @@
                         $('#modaldocsEdit #sendDemo').off('click');
                         $('#modaldocsEdit #sendDemo').on('click', function() {
                             $('#{{_form}}EditForm #docDemo').trigger('click');
-                            wbapp.post('/module/docs/senddemo/', {
+                            wbapp.post('/module/docs/senddoc/', {
                                 'uri': $('#{{_form}}EditForm [name=document]').val(),
-                                'chat_id': $('#{{_form}}EditForm [name=chat_id]').val()
+                                'chat_id': $('#{{_form}}EditForm [name=chat_id]').val(),
+                                'demo': true
                             }, function(res) {
                                 $('#{{_form}}EditForm [name=status]').val('preview');
                             })

@@ -3,6 +3,7 @@
 class scansClass extends cmsFormsClass
 {
     private $synapse = 0;
+    public $app;
     public function list()
     {
         $out = $this->app->fromFile(__DIR__.'/list.php');
@@ -13,13 +14,30 @@ class scansClass extends cmsFormsClass
     public function afterItemRemove() {
         // при удалении записи нужно обработать исключение
         // когда запись удаляется при переносе в docs
+
     }
+
     public function afterItemRead(&$item)
     {
         if (!$item) {
             return $item;
         }
         $data = $this->app->Dot($item);
+
+        $fullname = implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]);
+        if ($data->get('fullname') > '' && $fullname !== $data->get('fullname')) {
+            $tmp = explode(' ', $data->get('fullname'));
+            isset($tmp[0]) ? $data->set('last_name', $tmp[0]) : $data->set('last_name', '');
+            isset($tmp[1]) ? $data->set('first_name', $tmp[1]) : $data->set('first_name', '');
+            $middlename = '';
+            foreach ($tmp as $i => $v) {
+                if ($i>1) {
+                    $middlename .= $v.' ';
+                }
+            }
+            $data->set('middle_name', trim($middlename));
+        }
+
         if ($data->get('sources.0') > ''
         && $data->get('sources.1') > '') {
             $data->set('active', 'on');
