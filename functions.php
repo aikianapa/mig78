@@ -1,27 +1,37 @@
 <?php
 
-@include_once( __DIR__ . '/engine/modules/yonger/common/scripts/functions.php');
+@include_once(__DIR__ . '/engine/modules/yonger/common/scripts/functions.php');
 
-        // Основной бот 5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc
-        // тестовый 1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0
+// Основной бот 5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc
+// тестовый 1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0
 
 //$_ENV['chat_id'] = "120805934";
 $_ENV['bot_id'] = '5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc';
 
+function botmsg($msg = 'start', $lang = 'ru', $data=[])
+{
+    @$botmsg = wbTreeRead('botmsg')['tree']['data'];
+    $msg = @wbTreeFindBranchById($botmsg, 'docdemo')['data']['lang'][$lang];
+    $msg = str_replace(['{','}'], ['{{','}}'], $msg);
+    $msg = wbSetValuesStr($msg, $data);
+    return $msg;
+}
 function dateform($date)
 {
     return date('d.m.Y', strtotime($date));
 }
 
-function text2tel($str) {
+function text2tel($str)
+{
     $tel =  preg_replace("/\D/", '', $str);
-    if (strlen($tel) == 11 && substr($tel,0,1) == "8") {
-        $tel = "7".substr($tel,1);
+    if (strlen($tel) == 11 && substr($tel, 0, 1) == "8") {
+        $tel = "7".substr($tel, 1);
     }
     return $tel;
 }
 
-function fmtPrice($sum) {
+function fmtPrice($sum)
+{
     return number_format($sum, 0, '.', ' ');
 }
 function validateDate($date, $format = 'Y-m-d H:i:s')
@@ -74,6 +84,3 @@ function getPeriod($date1, $date2)
 
     return $y . $m . $d;
 }
-
-
-?>

@@ -26,7 +26,7 @@ class docsClass extends cmsFormsClass
                 'uri' => $item['document'],
                 'doc' => $req['name']
             ]);
-            if ($res['ok'] == true) {
+            if (isset($res['ok']) && $res['ok'] == true) {
                 $item['status'] = 'ready';
                 $item['payed'] = 'on';
             }

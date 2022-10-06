@@ -1,6 +1,7 @@
 <?php
+
 require $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
-include_once($_SERVER['DOCUMENT_ROOT'].'/vendor/fpdf/fpdf.php'); 
+include_once($_SERVER['DOCUMENT_ROOT'].'/vendor/fpdf/fpdf.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/vendor/fpdf/fpdi_rotate.php');
 
 use PhpOffice\PhpWord\IOFactory;
@@ -105,14 +106,20 @@ class modDocs
     public function senddoc()
     {
         $data = $this->app->vars('_post');
-        $tgbot = $this->app->moduleClass('tgbot');
-        isset($_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
-        $tgbot->token = $_ENV['bot_id'];
+
         $file = $this->app->route->path_app . $data['uri'];
         if (!file_exists($file)) {
             return false;
         }
-        $message = "Ответ по заказу: {$data['id']}<br>{$data['doc']}";
+
+        $tgbot = $this->app->moduleClass('tgbot');
+        isset($_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
+        $tgbot->token = $_ENV['bot_id'];
+
+
+
+        $lang = 'ru';
+
         if ($this->app->vars('_post.demo')>'') {
             $dest = dirname($file).'/'.wbNewId().'.pdf';
             $pdf        = new PDF();
@@ -129,12 +136,36 @@ class modDocs
                 $pdf->RotatedText(20, 50, 'MIG78.RU', -45);
             }
             $pdf->Output($dest, "F");
-            $message .= ' - демо версия';
+
+            $text = botmsg('docdemo', $lang, ['id'=>$data['id'], 'doc' => $data['doc']]);
+
+            $btns[] =['text'=>'да', 'callback_data'=>'/docyes '.$data['id']];
+            $btns[] =['text'=>'нет', 'callback_data'=>'/docno '.$data['id']];
+
+            $keyboard = [
+                'resize_keyboard' => true,
+                'one_time_keyboard' =>true,
+                'keyboard' => [
+                    $btns
+                ]
+            ];
+
+            $text = botmsg('docdemo', $lang, ['id'=>$data['id'], 'doc' => $data['doc']]);
+            $msg = [
+                'text' => $text,
+                'reply_markup' => json_encode($keyboard)
+            ];
         } else {
             $dest = $file;
+            $msg = botmsg('docready', $lang, ['id'=>$data['id'], 'doc' => $data['doc']]);
         }
-        $res = $tgbot->sendMessage($message);
+
         $res = $tgbot->sendDocument($dest);
+        $chk = json_decode($res);
+        if (isset($chk->ok) && $chk->ok == true) {
+            $res = $tgbot->send('sendMessage', $msg);
+        }
+
         unlink($dest);
         header("Content-type:application/json");
         echo $res;

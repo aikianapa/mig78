@@ -181,7 +181,6 @@ class modTgbot
             }
         }
     }
-
     public function error($text=null, $btns = null)
     {
         if ($btns == null) {
