@@ -112,6 +112,7 @@ class modDocs
         if (!file_exists($file)) {
             return false;
         }
+        $message = "Ответ по заказу: {$data['id']}<br>{$data['doc']}";
         if ($this->app->vars('_post.demo')>'') {
             $dest = dirname($file).'/'.wbNewId().'.pdf';
             $pdf        = new PDF();
@@ -128,10 +129,11 @@ class modDocs
                 $pdf->RotatedText(20, 50, 'MIG78.RU', -45);
             }
             $pdf->Output($dest, "F");
+            $message .= ' - демо версия';
         } else {
             $dest = $file;
         }
-        $res = $tgbot->sendMessage("Ответ по заказу: {$data['id']}<br>{$data['doc']}");
+        $res = $tgbot->sendMessage($message);
         $res = $tgbot->sendDocument($dest);
         unlink($dest);
         header("Content-type:application/json");

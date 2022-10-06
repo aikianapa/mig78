@@ -17,8 +17,6 @@ class docsClass extends cmsFormsClass
             } 
 
         if ($item['payed'] == 'on' && $item['status'] !== 'ready') {
-
-
             @$req = $this->app->treeRead('reqlist')['tree']['data'];
             $req = $this->app->treeFindBranchById($req, $item['quote']);
             isset($_ENV['chat_id']) ? $chat_id = $_ENV['chat_id'] : $chat_id = $item['chat_id'];
@@ -32,7 +30,6 @@ class docsClass extends cmsFormsClass
                 $item['status'] = 'ready';
                 $item['payed'] = 'on';
             }
-            print_r($res);
         }
     }
 
