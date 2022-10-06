@@ -72,9 +72,18 @@
                             wbapp.post('/module/docs/senddoc/', {
                                 'uri': $('#{{_form}}EditForm [name=document]').val(),
                                 'chat_id': $('#{{_form}}EditForm [name=chat_id]').val(),
+                                'doc': $('#{{_form}}EditForm h3').text(),
+                                'id': $('#{{_form}}EditForm [name=id]').val(),
                                 'demo': true
                             }, function(res) {
-                                $('#{{_form}}EditForm [name=status]').val('preview');
+
+                                if (res.ok == true) {
+                                    $('#{{_form}}EditForm [name=status]').val('preview');
+                                    $('#modaldocsEdit .btn-save').trigger('click');
+                                    wbapp.toast('Ошибка', 'Документ успешно отправлен',{bgcolor: 'success'});
+                                } else {
+                                    wbapp.toast('Ошибка', 'Не удалось отправить документ',{bgcolor: 'warning'});
+                                }
                             })
                         })
 

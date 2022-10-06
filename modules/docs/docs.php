@@ -106,8 +106,7 @@ class modDocs
     {
         $data = $this->app->vars('_post');
         $tgbot = $this->app->moduleClass('tgbot');
-        $tgbot->chat_id = '120805934'; 
-        $tgbot->chat_id = $_ENV['chat_id'];
+        isset($_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
         $tgbot->token = $_ENV['bot_id'];
         $file = $this->app->route->path_app . $data['uri'];
         if (!file_exists($file)) {
@@ -132,9 +131,11 @@ class modDocs
         } else {
             $dest = $file;
         }
+        $res = $tgbot->sendMessage("Ответ по заказу: {$data['id']}<br>{$data['doc']}");
         $res = $tgbot->sendDocument($dest);
         unlink($dest);
         header("Content-type:application/json");
-        echo json_encode($res);
+        echo $res;
+        exit;
     }
 }

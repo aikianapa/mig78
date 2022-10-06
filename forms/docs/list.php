@@ -26,16 +26,19 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': ['*status','flag']}">
-                        <img data-src="/module/myicons/asterisk-rotate-arrow-circle.svg?size=24&stroke=666666"> Все</a>
+                        <img src="/module/myicons/asterisk-rotate-arrow-circle.svg?size=24&stroke=666666"> Все</a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'new'}}">
-                        <img data-src="/module/myicons/thunder-lightning-circle.1.svg?size=24&stroke=666666"> Новые</a>
+                        <img src="/module/myicons/thunder-lightning-circle.1.svg?size=24&stroke=666666"> Новые</a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'progress'}}">
-                        <img data-src="/module/myicons/loading-checkmark-status-circle.svg?size=24&stroke=ffc107"> В работе
+                        <img src="/module/myicons/loading-checkmark-status-circle.svg?size=24&stroke=ffc107"> В работе
+                    </a>
+                    <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'preview'}}">
+                        <img src="/module/myicons/attachment-link-circle.svg?size=24&stroke=ffc107"> Превью
                     </a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'ready'}}">
-                        <img data-src="/module/myicons/checkmark-circle-1.svg?size=24&stroke=10b759"> Готовые</a>
+                        <img src="/module/myicons/checkmark-circle-1.svg?size=24&stroke=10b759"> Готовые</a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'archive'}}">
-                        <img data-src="/module/myicons/zip-archive-circle.svg?size=24&stroke=dc3545"> Архив</a>
+                        <img src="/module/myicons/zip-archive-circle.svg?size=24&stroke=dc3545"> Архив</a>
                 </div>
             </div>
 
@@ -85,6 +88,7 @@
                         <img data-src="/module/myicons/thunder-lightning-circle.1.svg?size=24&stroke=666666" wb-if="'{{status}}' == 'new'">
                         <img data-src="/module/myicons/loading-checkmark-status-circle.svg?size=24&stroke=ffc107" wb-if="'{{status}}' == 'progress'">
                         <img data-src="/module/myicons/checkmark-circle-1.svg?size=24&stroke=10b759" wb-if="'{{status}}' == 'ready'">
+                        <img data-src="/module/myicons/attachment-link-circle.svg?size=24&stroke=10b759" wb-if="'{{status}}' == 'preview'">
                         <img data-src="/module/myicons/warning-alarm-delete-error.svg?size=24&stroke=dc3545" wb-if="'{{status}}' == 'error'">
                         <input wb-module="swico" name="archive" wb-if="'{{status}}' == 'archive'" data-ico-on="zip-archive-circle" data-ico-off="checkmark-circle-1"
                             data-color-on="dc3545" data-color-off="10b759" onchange="wbapp.save($(this),{'table':'{{_form}}','id':'{{_id}}','field':'archive','silent':'true'})">

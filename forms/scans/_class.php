@@ -61,8 +61,7 @@ class scansClass extends cmsFormsClass
             }
             // Отправляем сообщение клиенту
             $tgbot = $this->app->moduleClass('tgbot');
-            $tgbot->chat_id = '120805934';
-            $tgbot->chat_id = $_ENV['chat_id'];
+            isset( $_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
             $tgbot->token = $_ENV['bot_id'];
             $res = $tgbot->sendMessage('Ваш запрос принят в работу. Идентификатор заказа: '.$item['id']);
             // =============================

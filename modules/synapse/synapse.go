@@ -13,7 +13,7 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	socket := gowebsocket.New("ws://0.0.0.0:4000")
+	socket := gowebsocket.New("ws://0.0.0.0:4020")
 
 	socket.OnConnected = func(socket gowebsocket.Socket) {
 		log.Println("Connected to server")
