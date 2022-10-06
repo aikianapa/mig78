@@ -139,13 +139,13 @@ class modDocs
 
             $text = botmsg('docdemo', $lang, ['id'=>$data['id'], 'doc' => $data['doc']]);
 
-            $btns[] =['text'=>'да', 'callback_data'=>'/docyes '.$data['id']];
-            $btns[] =['text'=>'нет', 'callback_data'=>'/docno '.$data['id']];
+            $btns[] =['text'=>'да', 'callback_data'=>"document:{$data['id']}:yes"];
+            $btns[] =['text'=>'нет', 'callback_data'=>"document:{$data['id']}:no"];
 
             $keyboard = [
                 'resize_keyboard' => true,
-                'one_time_keyboard' =>true,
-                'keyboard' => [
+                //'one_time_keyboard' =>true,
+                'inline_keyboard' => [
                     $btns
                 ]
             ];
