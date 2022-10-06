@@ -71,7 +71,7 @@
                 <tr wb-if="'{{_var.date}}'!=='{{date}}'" class="bg-transparent">
                     <td colspan="5">
                         <wb-var date="{{date}}" />
-                        <div class="divider-text tx-primary">{{wbDate("d.m.Y",{{{{_created}}}})}}</div>
+                        <div class="divider-text tx-primary">{{date}}</div>
                     </td>
                 </tr>
 

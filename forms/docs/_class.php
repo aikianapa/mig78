@@ -5,6 +5,18 @@ class docsClass extends cmsFormsClass
     public $mon;
     public $loc;
     public $app;
+
+
+        public function list()
+    {
+        $req = $this->app->treeRead('reqlist')['tree']['data'];
+        foreach($req as $r) {
+            $this->app->d_reqlist[r['id']] = $r['name'];
+        }
+        $out = $this->app->fromFile(__DIR__.'/list.php');
+        $out->fetch();
+        echo $out->outer();
+    }
     public function beforeItemSave(&$item)
     {
         if (!isset($item['sources'])) {
@@ -75,11 +87,15 @@ class docsClass extends cmsFormsClass
     {
         if ($this->app->vars('_route.action') !== 'edit') {
             @$this->loc = $this->app->treeRead('locations')['tree']['data'];
-            @$this->mon = $this->app->treeRead('money')['tree']['data'];
-
+            @$this->mon = $this->app->treeRead('money')['tree']['data'];   
             $item ? null : $item=(array)$item;
             $item = $this->commonFormat($item);
             $data = $this->app->Dot($item);
+
+        @$item['quotename'] = $this->app->d_reqlist[$item['quote']];
+        @$item['created'] = date('d.m.Y H:i', strtotime($item['_created']));
+        @$item['date'] = date('d.m.Y', strtotime($item['_created']));
+
             $item['pasp'] = preg_replace('/[^a-zA-Z0-9]/ui', '', $data->get('doc_ser').$data->get('doc_num'));
             if ($data->get('fullname') > '' && $data->get('last_name') == '') {
                 $tmp = explode(' ', $data->get('fullname'));

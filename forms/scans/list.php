@@ -22,7 +22,7 @@
             {{#each result}}
             <li data-id="{{.id}}" class="list-group-item">
                 <div><span class="badge badge-info">Сканов: {{.srclen}}</span> {{.fullname}} {{.phone}} {{.doc_sernum}}</div>
-                <div class="tx-12">{{.quote}}</div>
+                <div class="tx-12">{{.created}} {{.quotename}}</div>
                 <div class="tx-right pos-absolute t-10 r-10">
                     <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/scans/edit/{{.id}}','html':'#yongerscans modals'}"
                         class="d-inline">
@@ -72,7 +72,7 @@
     <script wb-app>
         var api = "/api/v2"
         var form = "scans"
-        var base = api + `/list/${form}?&operator=[,${wbapp._session.user.id}]&@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id,operator,quote`
+        var base = api + `/list/${form}?&operator=[,${wbapp._session.user.id}]&@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id,operator,quote,_created`
         var list = new Ractive({
             el: "#scansList",
             template: $("#scansList").html(),
