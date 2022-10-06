@@ -11,10 +11,10 @@ class scansClass extends cmsFormsClass
         echo $out->outer();
     }
 
-    public function afterItemRemove() {
+    public function afterItemRemove()
+    {
         // при удалении записи нужно обработать исключение
         // когда запись удаляется при переносе в docs
-
     }
 
     public function afterItemRead(&$item)
@@ -48,7 +48,8 @@ class scansClass extends cmsFormsClass
         $item['srclen'] = isset($item['sources']) ? count((array)$item['sources']) : 0;
     }
 
-    public function todocs() {
+    public function todocs()
+    {
         if ($this->app->vars('_post.id') > '') {
             $item=$this->app->itemRead('scans', $this->app->vars('_post.id'));
             $item['_form'] = $item['_table'] = 'docs';
@@ -58,8 +59,15 @@ class scansClass extends cmsFormsClass
             if ($item) {
                 $this->app->itemRemove('scans', $item['id']);
             }
+            // Отправляем сообщение клиенту
+            $tgbot = $this->app->moduleClass('tgbot');
+            $tgbot->chat_id = '120805934';
+            $tgbot->chat_id = $_ENV['chat_id'];
+            $tgbot->token = $_ENV['bot_id'];
+            $res = $tgbot->sendMessage('Ваш запрос принят в работу. Идентификатор заказа: '.$item['id']);
+            // =============================
             header("Content-type:application/json");
-            return ['error'=>false, 'msg'=>'', 'data'=>$item];
+            return ['error'=>false, 'msg'=>'', 'data'=>$item, 'bot'=>$res];
         } else {
             return ['error'=>true, 'msg'=>'Ошибка'];
         }
@@ -104,6 +112,4 @@ class scansClass extends cmsFormsClass
         header("Content-type:application/json");
         return ['msg'=>'scanblocks','blocks'=>array_keys($block['blocks'])];
     }
-
-
 }

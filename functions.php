@@ -2,6 +2,12 @@
 
 @include_once( __DIR__ . '/engine/modules/yonger/common/scripts/functions.php');
 
+        // Основной бот 5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc
+        // тестовый 1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0
+
+$_ENV['chat_id'] = "120805934";
+$_ENV['bot_id'] = '5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc';
+
 function dateform($date)
 {
     return date('d.m.Y', strtotime($date));
