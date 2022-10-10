@@ -105,7 +105,8 @@ class modDocs
 
 
     public function pay() {
-        
+        $data = ['get'=> $this->app->vars('_get'),'post'=> $this->app->vars('_post')];
+        file_put_contents(__DIR__.'/pay_'.date("j.n.Y").'.log', json_encode($data)."\n\r", FILE_APPEND);
     }
     public function senddoc()
     {

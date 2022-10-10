@@ -12,3 +12,4 @@ database/_settings.json
 database/scans.json
 database/users.json
 database/tmp.json
+database
