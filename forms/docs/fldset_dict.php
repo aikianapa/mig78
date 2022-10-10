@@ -1,9 +1,20 @@
 <html>
-    <div class="row">
-      <div class="col-sm-3">
-    <label class="form-control-label">Шаблон печатной формы</label>
+<div class="form-group row">
+    <label class="form-control-label col-3">Цена</label>
+    <div class="col-3">
+        <input type="text" class="form-control" name="price">
+    </div>
+    <label class="form-control-label col-3">Срок выполнения</label>
+    <div class="col-3">
+        <input type="text" class="form-control" name="price_period">
+    </div>
 </div>
-<div class="col-sm-9">
+
+<div class="row">
+    <div class="col-sm-3">
+        <label class="form-control-label">Шаблон печатной формы</label>
+    </div>
+    <div class="col-sm-9">
         <wb-module name="template" wb="{
         'module':'filepicker',
         'mode':'single',
@@ -13,16 +24,15 @@
         'ext': 'doc,docx,xls,xlsx',
         'path': '/tpl/docs'
     }" />
-</div>  
     </div>
+</div>
 
 <div class="divider-text">Наборы полей для заполнения</div>
-
 <div class="form-group col-12">
     <div class="row">
-    <label class="form-control-label col-6">Наименование набора полей</label>
-    <label class="form-control-label col-3">Префикс</label>
-    <label class="form-control-label col">Обязательное</label>
+        <label class="form-control-label col-6">Наименование набора полей</label>
+        <label class="form-control-label col-3">Префикс</label>
+        <label class="form-control-label col">Обязательное</label>
     </div>
     <wb-multiinput name="fields">
         <div class="col-10 mb-1 d-none">

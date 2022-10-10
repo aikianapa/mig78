@@ -103,6 +103,10 @@ class modDocs
         echo json_encode(['path'=>$pdf, 'doc'=>$uri, 'uri'=>$uri."?".wbNewId()]);
     }
 
+
+    public function pay() {
+        
+    }
     public function senddoc()
     {
         $data = $this->app->vars('_post');
@@ -115,8 +119,6 @@ class modDocs
         $tgbot = $this->app->moduleClass('tgbot');
         isset($_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
         $tgbot->token = $_ENV['bot_id'];
-
-
 
         $lang = 'ru';
 
