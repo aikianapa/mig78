@@ -118,7 +118,7 @@ class modDocs
         }
 
         $tgbot = $this->app->moduleClass('tgbot');
-        isset($_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
+        $tgbot->chat_id = $this->app->vars('_env.chat_id') > '' ? $this->app->vars('_env.chat_id') : $this->app->vars('_post.chat_id');
         $tgbot->token = $_ENV['bot_id'];
 
         $lang = 'ru';
