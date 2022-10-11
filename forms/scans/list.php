@@ -72,7 +72,7 @@
     <script wb-app>
         var api = "/api/v2"
         var form = "scans"
-        var base = api + `/list/${form}?&oper=[,${wbapp._session.user.id}]&@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id,oper,quote,_created`
+        var base = api + `/list/${form}?&@size=10&@sort=_created:d&@return=fullname,doc_sernum,srclen,id,oper,quote,_created`
         var list = new Ractive({
             el: "#scansList",
             template: $("#scansList").html(),
