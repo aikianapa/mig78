@@ -65,7 +65,7 @@
             </tr>
         </thead>
         <tbody id="docsList">
-            <wb-foreach wb="table=docs&sort=_created:d&bind=cms.list.docs&sort=_created:d&size={{_sett.page_size}}" wb-filter="operator={{_sess.user.id}}"
+            <wb-foreach wb="table=docs&sort=_created:d&bind=cms.list.docs&sort=_created:d&size={{_sett.page_size}}" wb-filter="oper={{_sess.user.id}}"
                 __wb-return="id;doc_num;doc_ser;date;@status;order;status;birth_date;fullname;_created;code;_id;_table;_form;_creator;_created;_role;_site"
                 wb-filter="{{_var.filter}}">
                 <tr wb-if="'{{_var.date}}'!=='{{date}}'" class="bg-transparent">

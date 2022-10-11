@@ -21,7 +21,7 @@
                     <input type="hidden" name="chat_id">
                     <input type="hidden" name="quote">
                     <input type="hidden" name="status">
-                    <input type="hidden" name="operator">
+                    <input type="hidden" name="oper">
                     <input type="hidden" name="document">
                     <input type="hidden" name="payed">
                     <div class="col-12">

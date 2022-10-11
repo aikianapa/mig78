@@ -82,6 +82,47 @@ class modDocs
                 $item['edu_'.$item['edu_high']] = 'X';
                 $item['edu_'.$item['edu_science']] = 'X';
                 break;
+            case 'rvp_quota':
+                $item['male'] = $item['female'] = '';
+                $item['gender'] == 'мужской' ? $item['male']     = 'X' : null;
+                $item['gender'] == 'женский' ? $item['female']   = 'X' : null;
+                $item['marital_y'] = $item['marital_n'] = $item['marital_d'] = $item['marital_o'] = '';
+                $item['marital_'.$item['marital']] = 'X';
+                $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
+                $item['ciexCountry'] = @$this->app->treeFindBranchById($ctrs, $item['ciexCountry'])['data']['fullname'];
+                $item['ciexPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexPlace'])['name'];
+
+                if ($item['ciexOutPlace'] > '') {
+                    if ($item['ciexOut_check'] =='X') {
+                        $item['ciexOut_check'] = "Без гражданства:";
+                    } else {
+                        $item['ciexOut_check'] = "Прекращено:";
+                    }
+                }
+                // Родственники
+                $item['fam_on'] = $item['fam_off'] = '';
+                $item['family'][0]['name'] > '' ? $item['fam_on'] = 'X' : $item['fam_off'] = 'X';
+                $item['fam_on'] == 'X' ? null : $item['family'] = [['stage'=>'','name'=>'','birth'=>'','citizen'=>'','address'=>'']];
+                
+                // Образование
+                $item['e1'] = $item['e2'] = $item['e3'] = $item['e4'] = $item['e5'] = $item['e6'] = '';
+                trim($item['education_out_text']) > ' ' ? $item['e1'] = 'X' : $item['e2'] = 'X';
+                trim($item['education_in_text']) > ' ' ? $item['e3'] = 'X' : null;
+                trim($item['education_end_text']) > ' ' ? $item['e4'] = 'X' : null;
+                trim($item['education_other_text']) > ' ' ? $item['e6'] = 'X' : null;
+                $item['e3'] == 'X' || $item['e4'] = 'X' ? $item['e5'] = '' : $item['e5'] = $item['education_off_check'];
+
+
+                $item['ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexOutPlace'])['name'];
+                $item['crim_on'] = $item['crim_off'] = '';
+                $item['crim_where'] > '' ? $item['crim_on'] = 'X' : $item['crim_off'] = 'X';
+                $item['edu_do'] = $item['edu_no'] = $item['edu_oo'] = $item['edu_so'] = '';
+                $item['edu_sp'] = $item['edu_bv'] = $item['edu_mv'] = $item['edu_kv'] = '';
+                $item['edu_ks'] = $item['edu_ds'] = '';
+                $item['edu_'.$item['edu_common']] = 'X';
+                $item['edu_'.$item['edu_high']] = 'X';
+                $item['edu_'.$item['edu_science']] = 'X';
+                break;
             default:
                 # code...
                 break;

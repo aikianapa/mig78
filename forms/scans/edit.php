@@ -17,7 +17,7 @@
                 <form class="row" method="post" id="{{_form}}EditForm">
                     <meta name="scan" content="{{_route.params.scan}}">
                     <input type="hidden" name="status" value='new' wb-if="'{{status}}'==''">
-                    <input type="hidden" name="operator" value='{{_sess.user.id}}' wb-if="'{{status}}'==''">
+                    <input type="hidden" name="oper" value='{{_sess.user.id}}' wb-if="'{{status}}'==''">
                     <input type="hidden" name="quote">
                     <input type="hidden" name="chat_id">
 

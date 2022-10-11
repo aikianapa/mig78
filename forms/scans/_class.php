@@ -62,7 +62,7 @@ class scansClass extends cmsFormsClass
             $item=$this->app->itemRead('scans', $this->app->vars('_post.id'));
             $item['_form'] = $item['_table'] = 'docs';
             $item['status'] = 'new';
-            $item['operator'] = $this->app->vars('_sess.user.id');
+            $item['oper'] = $this->app->vars('_sess.user.id');
             $item = $this->app->itemSave('docs', $item);
             if ($item) {
                 $this->app->itemRemove('scans', $item['id']);
