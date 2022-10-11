@@ -72,7 +72,7 @@
     <script>
         var api = "/api/v2"
         var form = "agents"
-        var base = api + `/list/${form}?&operator=[,${wbapp._session.user.id}]&@size=10&@sort=name`
+        var base = api + `/list/${form}?&@size=10&@sort=name`
         var list = new Ractive({
             el: "#{{_form}}List",
             template: $("#{{_form}}List").html(),
