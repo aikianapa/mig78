@@ -137,12 +137,17 @@ class docsClass extends cmsFormsClass
         return $item;
     }
 
-    public function getAddress($data, $prefix = null)
+    public function getFullname($item, $prefix = null)
     {
-        if (is_array($data)) {
-            $item = $data;
-            $data = $this->app->Dot($item);
-        }
+        $prefix = $prefix == null ? '' : $prefix.'_';
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
+        return implode(' ', [$data->get($prefix.'last_name'),$data->get($prefix.'first_name'),$data->get($prefix.'middle_name')]);
+    }
+
+    public function getAddress($item, $prefix = null)
+    {
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
+
         $prefix = $prefix == null ? '' : $prefix.'_';
         $region = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_region'));
         $distr = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_distr'));
@@ -167,14 +172,9 @@ class docsClass extends cmsFormsClass
         return implode(', ', $address);
     }
 
-    public function getPassport($data, $prefix = null)
+    public function getPassport($item, $prefix = null)
     {
-        
-        if (is_array($data)) {
-            $item = $data;
-            $data = $this->app->Dot($item);
-        }
-
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
         $prefix = $prefix == null ? '' : $prefix.'_';
         $passport = [];
         $data->get($prefix.'doc_type') > '' ? $passport[] = $data->get($prefix.'doc_type') : null;
@@ -199,10 +199,28 @@ class docsClass extends cmsFormsClass
         return implode(' ', $document);
     }
 
+    public function getPrevname($item, $prefix = null) {
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
+        $prevname = '';
+        $prevname = trim($this->getFullname($item, $prefix));
+        $prefix = $prefix == null ? '' : $prefix.'_';
+        if ($prevname > ' ') {
+            $prevname = "Прежнее имя: {$prevname}, причина смены: {$data->get($prefix.'input')}, дата смены: {$data->get($prefix.'date')}";
+        }
+        return $prevname;
+    }
+
     public function getCitizen($item, $prefix = null)
     {
         @$ctrs = $this->app->treeRead('countries')['tree']['data'];
         $fld= $prefix ? $prefix.'_citizen' : 'citizen';
+        return $this->app->treeFindBranchById($ctrs, $item[$fld])['data']['fullname'];
+    }
+
+    public function getCountry($item, $prefix = null)
+    {
+        @$ctrs = $this->app->treeRead('countries')['tree']['data'];
+        $fld= $prefix ? $prefix.'_country' : 'country';
         return $this->app->treeFindBranchById($ctrs, $item[$fld])['name'];
     }
 

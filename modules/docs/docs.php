@@ -39,6 +39,8 @@ class modDocs
         $path = $this->app->vars('_route.path_app').$uri;
 
         @$ctrs = $this->app->treeRead('countries')['tree']['data'];
+        @$locs = $this->app->treeRead('locations')['tree']['data'];
+
         if (@$req['data']['template'][0]['img'] > '') {
             $file = urldecode($req['data']['template'][0]['img']);
             $file = $this->app->vars('_route.path_app').$file;
@@ -85,6 +87,7 @@ class modDocs
                 $item['edu_'.$item['edu_science']] = 'X';
                 break;
             case 'rvp_quota':
+                $item['regionrf'] = @$this->app->treeFindBranchById($locs, $item['regionrf'])['name'];
                 $item['marital_y'] = $item['marital_n'] = $item['marital_d'] = $item['marital_o'] = '';
                 $item['marital_'.$item['marital']] = 'X';
                 $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
@@ -143,6 +146,8 @@ class modDocs
                 $item['prev_on'] = $item['prev_off'] = '';
                 $item['prev_text'] > '' ? $item['prev_on'] = 'X' : $item['prev_off'] = 'X';
                 // Законный представитель
+                $item['owner_prevname'] = $docs->getPrevname($item, 'ownoth');
+                $item['owner_fullname'] = $docs->getFullname($item, 'owner');
                 $item['owner_address'] = $docs->getAddress($item, 'owner');
                 $item['owner_doc'] = $docs->getPassport($item, 'owner');
                 $item['owner_gender'] = $item['owner_gender'] == "М" ? "мужской" : "женский";
