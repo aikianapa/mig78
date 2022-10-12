@@ -15,7 +15,7 @@
                 <input class="form-control" type="text" name="citizen" placeholder="Гражданство">
                 </div>
             <div class="col-12">
-                <input class="form-control" type="text" name="address" placeholder="Страна и адрес проживания">
+                <input class="form-control" type="text" name="address" placeholder="Адрес, место работы и пр...">
             </div>
         </wb-multiinput>
     </div>

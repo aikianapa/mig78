@@ -54,6 +54,11 @@ class modDocs
 
 
         $docs->beforeItemShow($item);
+
+                $item['male'] = $item['female'] = '';
+                $item['gender'] == 'мужской' ? $item['male']     = 'X' : null;
+                $item['gender'] == 'женский' ? $item['female']   = 'X' : null;
+
         switch ($this->post['quote']) {
             case 'regspr':
                 $item['doc_vnj'] = $docs->getDocument($item, 'vnj');
@@ -62,9 +67,6 @@ class modDocs
                 $docs->beforeItemShow($item);
                 break;
             case 'vnj':
-                $item['male'] = $item['female'] = '';
-                $item['gender'] == 'мужской' ? $item['male']     = 'X' : null;
-                $item['gender'] == 'женский' ? $item['female']   = 'X' : null;
                 $item['marital_y'] = $item['marital_n'] = $item['marital_d'] = $item['marital_o'] = '';
                 $item['marital_'.$item['marital']] = 'X';
                 $item['other_on'] = $item['other_off'] = '';
@@ -83,9 +85,6 @@ class modDocs
                 $item['edu_'.$item['edu_science']] = 'X';
                 break;
             case 'rvp_quota':
-                $item['male'] = $item['female'] = '';
-                $item['gender'] == 'мужской' ? $item['male']     = 'X' : null;
-                $item['gender'] == 'женский' ? $item['female']   = 'X' : null;
                 $item['marital_y'] = $item['marital_n'] = $item['marital_d'] = $item['marital_o'] = '';
                 $item['marital_'.$item['marital']] = 'X';
                 $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
@@ -103,7 +102,10 @@ class modDocs
                 $item['fam_on'] = $item['fam_off'] = '';
                 $item['family'][0]['name'] > '' ? $item['fam_on'] = 'X' : $item['fam_off'] = 'X';
                 $item['fam_on'] == 'X' ? null : $item['family'] = [['stage'=>'','name'=>'','birth'=>'','citizen'=>'','address'=>'']];
-                
+                // ----------- в РФ
+                $item['rf_famon'] = $item['rf_famoff'] = '';
+                $item['rf_family'][0]['rf_name'] > '' ? $item['rf_famon'] = 'X' : $item['rf_famoff'] = 'X';
+
                 // Образование
                 $item['e1'] = $item['e2'] = $item['e3'] = $item['e4'] = $item['e5'] = $item['e6'] = '';
                 trim($item['education_out_text']) > ' ' ? $item['e1'] = 'X' : $item['e2'] = 'X';
@@ -111,17 +113,40 @@ class modDocs
                 trim($item['education_end_text']) > ' ' ? $item['e4'] = 'X' : null;
                 trim($item['education_other_text']) > ' ' ? $item['e6'] = 'X' : null;
                 $item['e3'] == 'X' || $item['e4'] = 'X' ? $item['e5'] = '' : $item['e5'] = $item['education_off_check'];
-
-
-                $item['ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexOutPlace'])['name'];
+                // Работа
+                $item['jobon'] = '';
+                $item['joboff'] = 'X';
+                foreach($item['jobplace'] as &$job) {
+                    if ($job['date_in'] > ' ') {
+                        $item['joboff'] = '';
+                        $item['jobon'] = 'X';
+                        $job['date_in'] = date('m.Y', strtotime($job['date_in']));
+                        $job['date_out'] = date('m.Y', strtotime($job['date_out']));
+                    }
+                }
+                $item['jobskon'] = $item['jobskoff'] = '';
+                (trim($item['jobskill_text']) > ' ' ) ? $item['jobskon'] = 'X' : $item['jobskoff'] = 'X';
+                // Источники дохода
+                $item['incon'] = ''; $item['incoff'] = '';
+                (trim($item['incomes_text']) > ' ') ? $item['incon'] = 'X' : $item['incoff'] = 'X';
+                // Жильё в РФ
+                $item['propon'] = $item['propoff'] = '';
+                (trim($item['property_text']) > ' ') ? $item['propon'] = 'X' : $item['propoff'] = 'X';
+                // Судимость
                 $item['crim_on'] = $item['crim_off'] = '';
                 $item['crim_where'] > '' ? $item['crim_on'] = 'X' : $item['crim_off'] = 'X';
-                $item['edu_do'] = $item['edu_no'] = $item['edu_oo'] = $item['edu_so'] = '';
-                $item['edu_sp'] = $item['edu_bv'] = $item['edu_mv'] = $item['edu_kv'] = '';
-                $item['edu_ks'] = $item['edu_ds'] = '';
-                $item['edu_'.$item['edu_common']] = 'X';
-                $item['edu_'.$item['edu_high']] = 'X';
-                $item['edu_'.$item['edu_science']] = 'X';
+                // Административка
+                $item['admr_on'] = $item['admr_off'] = '';
+                $item['admresp_text'] > '' ? $item['admr_on'] = 'X' : $item['admr_off'] = 'X';
+                // 
+                trim($item['feedback_text']) > ' ' ? null : $item['feedback_text'] = $item['email'];
+                $item['prev_on'] = $item['prev_off'] = '';
+                $item['prev_text'] > '' ? $item['prev_on'] = 'X' : $item['prev_off'] = 'X';
+                // Законный представитель
+                $item['owner_address'] = $docs->getAddress($item, 'owner');
+                $item['owner_doc'] = $docs->getPassport($item, 'owner');
+                $item['owner_gender'] = $item['owner_gender'] == "М" ? "мужской" : "женский";
+                $item['owner_citizen'] = $docs->getCitizen($item, 'owner');
                 break;
             default:
                 # code...

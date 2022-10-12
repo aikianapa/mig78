@@ -127,6 +127,8 @@ class docsClass extends cmsFormsClass
                     $item[$fld] = wbDate('d.m.Y', $item[$fld]);
                 } elseif (strpos(' '.$fld, 'check') && $val == 'on') {
                     $item[$fld] = "X";
+                } elseif (strpos($fld, '_text')) {
+                    $item[$fld] = str_replace(array("\r\n","\n","\r"), "</w:t><w:br/><w:t>", $val);
                 } elseif (strpos(' '.$fld, 'money_cur')) {
                     $item[$fld] = $this->app->treeFindBranchById($this->mon, $item[$fld])['name'];
                 }
@@ -137,6 +139,10 @@ class docsClass extends cmsFormsClass
 
     public function getAddress($data, $prefix = null)
     {
+        if (is_array($data)) {
+            $item = $data;
+            $data = $this->app->Dot($item);
+        }
         $prefix = $prefix == null ? '' : $prefix.'_';
         $region = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_region'));
         $distr = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_distr'));
@@ -163,6 +169,12 @@ class docsClass extends cmsFormsClass
 
     public function getPassport($data, $prefix = null)
     {
+        
+        if (is_array($data)) {
+            $item = $data;
+            $data = $this->app->Dot($item);
+        }
+
         $prefix = $prefix == null ? '' : $prefix.'_';
         $passport = [];
         $data->get($prefix.'doc_type') > '' ? $passport[] = $data->get($prefix.'doc_type') : null;
@@ -187,6 +199,12 @@ class docsClass extends cmsFormsClass
         return implode(' ', $document);
     }
 
+    public function getCitizen($item, $prefix = null)
+    {
+        @$ctrs = $this->app->treeRead('countries')['tree']['data'];
+        $fld= $prefix ? $prefix.'_citizen' : 'citizen';
+        return $this->app->treeFindBranchById($ctrs, $item[$fld])['name'];
+    }
 
     public function getArrOutgoing($item, $prefix = null)
     {
@@ -266,7 +284,7 @@ class docsClass extends cmsFormsClass
                 }
             }
             if ($item['prefix'] > '') {
-                $flds = $fldset->find('input,textarea,select');
+                $flds = $fldset->find('input,textarea,select,wb-multiinput');
                 foreach ($flds as $fld) {
                     $name = $item['prefix']. '_' . $fld->attr('name');
                     $fld->attr('name', $name);
