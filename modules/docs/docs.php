@@ -26,6 +26,13 @@ class modDocs
         }
     }
 
+    function reqlist() {
+        $req = $this->app->treeRead('reqlist')['tree']['data'];
+        foreach($req as $id => $item) {
+            wbItemSave('reqlist', $item);
+        }
+    }
+
     public function quote()
     {
         if ($this->post['quote'] == '') {
