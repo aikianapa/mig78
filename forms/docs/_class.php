@@ -9,9 +9,9 @@ class docsClass extends cmsFormsClass
 
         public function list()
     {
-        $req = $this->app->treeRead('reqlist')['tree']['data'];
+        $req = $this->app->itemList('reqlist')['list'];
         foreach($req as $r) {
-            $this->app->d_reqlist[r['id']] = $r['name'];
+            $this->app->d_reqlist[$r['id']] = $r['name'];
         }
         $out = $this->app->fromFile(__DIR__.'/list.php');
         $out->fetch();
@@ -50,7 +50,6 @@ class docsClass extends cmsFormsClass
         // wbItemRemove('scans',$item['id']);
     }
 
-
     public function afterItemRead(&$item)
     {
         $item ? null : $item=(array)$item;
@@ -66,35 +65,23 @@ class docsClass extends cmsFormsClass
         if ($data->get('fullname') == '' && $data->get('first_name')>'') {
             $data->set('fullname', implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]));
         } else if ($data->get('fullname') > '' && $data->get('first_name') == '') {
-            $tmp = explode(' ', trim($data->get('fullname')));
-            if (count($tmp) == 1) $data->get('first_name', $tmp[0]);
-            if (count($tmp) == 2) {
-                $data->get('first_name', $tmp[0]);
-                $data->get('second_name', $tmp[1]);
-            }
-            if (count($tmp) > 2) {
-                $data->get('first_name', $tmp[1]);
-                $data->get('second_name', $tmp[0]);
-                unset($tmp[1]);
-                unset($tmp[0]);
-                $data->get('second_name', trim(implode(' ',$tmp)));
-            }
+            $this->getNames($item);
         }
         $fullname = implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]);
         if ($data->get('fullname') > '' && $fullname !== $data->get('fullname')) {
-            $tmp = explode(' ', $data->get('fullname'));
-            isset($tmp[0]) ? $data->set('last_name', $tmp[0]) : $data->set('last_name', '');
-            isset($tmp[1]) ? $data->set('first_name', $tmp[1]) : $data->set('first_name', '');
-            $middlename = '';
-            foreach ($tmp as $i => $v) {
-                if ($i>1) {
-                    $middlename .= $v.' ';
-                }
-            }
-            $data->set('middle_name', trim($middlename));
+            $this->getnames($item);
         }
+        if ($this->app->vars('_route.mode') == 'fldsetgen') {
+            $item = $this->beforeItemEdit($item);
+        }
+    }
 
-
+    public function beforeItemEdit(&$item) {
+        $data = $this->app->Dot($item);
+        if ($data->get('quote') == 'zayavl_rvp') {
+            $this->getNames($item, 'rus');
+        }
+        return $item;
     }
 
     public function beforeItemShow(&$item)
@@ -151,6 +138,31 @@ class docsClass extends cmsFormsClass
         return $item;
     }
 
+    public function getNames(&$item, $prefix = null) {
+        $prefix = $prefix == null ? '' : $prefix.'_';
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
+        if ($data->get('fullname') > '' && $data->get($prefix.'first_name') == '') {
+            $tmp = explode(' ', trim($data->get('fullname')));
+            if (count($tmp) == 1) {
+                $data->set($prefix.'first_name', $tmp[0]);
+            } else if (count($tmp) == 2) {
+                $data->set($prefix.'first_name', $tmp[0]);
+                $data->set($prefix.'last_name', $tmp[1]);
+            } else if (count($tmp) > 2) {
+                $data->set($prefix.'first_name', $tmp[1]);
+                $data->set($prefix.'last_name', $tmp[0]);
+                unset($tmp[1]);
+                unset($tmp[0]);
+                $data->set($prefix.'middle_name', trim(implode(' ', $tmp)));
+            }
+        }
+        return [
+            $prefix.'first_name'=>$data->get($prefix.'first_name'),
+            $prefix.'last_name'=>$data->get($prefix.'last_name'),
+            $prefix.'middle_name'=>$data->get($prefix.'middle_name'),
+        ];
+    }
+
     public function getFullname($item, $prefix = null)
     {
         $prefix = $prefix == null ? '' : $prefix.'_';
@@ -192,7 +204,7 @@ class docsClass extends cmsFormsClass
         $prefix = $prefix == null ? '' : $prefix.'_';
         $passport = [];
         $data->get($prefix.'doc_type') > '' ? $passport[] = $data->get($prefix.'doc_type') : null;
-        $data->get($prefix.'doc_ser') > '' ? $passport[] = 'серия '. $data->get($prefix.'doc_ser') : null;
+        $data->get($prefix.'doc_ser') > '' ? $passport[] = ' '. $data->get($prefix.'doc_ser') : null;
         $data->get($prefix.'doc_num') > '' ? $passport[] = '№ '. $data->get($prefix.'doc_num') : null;
         $data->get($prefix.'doc_date') > '' ? $passport[] = 'выдан '. $data->get($prefix.'doc_date') : null;
         $data->get($prefix.'doc_who') > '' ? $passport[] = $data->get($prefix.'doc_who') : null;
@@ -213,6 +225,17 @@ class docsClass extends cmsFormsClass
         return implode(' ', $document);
     }
 
+    public function getCriminal($item, $prefix = null)
+    {
+        $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
+        $prefix = $prefix == null ? '' : $prefix.'_';
+        $document = [];
+        $data->get($prefix.'crim_when') > '' ? $document[] = $data->get($prefix.'crim_when') : null;
+        $data->get($prefix.'crim_period') > '' ? $document[] = ', срок '. $data->get($prefix.'crim_period') : null;
+        $data->get($prefix.'crim_date') > '' ? $document[] = ', отбыл '. $data->get($prefix.'crim_date') : null;
+        return trim(implode(' ', $document));
+    }
+
     public function getPrevname($item, $prefix = null) {
         $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
         $prevname = '';
@@ -230,7 +253,6 @@ class docsClass extends cmsFormsClass
         $fld= $prefix ? $prefix.'_citizen' : 'citizen';
         return $this->app->treeFindBranchById($ctrs, $item[$fld])['data']['fullname'];
     }
-
     public function getCountry($item, $prefix = null)
     {
         @$ctrs = $this->app->treeRead('countries')['tree']['data'];
@@ -292,12 +314,12 @@ class docsClass extends cmsFormsClass
     {
         $path = $this->app->route->path_app.'/blocks/fldset';
         @$name = $this->app->route->item;
-        @$docs = $this->app->treeRead('reqlist')['tree']['data'];
+        @$docs = $this->app->itemList('reqlist')['list'];
         @$scid = $this->app->vars('_post.scan_id');
         @$data = $this->app->itemRead('docs', $scid);
         $doc = $this->app->treeFindBranchById($docs, $name);
         $result = '';
-        foreach ($doc['data']['fields'] as $i => &$item) {
+        foreach ($doc['fields'] as $i => &$item) {
             $fname = $path.'/'.$item['fldset'].'.php';
             $fldset = $this->app->fromFile($fname);
             if ($item['required'] == 'on') {

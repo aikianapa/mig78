@@ -27,13 +27,13 @@ class modDocs
     }
 
     function reqlist() {
-        $req = $this->app->treeRead('reqlist')['tree']['data'];
+        $req = $this->app->itemList('reqlist')['list'];
         foreach($req as $id => $item) {
             
             wbItemSave('reqlist', [
                 'id'=> $item['id'],
-                'doc'=>$item['data']['doc'],
-                'safepay' => $item['data']['safepay'],
+                'doc'=>$item['doc'],
+                'safepay' => $item['safepay'],
                 'data'=>''
             ]);
         }
@@ -45,17 +45,17 @@ class modDocs
             return;
         }
 
-        @$req = $this->app->treeRead('reqlist')['tree']['data'];
-        $req = $this->app->treeFindBranchById($req, $this->post['quote']);
+        @$req = $this->app->itemRead('reqlist',$this->post['quote'])['list'];
         $docs = $this->app->formClass('docs');
         $uri = "/uploads/docs";
         $path = $this->app->vars('_route.path_app').$uri;
 
         @$ctrs = $this->app->treeRead('countries')['tree']['data'];
         @$locs = $this->app->treeRead('locations')['tree']['data'];
+        @$mari = $this->app->treeRead('marital_status')['tree']['data'];
 
-        if (@$req['data']['template'][0]['img'] > '') {
-            $file = urldecode($req['data']['template'][0]['img']);
+        if (@$req['template'][0]['img'] > '') {
+            $file = urldecode($req['template'][0]['img']);
             $file = $this->app->vars('_route.path_app').$file;
         } else {
             $file = $this->app->vars('_route.path_app').'/tpl/docs/'.$this->post['quote'].'.docx';
@@ -166,6 +166,15 @@ class modDocs
                 $item['owner_gender'] = $item['owner_gender'] == "М" ? "мужской" : "женский";
                 $item['owner_citizen'] = $docs->getCitizen($item, 'owner');
                 break;
+            case 'zayavl_rvp':
+                $item['prevname'] = $docs->getPrevname($item, 'other');
+                $item['passport'] = $docs->getPassport($item);
+                $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
+                // Гражданство
+                $item['citizen'] = $docs->getCitizen($item);
+                $item['marital'] = @$this->app->treeFindBranchById($mari, $item['marital'])['name'];
+                $item['criminal'] = $docs->getCriminal($item);
+
             default:
                 # code...
                 break;

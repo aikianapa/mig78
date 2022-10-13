@@ -83,7 +83,7 @@
                         <small>{{birth_date}}</small>
                     </td>
                     <td>{{doc_ser}} №{{doc_num}}</td>
-                    <td wb-tree="dict=reqlist&branch={{quote}}">{{name}}</td>
+                    <td>{{quotename}}</td>
                     <td>
                         <img data-src="/module/myicons/thunder-lightning-circle.1.svg?size=24&stroke=666666" wb-if="'{{status}}' == 'new'">
                         <img data-src="/module/myicons/loading-checkmark-status-circle.svg?size=24&stroke=ffc107" wb-if="'{{status}}' == 'progress'">

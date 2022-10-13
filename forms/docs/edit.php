@@ -1,6 +1,6 @@
 <html>
-<div class="modal fade effect-scale show removable" id="modaldocsEdit" data-keyboard="false" data-backdrop="static" tabindex="-1"
-    role="dialog" aria-hidden="true" data-id="{{id}}" wb-allow="admin,oper">
+<div class="modal fade effect-scale show removable" id="modaldocsEdit" data-keyboard="false" data-backdrop="static"
+    tabindex="-1" role="dialog" aria-hidden="true" data-id="{{id}}" wb-allow="admin,oper">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header row">
@@ -12,7 +12,8 @@
                     <button class="btn btn-secondary d-none" type="button" id="sendDemo">Отправить демо</button>
                     <button class="btn btn-info d-none" type="button" id="sendReady">Отправить документ</button>
                 </div>
-                <i class="fa fa-close r-20 position-absolute cursor-pointer" data-dismiss="modal" aria-label="Close"></i>
+                <i class="fa fa-close r-20 position-absolute cursor-pointer" data-dismiss="modal"
+                    aria-label="Close"></i>
             </div>
             <div class="modal-body pd-20">
                 <form class="row" method="post" id="{{_form}}EditForm">
@@ -26,7 +27,9 @@
                     <input type="hidden" name="payed">
                     <div class="col-12">
                         <div class="form-group">
-                            <h3 wb-tree="dict=reqlist&branch={{quote}}">{{name}}</h3>
+                            <wb-data wb="table=reqlist&item={{quote}}">
+                                <h3>{{name}}</h3>
+                            </wb-data>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 form-control-label">Документ готов (демо версия)</label>
@@ -45,16 +48,17 @@
 
                     </div>
 
-                    <script wbapp>
-                        $('#{{_form}}EditForm [name=quote]').one('change', function() {
-                            let scan_id = "{{id}}"
-                            wbapp.post('/form/docs/fldsetgen/' + $(this).val(), {
-                                scan_id: scan_id
-                            }, function(res) {
-                                $('#{{_form}}EditForm .form-content').html(res);
-                                wbapp.init();
-                            });
-                        }).trigger('change')
+                    <script>
+                    $(document).ready(function() {
+                        var did = "{{id}}"
+                        wbapp.post('/form/docs/fldsetgen/' + $('#{{_form}}EditForm [name=quote]').val(), {
+                            scan_id: did
+                        }, function(res) {
+                            $('#{{_form}}EditForm .form-content').html(res);
+                            wbapp.init();
+                        });
+
+                        $('#{{_form}}EditForm [name=quote]').trigger('change')
                         $('#modaldocsEdit #exportPDF').off('click');
                         $('#modaldocsEdit #exportPDF').on('click', function() {
                             let data = $('#{{_form}}EditForm').serializeJson();
@@ -80,9 +84,13 @@
                                 if (res.ok == true) {
                                     $('#{{_form}}EditForm [name=status]').val('preview');
                                     $('#modaldocsEdit .btn-save').trigger('click');
-                                    wbapp.toast('Ошибка', 'Документ успешно отправлен',{bgcolor: 'success'});
+                                    wbapp.toast('Ошибка', 'Документ успешно отправлен', {
+                                        bgcolor: 'success'
+                                    });
                                 } else {
-                                    wbapp.toast('Ошибка', 'Не удалось отправить документ',{bgcolor: 'warning'});
+                                    wbapp.toast('Ошибка', 'Не удалось отправить документ', {
+                                        bgcolor: 'warning'
+                                    });
                                 }
                             })
                         })
@@ -96,6 +104,7 @@
 
                             }
                         })
+                    })
                     </script>
 
                 </form>
@@ -119,22 +128,23 @@
     </div>
 </div>
 <style>
-    @media screen and (min-width: 1350px) {
-        .row.photoswipe {
-            position: fixed;
-            top: 0;
-            left: -81px;
-            height: 100vh;
-            width: 100px;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            display: block;
-        }
-        .row.photoswipe img {
-            margin-bottom: 10px;
-        }
-
+@media screen and (min-width: 1350px) {
+    .row.photoswipe {
+        position: fixed;
+        top: 0;
+        left: -81px;
+        height: 100vh;
+        width: 100px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
     }
+
+    .row.photoswipe img {
+        margin-bottom: 10px;
+    }
+
+}
 </style>
 
 </html>
