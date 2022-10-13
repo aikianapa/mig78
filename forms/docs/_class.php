@@ -65,6 +65,20 @@ class docsClass extends cmsFormsClass
 
         if ($data->get('fullname') == '' && $data->get('first_name')>'') {
             $data->set('fullname', implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]));
+        } else if ($data->get('fullname') > '' && $data->get('first_name') == '') {
+            $tmp = explode(' ', trim($data->get('fullname')));
+            if (count($tmp) == 1) $data->get('first_name', $tmp[0]);
+            if (count($tmp) == 2) {
+                $data->get('first_name', $tmp[0]);
+                $data->get('second_name', $tmp[1]);
+            }
+            if (count($tmp) > 2) {
+                $data->get('first_name', $tmp[1]);
+                $data->get('second_name', $tmp[0]);
+                unset($tmp[1]);
+                unset($tmp[0]);
+                $data->get('second_name', trim(implode(' ',$tmp)));
+            }
         }
         $fullname = implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]);
         if ($data->get('fullname') > '' && $fullname !== $data->get('fullname')) {
