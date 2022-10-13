@@ -29,7 +29,13 @@ class modDocs
     function reqlist() {
         $req = $this->app->treeRead('reqlist')['tree']['data'];
         foreach($req as $id => $item) {
-            wbItemSave('reqlist', $item);
+            
+            wbItemSave('reqlist', [
+                'id'=> $item['id'],
+                'doc'=>$item['data']['doc'],
+                'safepay' => $item['data']['safepay'],
+                'data'=>''
+            ]);
         }
     }
 

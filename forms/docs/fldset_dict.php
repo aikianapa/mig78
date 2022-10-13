@@ -27,6 +27,31 @@
     </div>
 </div>
 
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">Безопасная сделка</label>
+    <div class="col-sm-9">
+        <input name="safepay" wb-module="module=switch" />
+    </div>
+</div>
+
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">Документы</label>
+    <div class="col-sm-9">
+        <select name="doc" multiple class="form-control select2" wb-module="select2" wb-tree="dict=doc_types">
+            <option value="{{id}}">{{name}}</option>
+        </select>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">Документы (опционально)</label>
+    <div class="col-sm-9">
+        <select name="doc_opt" multiple class="form-control select2" wb-module="select2" wb-tree="dict=doc_types">
+            <option value="{{id}}">{{name}}</option>
+        </select>
+    </div>
+</div>
+
 <div class="divider-text">Наборы полей для заполнения</div>
 <div class="form-group col-12">
     <div class="row">
