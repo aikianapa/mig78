@@ -37,9 +37,7 @@
                                 <input placeholder="Наименование" class="form-control" type="text" name="name" required>
                             </div>
                         </div>
-
                         <wb-include wb-src="/forms/docs/fldset_dict.php"></wb-include>
-
                     </div>
 
                 </form>

@@ -28,7 +28,11 @@
         <ul class="list-group">
             {{#each result}}
             <li data-id="{{.id}}" class="list-group-item">
-                <div>{{.name}}</div>
+                <div>
+                    <span class="badge badge-light badge-sm wd-20 mr-2 d-none d-sm-inline">{{.flds}}</span>
+                    <span class="d-inline-block wd-100p wd-sm-70p">{{.name}}</span>
+                    <span class="pos-absolute r-100">{{.id}}</span>
+                </div>
                 <div class="tx-12">{{.phone}}</div>
                 <div class="tx-right pos-absolute t-10 r-10">
                     <a href="javascript:"
@@ -90,7 +94,7 @@
     <script>
     var api = "/api/v2"
     var form = "reqlist"
-    var base = api + `/list/${form}?&@size=10&@sort=name`
+    var base = api + `/list/${form}?&@size=999&@sort=name`
     var list = new Ractive({
         el: "#{{_form}}List",
         template: $("#{{_form}}List").html(),
