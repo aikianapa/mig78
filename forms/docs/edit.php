@@ -48,8 +48,9 @@
 
                     </div>
 
-                    <script>
+                    <script wbapp>
                     $(document).ready(function() {
+                        wbapp.loadScripts(["/engine/modules/datetimepicker/datetimepicker.js"],"datatimepicker-js",function(){
                         var did = "{{id}}"
                         wbapp.post('/form/docs/fldsetgen/' + $('#{{_form}}EditForm [name=quote]').val(), {
                             scan_id: did
@@ -80,7 +81,6 @@
                                 'id': $('#{{_form}}EditForm [name=id]').val(),
                                 'demo': true
                             }, function(res) {
-
                                 if (res.ok == true) {
                                     $('#{{_form}}EditForm [name=status]').val('preview');
                                     $('#modaldocsEdit .btn-save').trigger('click');
@@ -104,6 +104,7 @@
 
                             }
                         })
+                    })
                     })
                     </script>
 

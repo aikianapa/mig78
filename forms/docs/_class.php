@@ -319,6 +319,7 @@ class docsClass extends cmsFormsClass
         @$data = $this->app->itemRead('docs', $scid);
         $doc = $this->app->treeFindBranchById($docs, $name);
         $result = '';
+        $repl = [];
         foreach ($doc['fields'] as $i => &$item) {
             $fname = $path.'/'.$item['fldset'].'.php';
             $fldset = $this->app->fromFile($fname);
@@ -340,8 +341,10 @@ class docsClass extends cmsFormsClass
             if ($item['prefix'] > '') {
                 $flds = $fldset->find('input,textarea,select,wb-multiinput');
                 foreach ($flds as $fld) {
-                    $name = $item['prefix']. '_' . $fld->attr('name');
-                    $fld->attr('name', $name);
+                    $name = $fld->attr('name');
+                    $newname = $item['prefix']. '_' . $name;
+                    $fld->attr('name', $newname);
+                    $repl[] = ['nm'=>$name, 'nn' => $newname];
                 }
             }
             if ($fldset) {
@@ -349,6 +352,11 @@ class docsClass extends cmsFormsClass
                 $result .= "\n\r".$fldset->html();
             }
         }
+
+            foreach ($repl as $name => $val) {
+                $result = str_replace("[name={$val['nm']}]", "[name={$val['nn']}]", $result);
+            }
+
         echo $result;
     }
 }
