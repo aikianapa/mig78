@@ -16,7 +16,7 @@
                     aria-label="Close"></i>
             </div>
             <div class="modal-body pd-20">
-                <form class="row" method="post" id="{{_form}}EditForm">
+                <form class="row" method="post" id="{{_form}}EditForm" autocomplete="off">
                     <meta name="scan" content="{{_route.params.scan}}">
                     <input type="hidden" name="id">
                     <input type="hidden" name="chat_id">

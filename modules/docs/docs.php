@@ -174,21 +174,27 @@ class modDocs
                 $item['citizen'] = $docs->getCitizen($item);
                 $item['marital'] = @$this->app->treeFindBranchById($mari, $item['marital'])['name'];
                 $item['criminal'] = $docs->getCriminal($item);
-
+                $item['basis_year'] == '' ? $item['basis_year'] = date('Y') : null;
+                $item['basis_quote_on'] = 'в пределах квоты, установленон на '.$item['basis_year'].' год';
+                $item['basis_quote_off'] = 'без учета квоты';
+                if ($item['basis_check'] == 'X') {
+                    $item['basis_quote_off'] = $this->setStyle($item['basis_quote_off'], 'strike');
+                } else {
+                    $item['basis_quote_on'] = $this->setStyle($item['basis_quote_on'], 'strike');
+                }
             default:
                 # code...
                 break;
         }
-
-
         $fields = $tpl->getVariables();
         foreach ($item as $fld => $val) {
             if (in_array($fld, $fields)) {
                 (array)$val === $val ? $tpl->cloneRowAndSetValues($fld, $val) : $tpl->setValue($fld, $val);
             }
         }
-
         $tpl->saveAs($doc);
+                \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+
         unlink($pdf);
         exec('export HOME='.$path.' && lowriter  --headless  --convert-to pdf --outdir '.$path.' '.$doc);
         unlink($doc);
@@ -196,6 +202,9 @@ class modDocs
         echo json_encode(['path'=>$pdf, 'doc'=>$uri, 'uri'=>$uri."?".wbNewId()]);
     }
 
+    public function setStyle($val, $style) {
+        return $val = "</w:t></w:r><w:r><w:rPr><w:{$style}/></w:rPr><w:t xml:space='preserve'>".$val."</w:t></w:r><w:r><w:t>";
+    }
 
     public function pay() {
         $data = ['get'=> $this->app->vars('_get'),'post'=> $this->app->vars('_post')];
