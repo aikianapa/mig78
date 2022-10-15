@@ -2,11 +2,11 @@
 <div class="form-group row">
     <label class="form-control-label col-3">Цена</label>
     <div class="col-3">
-        <input type="text" class="form-control" name="data.price">
+        <input type="text" class="form-control" name="price">
     </div>
     <label class="form-control-label col-3">Срок выполнения</label>
     <div class="col-3">
-        <input type="text" class="form-control" name="data.price_period">
+        <input type="text" class="form-control" name="price_period">
     </div>
 </div>
 
@@ -27,6 +27,31 @@
     </div>
 </div>
 
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">Безопасная сделка</label>
+    <div class="col-sm-9">
+        <input name="safepay" wb-module="module=switch" />
+    </div>
+</div>
+
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">Документы</label>
+    <div class="col-sm-9">
+        <select name="doc" multiple class="form-control select2" wb-select2 wb-tree="dict=doc_types">
+            <option value="{{id}}">{{name}}</option>
+        </select>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">Документы (опционально)</label>
+    <div class="col-sm-9">
+        <select name="doc_opt" multiple class="form-control" wb-select2 wb-tree="dict=doc_types">
+            <option value="{{id}}">{{name}}</option>
+        </select>
+    </div>
+</div>
+
 <div class="divider-text">Наборы полей для заполнения</div>
 <div class="form-group col-12">
     <div class="row">
@@ -34,22 +59,21 @@
         <label class="form-control-label col-3">Префикс</label>
         <label class="form-control-label col">Обязательное</label>
     </div>
-    <wb-multiinput name="data.fields">
+    <wb-multiinput id="fieldsetMultiinput" name="fields">
         <div class="col-10 mb-1 d-none">
             <input type="text" class="form-control" name="label" placeholder="Заголовок поля">
         </div>
         <div class="col-6">
-            <select name="fldset" class="form-control" wb-select2 placeholder="Набор полей">
-                <wb-foreach wb="ajax=/form/docs/fldsetsel&tpl=false">
-                    <option value="{{name}}">{{header}}</option>
-                </wb-foreach>
+            <select name="fldset" class="form-control fldset" wb-select2 value="{{fldset}}" placeholder="Набор полей">
+                <option value=""></option>
             </select>
         </div>
         <div class="col-4">
             <div class="input-group">
                 <input type="text" class="form-control" name="prefix">
                 <div class="input-group-append">
-                    <span class="input-group-text" onclick="$(this).parents('.wb-multiinput-row').find('.col-10').toggleClass('d-none')">></span>
+                    <span class="input-group-text"
+                        onclick="$(this).parents('.wb-multiinput-row').find('.col-10').toggleClass('d-none')">></span>
                 </div>
             </div>
         </div>
@@ -58,5 +82,29 @@
         </div>
     </wb-multiinput>
 </div>
+
+<script wb-app>
+
+wbapp.get('/form/docs/fldsetsel', function(res) {
+        let data = res;
+        let addOpt = function(select, item) {
+            let value = $(select).attr('value')
+            let selected = ''
+            value == item.name ? selected = 'selected' : selected = ''
+            $(select).append(`<option value="${item.name}" ${selected}>${item.header}</option>`);
+        }
+        $.each(data,function(i, item){
+            $('select.fldset').each(function(){
+                addOpt(this, item)
+            })
+        })
+        $('#fieldsetMultiinput').off('multiinput_after_add');
+        $('#fieldsetMultiinput').on('multiinput_after_add',function(ev,line){
+            let select = $(line).find('select.fldset');
+            $.each(data,function(i, item){
+                addOpt(select, item)
+            })
+        })
+})
 
 </html>

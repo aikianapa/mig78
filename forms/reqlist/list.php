@@ -31,9 +31,9 @@
                 <div>
                     <span class="badge badge-light badge-sm wd-20 mr-2 d-none d-sm-inline-block">{{.flds}}</span>
                     <span class="d-inline-block wd-100p wd-sm-70p">{{.name}}</span>
+                    {{tags}}
                     <span class="pos-absolute r-100">{{.id}}</span>
                 </div>
-                <div class="tx-12">{{.phone}}</div>
                 <div class="tx-right pos-absolute t-10 r-10">
                     <a href="javascript:"
                         data-ajax="{'url':'/cms/ajax/form/reqlist/edit/{{.id}}','html':'#yongerReqlist modals'}"
@@ -94,7 +94,7 @@
     <script>
     var api = "/api/v2"
     var form = "reqlist"
-    var base = api + `/list/${form}?&@size=999&@sort=name`
+    var base = api + `/list/${form}?&@size=9999&@sort=_sort`
     var list = new Ractive({
         el: "#{{_form}}List",
         template: $("#{{_form}}List").html(),
@@ -112,6 +112,16 @@
                     list.set("pagination", data.pagination);
                     list.set("page", data.page);
                     list.set("pages", data.pages);
+                    $('#{{_form}}List .list-group').sortable({
+                        update: function(ev, line) {
+                            line = line.item
+                            let data = {}
+                            data.curr = {id: $(line).data('id'), 'sort':$(line).index()}
+                            data.next = {id: $(line).next().data('id'), 'sort':$(line).next().index()}
+                            data.prev = {id: $(line).prev().data('id'), 'sort':$(line).prev().index()}
+                            wbapp.post(`/api/v2/func/reqlist/sort`, data)
+                        }
+                    });
                 })
             },
             switch(ev) {
