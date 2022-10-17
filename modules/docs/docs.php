@@ -26,19 +26,6 @@ class modDocs
         }
     }
 
-    function reqlist() {
-        $req = $this->app->itemList('reqlist')['list'];
-        foreach($req as $id => $item) {
-            
-            wbItemSave('reqlist', [
-                'id'=> $item['id'],
-                'doc'=>$item['doc'],
-                'safepay' => $item['safepay'],
-                'data'=>''
-            ]);
-        }
-    }
-
     public function quote()
     {
         if ($this->post['quote'] == '') {
