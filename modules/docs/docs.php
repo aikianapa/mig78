@@ -203,6 +203,8 @@ class modDocs
                 $item['parentprev'] = $docs->getPrevname($item, 'parentprev');
                 $item['parent_passport'] =$docs->getPassport($item, 'parent');
                 $item['parent_birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['parent_birth_country'])['name'];
+                $item['parent_gender'] = $item['parent_gender'] == "М" ? "мужской" : "женский";
+
                 $item['rvp'] = $docs->getDocument($item, 'rvp');
                 $item['vnj'] = $docs->getDocument($item, 'vnj');
                 $who = explode('/', 'сыну/дочери/усыновленному ребенку/лицу');

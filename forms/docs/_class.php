@@ -322,34 +322,37 @@ class docsClass extends cmsFormsClass
         $repl = [];
         foreach ($doc['fields'] as $i => &$item) {
             $fname = $path.'/'.$item['fldset'].'.php';
-            $fldset = $this->app->fromFile($fname);
-            if ($item['required'] == 'on') {
-                $fldset->find('input')->find('input:not([type=hidden]):not([optional])')->attr('required', true);
-                $fldset->find('textarea')->find('textarea:not([type=hidden]):not([optional])')->attr('required', true);
-                $fldset->find('select')->find('select:not([type=hidden]):not([optional])')->attr('required', true);
-            }
-            if ($item['label'] > '') {
-                if ($fldset->find('input,textarea,select')->length == 1 or $fldset->find('label')->length == 1) {
-                    $fldset->find('label')->inner($item['label']);
-                    if ($fldset->find('label')->length !== 1) {
-                        $fldset->find('[placeholder]')->attr('placeholder', $item['label']);
+
+            if (is_file($fname)) {
+                $fldset = $this->app->fromFile($fname);
+                if ($item['required'] == 'on') {
+                    $fldset->find('input')->find('input:not([type=hidden]):not([optional])')->attr('required', true);
+                    $fldset->find('textarea')->find('textarea:not([type=hidden]):not([optional])')->attr('required', true);
+                    $fldset->find('select')->find('select:not([type=hidden]):not([optional])')->attr('required', true);
+                }
+                if ($item['label'] > '') {
+                    if ($fldset->find('input,textarea,select')->length == 1 or $fldset->find('label')->length == 1) {
+                        $fldset->find('label')->inner($item['label']);
+                        if ($fldset->find('label')->length !== 1) {
+                            $fldset->find('[placeholder]')->attr('placeholder', $item['label']);
+                        }
+                    } else {
+                        $fldset->find('fieldset')->prepend('<div class="divider-text col-12">'.$item['label'].'</div>');
                     }
-                } else {
-                    $fldset->find('fieldset')->prepend('<div class="divider-text col-12">'.$item['label'].'</div>');
                 }
-            }
-            if ($item['prefix'] > '') {
-                $flds = $fldset->find('input,textarea,select,wb-multiinput');
-                foreach ($flds as $fld) {
-                    $name = $fld->attr('name');
-                    $newname = $item['prefix']. '_' . $name;
-                    $fld->attr('name', $newname);
-                    $repl[] = ['nm'=>$name, 'nn' => $newname];
+                if ($item['prefix'] > '') {
+                    $flds = $fldset->find('input,textarea,select,wb-multiinput');
+                    foreach ($flds as $fld) {
+                        $name = $fld->attr('name');
+                        $newname = $item['prefix']. '_' . $name;
+                        $fld->attr('name', $newname);
+                        $repl[] = ['nm'=>$name, 'nn' => $newname];
+                    }
                 }
-            }
-            if ($fldset) {
-                $fldset->fetch($data);
-                $result .= "\n\r".$fldset->html();
+                if ($fldset) {
+                    $fldset->fetch($data);
+                    $result .= "\n\r".$fldset->html();
+                }
             }
         }
 

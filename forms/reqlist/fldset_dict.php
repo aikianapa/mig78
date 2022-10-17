@@ -98,6 +98,8 @@ wbapp.get('/form/docs/fldsetsel', function(res) {
                 addOpt(this, item)
             })
         })
+        $('#fieldsetMultiinput').store()
+
         $('#fieldsetMultiinput').off('multiinput_after_add');
         $('#fieldsetMultiinput').on('multiinput_after_add',function(ev,line){
             let select = $(line).find('select.fldset');
