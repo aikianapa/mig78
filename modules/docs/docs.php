@@ -175,15 +175,44 @@ class modDocs
                 $item['marital'] = @$this->app->treeFindBranchById($mari, $item['marital'])['name'];
                 $item['criminal'] = $docs->getCriminal($item);
                 $item['basis_year'] == '' ? $item['basis_year'] = date('Y') : null;
-                $item['basis_quote_on'] = 'в пределах квоты, установленон на '.$item['basis_year'].' год';
+                $item['basis_quote_on'] = 'в пределах квоты, установлен на '.$item['basis_year'].' год';
                 $item['basis_quote_off'] = 'без учета квоты';
                 if ($item['basis_check'] == 'X') {
                     $item['basis_quote_off'] = $this->setStyle($item['basis_quote_off'], 'strike');
                 } else {
                     $item['basis_quote_on'] = $this->setStyle($item['basis_quote_on'], 'strike');
                 }
-            default:
-                # code...
+            case 'zayvl_rvp_do18':
+
+                $item['basis_year'] == '' ? $item['basis_year'] = date('Y') : null;
+                $item['basis_quote_on'] = 'в пределах квоты, установлен на '.$item['basis_year'].' год';
+                $item['basis_quote_off'] = 'без учета квоты';
+
+                if ($item['basis_check'] == 'X') {
+                    $item['basis_quote_off'] = $this->setStyle($item['basis_quote_off'], 'strike');
+                } else {
+                    $item['basis_quote_on'] = $this->setStyle($item['basis_quote_on'], 'strike');
+                }
+
+                $item['prevname'] = $docs->getPrevname($item, 'other');
+                $item['criminal'] = $docs->getCriminal($item);
+                $item['citizen'] = $docs->getCitizen($item);
+                $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
+
+                $item['parent'] = $docs->getFullname($item, 'parent');
+                $item['parentprev'] = $docs->getPrevname($item, 'parentprev');
+                $item['parent_passport'] =$docs->getPassport($item, 'parent');
+                $item['parent_birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['parent_birth_country'])['name'];
+                $item['rvp'] = $docs->getDocument($item, 'rvp');
+                $item['vnj'] = $docs->getDocument($item, 'vnj');
+                $who = explode('/', 'сыну/дочери/усыновленному ребенку/лицу');
+                foreach($who as &$val) {
+                    $item['custody'] == 'son' && $val !== 'сыну' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custody'] == 'daughter' && $val !== 'дочери' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custody'] == 'adopted' && $val !== 'усыновленному ребенку' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custody'] == 'custody' && $val !== 'лицу' ? $val = $this->setStyle($val, 'strike') : null;
+                }
+                $item['who'] = implode('/', $who);
                 break;
         }
         $fields = $tpl->getVariables();
