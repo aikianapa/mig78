@@ -29,7 +29,11 @@
             {{#each result}}
             <li data-id="{{.id}}" class="list-group-item">
                 <div>
+                    {{#if safepay == 'on'}}
+                    <span class="badge badge-info badge-sm wd-20 mr-2 d-none d-sm-inline-block">Б</span>
+                    {{else}}
                     <span class="badge badge-light badge-sm wd-20 mr-2 d-none d-sm-inline-block">{{.flds}}</span>
+                    {{/if}}
                     <span class="d-inline-block wd-100p wd-sm-70p">{{.name}}</span>
                     {{tags}}
                     <span class="pos-absolute r-100">{{.id}}</span>

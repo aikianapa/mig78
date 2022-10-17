@@ -203,6 +203,57 @@ class modDocs
                 }
                 $item['who'] = implode('/', $who);
                 break;
+            case 'vnzh_do18':
+
+                $who = explode('/', 'сыну/дочери/усыновленному ребенку/лицу');
+                foreach ($who as &$val) {
+                    $item['custody'] == 'son' && $val !== 'сыну' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custody'] == 'daughter' && $val !== 'дочери' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custody'] == 'adopted' && $val !== 'усыновленному ребенку' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custody'] == 'custody' && $val !== 'лицу' ? $val = $this->setStyle($val, 'strike') : null;
+                }
+                $item['who'] = implode('/', $who);
+
+
+                $with = explode('/', 'родителями/одним из родителей/усыновителем/опекуном/попечителем/без них');
+                foreach ($with as &$val) {
+                    $item['custodian'] == 'parents' && $val !== 'родителями' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custodian'] == 'parent' && $val !== 'одним из родителей' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custodian'] == 'adobter' && $val !== 'усыновителем' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custodian'] == 'custodian' && $val !== 'опекуном' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custodian'] == 'trustee' && $val !== 'попечителем' ? $val = $this->setStyle($val, 'strike') : null;
+                    $item['custodian'] == 'none' && $val !== 'без них' ? $val = $this->setStyle($val, 'strike') : null;
+                }
+                $item['with'] = implode('/', $with);
+
+
+                $item['basis_year'] == '' ? $item['basis_year'] = date('Y') : null;
+                $item['basis_quote_on'] = 'в пределах квоты, установлен на '.$item['basis_year'].' год';
+                $item['basis_quote_off'] = 'без учета квоты';
+
+                if ($item['basis_check'] == 'X') {
+                    $item['basis_quote_off'] = $this->setStyle($item['basis_quote_off'], 'strike');
+                } else {
+                    $item['basis_quote_on'] = $this->setStyle($item['basis_quote_on'], 'strike');
+                }
+
+                $item['prevname'] = $docs->getPrevname($item, 'other');
+                $item['criminal'] = $docs->getCriminal($item);
+                $item['citizen'] = $docs->getCitizen($item);
+                $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
+
+                $item['parent'] = $docs->getFullname($item, 'parent');
+                $item['parentprev'] = $docs->getPrevname($item, 'parentprev');
+                $item['parent_address'] = $docs->getAddress($item, 'parent');
+                $item['parent_passport'] =$docs->getPassport($item, 'parent');
+                $item['parent_birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['parent_birth_country'])['name'];
+                $item['parent_gender'] = $item['parent_gender'] == "М" ? "мужской" : "женский";
+
+                $item['rvp'] = $docs->getDocument($item, 'rvp');
+                $item['vnj'] = $docs->getDocument($item, 'vnj');
+                $item['job'] = $docs->getDocument($item, 'job');
+
+                break;
         }
         $fields = $tpl->getVariables();
         foreach ($item as $fld => $val) {

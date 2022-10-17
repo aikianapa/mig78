@@ -32,13 +32,6 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3">Место в списке</label>
-                            <div class="col-sm-9">
-                                <input placeholder="Сортировка" class="form-control" type="text" name="_sort">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
                             <label class="col-sm-3">Тэги</label>
                             <div class="col-sm-9">
                                 <input placeholder="Тэги" class="form-control" type="text" name="tags"
