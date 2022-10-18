@@ -32,7 +32,7 @@ class modDocs
             return;
         }
 
-        @$req = $this->app->itemRead('reqlist',$this->post['quote'])['list'];
+        @$req = $this->app->itemRead('reqlist', $this->post['quote']);
         $docs = $this->app->formClass('docs');
         $uri = "/uploads/docs";
         $path = $this->app->vars('_route.path_app').$uri;
@@ -42,13 +42,13 @@ class modDocs
         @$mari = $this->app->treeRead('marital_status')['tree']['data'];
         @$vnjr = $this->app->treeRead('vnj_reason')['tree']['data'];
 
-
         if (@$req['template'][0]['img'] > '') {
             $file = urldecode($req['template'][0]['img']);
             $file = $this->app->vars('_route.path_app').$file;
         } else {
             $file = $this->app->vars('_route.path_app').'/tpl/docs/'.$this->post['quote'].'.docx';
         }
+
         $tpl = new TemplateProcessor($file);
         $item = $this->post;
         $dname = "{$item['quote']}_{$item['id']}";
@@ -71,6 +71,9 @@ class modDocs
                 $docs->beforeItemShow($item);
                 break;
             case 'vnj':
+                foreach ($vnjr as $r) {
+                    in_array($r['id'], $item['vnjreason']) ? $item[$r['id']] = 'X' : $item[$r['id']] = ' ' ;
+                }
                 $item['marital_y'] = $item['marital_n'] = $item['marital_d'] = $item['marital_o'] = '';
                 $item['marital_'.$item['marital']] = 'X';
                 $item['other_on'] = $item['other_off'] = '';
