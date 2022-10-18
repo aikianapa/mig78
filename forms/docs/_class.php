@@ -342,6 +342,7 @@ class docsClass extends cmsFormsClass
                         $fldset->find('fieldset')->prepend('<div class="divider-text col-12">'.$item['label'].'</div>');
                     }
                 }
+                
                 if ($item['prefix'] > '') {
                     $flds = $fldset->find('[name]');
                     foreach ($flds as $fld) {
@@ -351,6 +352,11 @@ class docsClass extends cmsFormsClass
                         $repl[] = ['nm'=>$name, 'nn' => $newname];
                     }
                 }
+                $flds = $fldset->find('select[name][wb-off]');
+                foreach ($flds as $fld) {
+                    $fld->attr('value', '{{'.$fld->attr('name').'}}');
+                }
+
                 if ($fldset) {
                     $fldset->fetch($data);
                     $fldset = $fldset->html();

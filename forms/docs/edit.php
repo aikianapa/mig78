@@ -48,8 +48,7 @@
 
                     </div>
 
-                    <script wbapp>
-                    $(document).ready(function() {
+                    <script>
                         wbapp.loadScripts(["/engine/modules/datetimepicker/datetimepicker.js"],"datatimepicker-js",function(){
                         var did = "{{id}}"
                         wbapp.post('/form/docs/fldsetgen/' + $('#{{_form}}EditForm [name=quote]').val(), {
@@ -104,7 +103,6 @@
 
                             }
                         })
-                    })
                     })
                     </script>
 

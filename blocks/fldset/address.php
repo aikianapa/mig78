@@ -1,21 +1,23 @@
 <html>
 <fieldset class="row" id="fldset_address" header="Адрес">
     <wb-var uid="{{wbNewId()}}"></wb-var>
-    <div class="col-12" id="{{_var.uid}}">
-        <div class="form-group row">
-            <label class=" col-sm-3 form-control-label">Регион</label>
-            <div class="col-sm-9">
-                <select name="reg_region" class="form-control select2" placeholder="Регион" wb-tree="dict=locations&branch=regions&parent=false&children=false" wb-change="#{{_var.uid}} [name=reg_distr]" >
+    <div class="col-12">
+        <div class="form-group row" id="{{_var.uid}}">
+            <label class=" col-sm-3 mb-2 form-control-label">Регион</label>
+            <div class="col-sm-9 mb-2">
+                <select name="reg_region" class="form-control select2 reg_region" placeholder="Регион" wb-off>
+                    {{#each ~/regions}}
                     <option value="{{id}}">{{name}}</option>
+                    {{/each}}
                 </select>
             </div>
-        </div>
 
-        <div class="form-group row">
             <label class=" col-sm-3 form-control-label">Район</label>
             <div class="col-sm-9">
-                <select name="reg_distr" class="form-control select2" placeholder="Район" wb-tree="dict=locations&branch=regions->%value%&parent=false">
+                <select name="reg_distr" class="form-control select2 reg_distr" placeholder="Район" wb-off>
+                    {{#each .districts}}
                     <option value="{{id}}">{{name}}</option>
+                    {{/each}}
                 </select>
             </div>
         </div>
@@ -87,4 +89,41 @@
             </div>
         </div>
     </div>
+        <script>
+            var r{{_var.uid}} = new Ractive({
+                el: '#{{_var.uid}}',
+                template: $('#{{_var.uid}}').html(),
+                data: {
+                    regions: {},
+                    districts: {},
+                },
+                on: {
+                    init() {
+                        let mod = this
+                        wbapp.post('/api/v2/list/catalogs/locations/tree.data.regions.children',{},function(data){
+                            mod.set('regions',data[0])
+                            let reg = $(mod.node).find('.reg_region').val()
+                            // on-change не работает с select2
+                            $('#{{_var.uid}}').delegate('select.reg_region','change',function(){
+                                let reg = $(this).val()
+                                let list = mod.get('regions')[reg].children
+                                mod.set('districts',list)
+                                $(this).attr('value',reg)
+                            })
+                            $('#{{_var.uid}}').delegate('select.reg_district','change',function(){
+                                $(this).attr('value',$(this).val())
+                            })
+                        })
+                    },
+                    complete() {
+                        setTimeout(function(){
+                            $('#{{_var.uid}} select.reg_region').trigger('change')
+                        },300)
+                    }
+                }
+            }) 
+
+
+        </script>
+
 </fieldset>

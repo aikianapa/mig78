@@ -62,8 +62,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" name="prefix">
                 <div class="input-group-append">
-                    <span class="input-group-text"
-                        onclick="$(this).parents('.wb-multiinput-row').find('.col-10').toggleClass('d-none')">></span>
+                    <span class="input-group-text" onclick="$(this).parents('.wb-multiinput-row').find('.col-10').toggleClass('d-none')">></span>
                 </div>
             </div>
         </div>
@@ -74,31 +73,33 @@
 </div>
 
 <script wb-app>
+    (function() {
+        wbapp.get('/form/docs/fldsetsel', function(res) {
+            let data = res;
+            let addOpt = function(select, item) {
+                let value = $(select).attr('value')
+                let selected = ''
+                value == item.name ? selected = 'selected' : selected = ''
+                $(select).append(`<option value="${item.name}" ${selected}>${item.header}</option>`);
+            }
+            $.each(data, function(i, item) {
+                $('select.fldset').each(function() {
+                    addOpt(this, item)
+                })
+            })
+            setTimeout(function() {
+                $('#fieldsetMultiinput').store()
+            }, 100)
 
-wbapp.get('/form/docs/fldsetsel', function(res) {
-        let data = res;
-        let addOpt = function(select, item) {
-            let value = $(select).attr('value')
-            let selected = ''
-            value == item.name ? selected = 'selected' : selected = ''
-            $(select).append(`<option value="${item.name}" ${selected}>${item.header}</option>`);
-        }
-        $.each(data,function(i, item){
-            $('select.fldset').each(function(){
-                addOpt(this, item)
+            $('#fieldsetMultiinput').off('multiinput_after_add');
+            $('#fieldsetMultiinput').on('multiinput_after_add', function(ev, line) {
+                let select = $(line).find('select.fldset');
+                $.each(data, function(i, item) {
+                    addOpt(select, item)
+                })
             })
         })
-        setTimeout(function(){
-            $('#fieldsetMultiinput').store()
-        },100)
-
-        $('#fieldsetMultiinput').off('multiinput_after_add');
-        $('#fieldsetMultiinput').on('multiinput_after_add',function(ev,line){
-            let select = $(line).find('select.fldset');
-            $.each(data,function(i, item){
-                addOpt(select, item)
-            })
-        })
-})
+    })
+</script>
 
 </html>
