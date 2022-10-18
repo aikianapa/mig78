@@ -98,7 +98,9 @@ wbapp.get('/form/docs/fldsetsel', function(res) {
                 addOpt(this, item)
             })
         })
-        $('#fieldsetMultiinput').store()
+        setTimeout(function(){
+            $('#fieldsetMultiinput').store()
+        },100)
 
         $('#fieldsetMultiinput').off('multiinput_after_add');
         $('#fieldsetMultiinput').on('multiinput_after_add',function(ev,line){

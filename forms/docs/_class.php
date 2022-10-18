@@ -170,7 +170,7 @@ class docsClass extends cmsFormsClass
         return implode(' ', [$data->get($prefix.'last_name'),$data->get($prefix.'first_name'),$data->get($prefix.'middle_name')]);
     }
 
-    public function getAddress($item, $prefix = null)
+    public function getAddress(&$item, $prefix = null)
     {
         $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
 
@@ -341,7 +341,7 @@ class docsClass extends cmsFormsClass
                     }
                 }
                 if ($item['prefix'] > '') {
-                    $flds = $fldset->find('input,textarea,select,wb-multiinput');
+                    $flds = $fldset->find('[name]');
                     foreach ($flds as $fld) {
                         $name = $fld->attr('name');
                         $newname = $item['prefix']. '_' . $name;

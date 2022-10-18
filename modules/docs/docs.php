@@ -40,6 +40,8 @@ class modDocs
         @$ctrs = $this->app->treeRead('countries')['tree']['data'];
         @$locs = $this->app->treeRead('locations')['tree']['data'];
         @$mari = $this->app->treeRead('marital_status')['tree']['data'];
+        @$vnjr = $this->app->treeRead('vnj_reason')['tree']['data'];
+
 
         if (@$req['template'][0]['img'] > '') {
             $file = urldecode($req['template'][0]['img']);
@@ -205,53 +207,53 @@ class modDocs
                 break;
             case 'vnzh_do18':
 
-                $who = explode('/', 'сыну/дочери/усыновленному ребенку/лицу');
-                foreach ($who as &$val) {
-                    $item['custody'] == 'son' && $val !== 'сыну' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custody'] == 'daughter' && $val !== 'дочери' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custody'] == 'adopted' && $val !== 'усыновленному ребенку' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custody'] == 'custody' && $val !== 'лицу' ? $val = $this->setStyle($val, 'strike') : null;
-                }
-                $item['who'] = implode('/', $who);
+                $docs->getAddress($item, 'par_address');
 
-
-                $with = explode('/', 'родителями/одним из родителей/усыновителем/опекуном/попечителем/без них');
-                foreach ($with as &$val) {
-                    $item['custodian'] == 'parents' && $val !== 'родителями' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custodian'] == 'parent' && $val !== 'одним из родителей' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custodian'] == 'adobter' && $val !== 'усыновителем' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custodian'] == 'custodian' && $val !== 'опекуном' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custodian'] == 'trustee' && $val !== 'попечителем' ? $val = $this->setStyle($val, 'strike') : null;
-                    $item['custodian'] == 'none' && $val !== 'без них' ? $val = $this->setStyle($val, 'strike') : null;
-                }
-                $item['with'] = implode('/', $with);
-
-
-                $item['basis_year'] == '' ? $item['basis_year'] = date('Y') : null;
-                $item['basis_quote_on'] = 'в пределах квоты, установлен на '.$item['basis_year'].' год';
-                $item['basis_quote_off'] = 'без учета квоты';
-
-                if ($item['basis_check'] == 'X') {
-                    $item['basis_quote_off'] = $this->setStyle($item['basis_quote_off'], 'strike');
-                } else {
-                    $item['basis_quote_on'] = $this->setStyle($item['basis_quote_on'], 'strike');
+                foreach($vnjr as $r) {
+                    in_array($r['id'],$item['vnjreason']) ? $item[$r['id']] = 'X' : $item[$r['id']] = ' ' ;
                 }
 
-                $item['prevname'] = $docs->getPrevname($item, 'other');
-                $item['criminal'] = $docs->getCriminal($item);
-                $item['citizen'] = $docs->getCitizen($item);
+                $item['par_male'] = $item['par_female'] = '';
+                $item['par_gender'] == 'М' ? $item['par_male']     = 'X' : null;
+                $item['par_gender'] == 'Ж' ? $item['par_female']   = 'X' : null;
+
+                $item['other_on'] = $item['other_off'] = '';
+                $item['other_first_name']  > ' ' ? $item['other_on'] = 'X' : $item['other_off'] = 'X';
+
                 $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
+                $item['ciexCountry'] = @$this->app->treeFindBranchById($ctrs, $item['ciexCountry'])['data']['fullname'];
+                $item['ciexPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexPlace'])['name'];
+                $item['ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexOutPlace'])['name'];
 
-                $item['parent'] = $docs->getFullname($item, 'parent');
-                $item['parentprev'] = $docs->getPrevname($item, 'parentprev');
-                $item['parent_address'] = $docs->getAddress($item, 'parent');
-                $item['parent_passport'] =$docs->getPassport($item, 'parent');
-                $item['parent_birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['parent_birth_country'])['name'];
-                $item['parent_gender'] = $item['parent_gender'] == "М" ? "мужской" : "женский";
+                $item['edu_do'] = $item['edu_no'] = $item['edu_oo'] = $item['edu_so'] = '';
+                $item['edu_sp'] = $item['edu_bv'] = $item['edu_mv'] = $item['edu_kv'] = '';
+                $item['edu_ks'] = $item['edu_ds'] = '';
+                $item['edu_'.$item['edu_common']] = 'X';
+                $item['edu_'.$item['edu_high']] = 'X';
+                $item['edu_'.$item['edu_science']] = 'X';
 
-                $item['rvp'] = $docs->getDocument($item, 'rvp');
-                $item['vnj'] = $docs->getDocument($item, 'vnj');
-                $item['job'] = $docs->getDocument($item, 'job');
+                // Судимость
+                $item['crim_on'] = $item['crim_off'] = '';
+                $item['crim_where'] > '' ? $item['crim_on'] = 'X' : $item['crim_off'] = 'X';
+
+                $item['par_birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['par_birth_country'])['name'];
+               
+                $item['par_ciexCountry'] = @$this->app->treeFindBranchById($ctrs, $item['par_ciexCountry'])['data']['fullname'];
+                $item['par_ciexPlace'] = @$this->app->treeFindBranchById($ctrs, $item['par_ciexPlace'])['name'];
+                $item['par_ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['par_ciexOutPlace'])['name'];
+
+                $item['par_other_on'] = $item['par_other_off'] = '';
+                trim($item['par_other_last_name'])  > ' ' ? $item['par_other_on'] = 'X' : $item['par_other_off'] = 'X';
+
+                $item['rvp_on'] = $item['rvp_off'] = '';
+                trim($item['par_rvp_dnum'])  > ' ' ? $item['rvp_on'] = 'X' : $item['rvp_off'] = 'X';
+ 
+                $item['vnj_on'] = $item['vnj_off'] = '';
+                trim($item['par_vnj_dnum'])  > ' ' ? $item['vnj_on'] = 'X' : $item['vnj_off'] = 'X';
+
+                $item['job_on'] = $item['job_off'] = '';
+                trim($item['par_job_dnum'])  > ' ' ? $item['job_on'] = 'X' : $item['job_off'] = 'X';
+
 
                 break;
         }
