@@ -1,14 +1,4 @@
 <html>
-<div class="form-group row">
-    <label class="form-control-label col-3">Цена</label>
-    <div class="col-3">
-        <input type="text" class="form-control" name="price">
-    </div>
-    <label class="form-control-label col-3">Срок выполнения</label>
-    <div class="col-3">
-        <input type="text" class="form-control" name="price_period">
-    </div>
-</div>
 
 <div class="row">
     <div class="col-sm-3">

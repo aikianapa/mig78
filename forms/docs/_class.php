@@ -7,10 +7,10 @@ class docsClass extends cmsFormsClass
     public $app;
 
 
-        public function list()
+    public function list()
     {
         $req = $this->app->itemList('reqlist')['list'];
-        foreach($req as $r) {
+        foreach ($req as $r) {
             $this->app->d_reqlist[$r['id']] = $r['name'];
         }
         $out = $this->app->fromFile(__DIR__.'/list.php');
@@ -23,10 +23,10 @@ class docsClass extends cmsFormsClass
             $item['sources'] = [];
         }
 
-            if ($this->app->vars('_route.controller') == 'module' && $this->app->vars('_route.module') == 'api') {
-                $data = $this->app->itemRead('docs', $item['_id']);
-                $item = array_merge($data, $item);
-            } 
+        if ($this->app->vars('_route.controller') == 'module' && $this->app->vars('_route.module') == 'api') {
+            $data = $this->app->itemRead('docs', $item['_id']);
+            $item = array_merge($data, $item);
+        }
 
         if ($item['payed'] == 'on' && $item['status'] !== 'ready') {
             @$req = $this->app->treeRead('reqlist')['tree']['data'];
@@ -64,7 +64,7 @@ class docsClass extends cmsFormsClass
 
         if ($data->get('fullname') == '' && $data->get('first_name')>'') {
             $data->set('fullname', implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]));
-        } else if ($data->get('fullname') > '' && $data->get('first_name') == '') {
+        } elseif ($data->get('fullname') > '' && $data->get('first_name') == '') {
             $this->getNames($item);
         }
         $fullname = implode(' ', [$data->get('last_name'),$data->get('first_name'),$data->get('middle_name')]);
@@ -76,7 +76,8 @@ class docsClass extends cmsFormsClass
         }
     }
 
-    public function beforeItemEdit(&$item) {
+    public function beforeItemEdit(&$item)
+    {
         $data = $this->app->Dot($item);
         if ($data->get('quote') == 'zayavl_rvp') {
             $this->getNames($item, 'rus');
@@ -88,14 +89,14 @@ class docsClass extends cmsFormsClass
     {
         if ($this->app->vars('_route.action') !== 'edit') {
             @$this->loc = $this->app->treeRead('locations')['tree']['data'];
-            @$this->mon = $this->app->treeRead('money')['tree']['data'];   
+            @$this->mon = $this->app->treeRead('money')['tree']['data'];
             $item ? null : $item=(array)$item;
             $item = $this->commonFormat($item);
             $data = $this->app->Dot($item);
 
-        @$item['quotename'] = $this->app->d_reqlist[$item['quote']];
-        @$item['created'] = date('d.m.Y H:i', strtotime($item['_created']));
-        @$item['date'] = date('d.m.Y', strtotime($item['_created']));
+            @$item['quotename'] = $this->app->d_reqlist[$item['quote']];
+            @$item['created'] = date('d.m.Y H:i', strtotime($item['_created']));
+            @$item['date'] = date('d.m.Y', strtotime($item['_created']));
 
             $item['pasp'] = preg_replace('/[^a-zA-Z0-9]/ui', '', $data->get('doc_ser').$data->get('doc_num'));
             if ($data->get('fullname') > '' && $data->get('last_name') == '') {
@@ -138,17 +139,18 @@ class docsClass extends cmsFormsClass
         return $item;
     }
 
-    public function getNames(&$item, $prefix = null) {
+    public function getNames(&$item, $prefix = null)
+    {
         $prefix = $prefix == null ? '' : $prefix.'_';
         $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
         if ($data->get('fullname') > '' && $data->get($prefix.'first_name') == '') {
             $tmp = explode(' ', trim($data->get('fullname')));
             if (count($tmp) == 1) {
                 $data->set($prefix.'first_name', $tmp[0]);
-            } else if (count($tmp) == 2) {
+            } elseif (count($tmp) == 2) {
                 $data->set($prefix.'first_name', $tmp[0]);
                 $data->set($prefix.'last_name', $tmp[1]);
-            } else if (count($tmp) > 2) {
+            } elseif (count($tmp) > 2) {
                 $data->set($prefix.'first_name', $tmp[1]);
                 $data->set($prefix.'last_name', $tmp[0]);
                 unset($tmp[1]);
@@ -178,8 +180,8 @@ class docsClass extends cmsFormsClass
         $region = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_region'));
         $distr = $this->app->treeFindBranchById($this->loc, $data->get($prefix.'reg_distr'));
 
-        $region['id']  !== 'regions' ? $data->set($prefix.'regRegion', $region['name']) : $data->set($prefix.'regRegion', '');
-        $distr['id'] !== 'regions' ? $data->set($prefix.'regDistr', $distr['name']) : $data->set($prefix.'regDistr', '');
+        isset($region['id']) && $region['id']  !== 'regions' ? $data->set($prefix.'regRegion', $region['name']) : $data->set($prefix.'regRegion', '');
+        isset($distr['id']) && $distr['id'] !== 'regions' ? $data->set($prefix.'regDistr', $distr['name']) : $data->set($prefix.'regDistr', '');
 
         $data->get($prefix.'reg_corpse') > ' ' ? $data->set($prefix.'regCorpse', 'корп.'.$data->get($prefix.'reg_corpse')) : null;
         $data->get($prefix.'reg_build') > '' ? $data->set($prefix.'regCorpse', $data->get($prefix.'regCorpse').', стр. '.$data->get($prefix.'reg_build')) : null; // Корпус + строение
@@ -236,7 +238,8 @@ class docsClass extends cmsFormsClass
         return trim(implode(' ', $document));
     }
 
-    public function getPrevname($item, $prefix = null) {
+    public function getPrevname($item, $prefix = null)
+    {
         $data = ((array)$item === $item) ? $this->app->Dot($item) : $item;
         $prevname = '';
         $prevname = trim($this->getFullname($item, $prefix));
@@ -319,10 +322,9 @@ class docsClass extends cmsFormsClass
         @$data = $this->app->itemRead('docs', $scid);
         $doc = $this->app->treeFindBranchById($docs, $name);
         $result = '';
-        $repl = [];
         foreach ($doc['fields'] as $i => &$item) {
             $fname = $path.'/'.$item['fldset'].'.php';
-
+            $repl = [];
             if (is_file($fname)) {
                 $fldset = $this->app->fromFile($fname);
                 if ($item['required'] == 'on') {
@@ -351,15 +353,14 @@ class docsClass extends cmsFormsClass
                 }
                 if ($fldset) {
                     $fldset->fetch($data);
-                    $result .= "\n\r".$fldset->html();
+                    $fldset = $fldset->html();
+                    foreach ($repl as $name => $val) {
+                        $fldset = str_replace("[name={$val['nm']}]", "[name={$val['nn']}]", $fldset);
+                    }
+                    $result .= "\n\r".$fldset;
                 }
             }
         }
-
-            foreach ($repl as $name => $val) {
-                $result = str_replace("[name={$val['nm']}]", "[name={$val['nn']}]", $result);
-            }
-
         echo $result;
     }
 }

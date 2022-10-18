@@ -41,9 +41,22 @@
                         <div class="form-group row">
                             <label class="col-sm-3">Наименование</label>
                             <div class="col-sm-9">
-                                <input placeholder="Наименование" class="form-control" type="text" name="name" required>
+                                <input placeholder="Наименование" class="form-control" type="text" name="name" wb-module="langinp">
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                        <label class="form-control-label col-3">Цена</label>
+                        <div class="col-3">
+                            <input type="text" class="form-control" name="price">
+                        </div>
+                        <label class="form-control-label col-3">Срок выполнения</label>
+                        <div class="col-3">
+                            <input type="text" class="form-control" name="price_period" wb-module="langinp">
+                        </div>
+                        </div>
+
+
                         <wb-include wb-src="/forms/reqlist/fldset_dict.php"></wb-include>
                     </div>
 
