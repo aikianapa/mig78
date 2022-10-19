@@ -9,14 +9,14 @@
         </button>
 
         <div class="collapse navbar-collapse order-3 flex-row-reverse" id="navbarSupportedContent">
-            <form class="form-inline flex-row-reverse mg-t-10 mg-lg-0">
+            <form class="form-inline flex-row-reverse mg-t-10 mg-lg-0" onsubmit="return false;">
 
                 <div class="form-group">
-                    <input class="form-control mg-r-10 col-auto" type="search" placeholder="Поиск..." aria-label="Поиск..." data-ajax="{'target':'#{{_form}}List','filter_add':{'$or':[{ 'doc_num' : {'$like' : '$value'} }, { 'fullname': {'$like' : '$value'} }]} }">
+                    <input class="form-control mg-r-10 col-auto" type="search" placeholder="Поиск..." aria-label="Поиск..." data-ajax="{'target':'#{{_form}}List','filter_add':{'$or':[{ 'doc_num' : {'$like' : '$value'} }, { 'fullname': {'$like' : '$value'} }, { 'quotename': {'$like' : '$value'} }]} }">
 
-                    <a href="#" data-ajax="{'url':'/cms/ajax/form/docs/edit/_new','html':'#yongerDocs modals'}" class="ml-auto order-2 float-right btn btn-primary">
+                    <!--a href="#" data-ajax="{'url':'/cms/ajax/form/docs/edit/_new','html':'#yongerDocs modals'}" class="ml-auto order-2 float-right btn btn-primary">
                         <img src="/module/myicons/item-select-plus-add.svg?size=24&stroke=FFFFFF" /> Новый
-                    </a>
+                    </a-->
                 </div>
 
             <div class="dropdown ml-auto mr-2">
@@ -47,8 +47,7 @@
     </nav>
 
     <wb-var date="" />
-    <wb-var filter="{'_site' : {'$ne': '???'}}" />
-    <wb-var filter="{'_site' : {'$ne': '???'},
+    <wb-var filter="
             '$or' : [
                 {'_role':'reg'},
                 {'_creator':'{{_sess.user.id}}'}

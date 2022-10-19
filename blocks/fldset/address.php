@@ -101,7 +101,7 @@
                     init() {
                         let mod = this
                         wbapp.post('/api/v2/list/catalogs/locations/tree.data.regions.children',{},function(data){
-                            mod.set('regions',data[0])
+                            mod.set('regions',data)
                             let reg = $(mod.node).find('.reg_region').val()
                             // on-change не работает с select2
                             $('#{{_var.uid}}').delegate('select.reg_region','change',function(){
