@@ -914,7 +914,10 @@ wbapp.alive = async function() {
     });
 }
 
-wbapp.storage = function(key, value = undefined, binds = true) {
+wbapp.store = function(storage = null, key, value = undefined, binds = true) {
+    if (storage == null) storage = localStorage
+    key = str_replace('-', '__', key)
+
     function getKey(list) {
         key = "";
         $(list).each(function(i, k) {
@@ -932,7 +935,7 @@ wbapp.storage = function(key, value = undefined, binds = true) {
         // get data
         let list = key.split(".");
         var res;
-        var data = localStorage.getItem(list[0]);
+        var data = storage.getItem(list[0]);
         if (data !== null) data = JSON.parse(data);
         if (list.length) {
             key = getKey(list);
@@ -954,7 +957,7 @@ wbapp.storage = function(key, value = undefined, binds = true) {
         $(list).each(function(i, k) {
             if (i == 0) {
                 key = k;
-                data = localStorage.getItem(key);
+                data = storage.getItem(key);
                 if (i + 1 !== last && data == null) {
                     data = {}
                 } else {
@@ -993,7 +996,7 @@ wbapp.storage = function(key, value = undefined, binds = true) {
                 eval(`data.${key} = value`);
             }
         }
-        localStorage.setItem(list[0], json_encode(data));
+        storage.setItem(list[0], json_encode(data));
 
         let checkBind = function(bind, key) {
             if (bind == key) return true;
@@ -1019,110 +1022,12 @@ wbapp.storage = function(key, value = undefined, binds = true) {
     }
 }
 
+wbapp.storage = function(key, value = undefined, binds = true) {
+    return wbapp.store(localStorage, key, value, binds)
+}
+
 wbapp.data = function(key, value = undefined, binds = true) {
-    function getKey(list) {
-        key = "";
-        $(list).each(function(i, k) {
-            if (k.substr(0, 1) * 1 > -1) {
-                key += `['${k}']`
-            } else {
-                if (i > 0) key += '.'
-                key += k
-            }
-        })
-        return key
-    }
-
-    if (value === undefined) {
-        // get data
-        let list = key.split(".");
-        var res;
-        var data = sessionStorage.getItem(list[0]);
-        if (data !== null) data = JSON.parse(data);
-        if (list.length) {
-            key = getKey(list);
-            try {
-                eval(`res = data.${key}`);
-                if (typeof res == 'object') res = Object.assign({}, res);
-                return res;
-            } catch (err) {
-                return undefined
-            }
-        }
-        return data;
-    } else {
-        // set data
-        var path, branch, type;
-        var list = key.split(".");
-        var last = list.length;
-        var lastkey = list[last - 1];
-        $(list).each(function(i, k) {
-            if (i == 0) {
-                key = k;
-                data = sessionStorage.getItem(key);
-                //if (i + 1 !== last && data == null) {
-                if (i + 1 !== last || data == null) {
-                    data = {}
-                } else {
-                    try {
-                        data = JSON.parse(data);
-                    } catch (err) {
-                        data = {}
-                    }
-                }
-            } else {
-                if (k.substr(0, 1) * 1 > -1) {
-                    key += `['${k}']`
-                } else {
-                    if (i > 0) key += '.'
-                    key += k
-                }
-            }
-            try {
-                eval(`branch = data.${key}`);
-                if (typeof branch == 'object') branch = Object.assign({}, branch);
-                if (i + 1 < last && typeof branch !== "object") eval(`data.${key} = {}`);
-            } catch (err) {
-                eval(`data.${key} = {}`);
-            }
-        })
-        var tmpValue = value;
-        if (value === null) {
-            eval(`delete data.${key}`);
-        } else if (value !== {}) {
-            if (typeof value == 'string') {
-                eval(`data.${key} = value`);
-            } else {
-                eval(`tmpValue = Object.assign({}, value)`);
-                Object.entries(tmpValue).length == 0 ? null : value = tmpValue;
-                if (typeof value == 'object') value = Object.assign({}, value);
-                eval(`data.${key} = value`);
-            }
-        }
-        sessionStorage.setItem(list[0], json_encode(data));
-
-        let checkBind = function(bind, key) {
-            if (bind == key) return true;
-            if (key.substr(0, bind.length) == bind) return true;
-            return false;
-        }
-
-        if (binds == true) {
-            $.each(wbapp.template, function(i, tpl) {
-                if (tpl.params.bind !== undefined && tpl.params.bind !== null && checkBind(tpl.params.bind, key) &&
-                    tpl.params.render !== undefined && tpl.params.render == 'client') {
-                    wbapp.render(tpl.params.target);
-                } else if (tpl.params._params !== undefined && tpl.params._params.bind !== undefined &&
-                    checkBind(tpl.params._params.bind, key) && tpl.params.render == 'server') {
-                    wbapp.render(tpl.params.target);
-                }
-            });
-            $(document).trigger("bind", { key: key, data: value });
-            $(document).trigger("bind-" + key, value);
-            wbapp.console("Trigger: bind [" + key + "]");
-        }
-        return data;
-    }
+    return wbapp.store(sessionStorage, key, value, binds)
 }
 
 wbapp.save = async function(obj, params, func = null) {
@@ -2411,6 +2316,7 @@ wbapp.transilt = function(word) {
         'yo', 'j', 'ch', 'sch', 'sh', 'u', 'a', 'b', 'v', 'g', 'd', 'e', 'z', 'i', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', '`', 'y', '', 'e', 'ya',
         'yo', 'J', 'Ch', 'Sch', 'Sh', 'U', 'A', 'B', 'V', 'G', 'D', 'E', 'Z', 'I', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'F', 'H', 'c', '`', 'Y', '', 'E', 'ya'
     ]
+    word = word + ""
     return word.replaceArray(cyr, lat)
 }
 

@@ -4,6 +4,7 @@ database/_cache
 uploads/_cache
 uploads/
 modules/yonger
+assets/compress
 tpl/page.php
 forms/news
 forms/pages
