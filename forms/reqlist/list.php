@@ -127,6 +127,9 @@
                         }
                     });
                 })
+                wbapp.get('/form/docs/fldsetsel', function(res) {
+                    wbapp.data('reqlist.fldsets', res);
+                })
             },
             switch(ev) {
                 let data = $(ev.node).data();

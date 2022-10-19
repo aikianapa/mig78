@@ -72,10 +72,10 @@
     </wb-multiinput>
 </div>
 
-<script wb-app>
-    (function() {
-        wbapp.get('/form/docs/fldsetsel', function(res) {
-            let data = res;
+<script>
+
+        
+            let data = wbapp.data('reqlist.fldsets');
             let addOpt = function(select, item) {
                 let value = $(select).attr('value')
                 let selected = ''
@@ -98,8 +98,7 @@
                     addOpt(select, item)
                 })
             })
-        })
-    })
+    
 </script>
 
 </html>
