@@ -74,7 +74,7 @@
 
 <script>
 
-        
+        $(function(){
             let data = wbapp.data('reqlist.fldsets');
             let addOpt = function(select, item) {
                 let value = $(select).attr('value')
@@ -98,7 +98,7 @@
                     addOpt(select, item)
                 })
             })
-    
+    })
 </script>
 
 </html>
