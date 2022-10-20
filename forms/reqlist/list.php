@@ -34,7 +34,12 @@
                     {{else}}
                     <span class="badge badge-light badge-sm wd-20 mr-2 d-none d-sm-inline-block">{{.flds}}</span>
                     {{/if}}
-                    <span class="d-inline-block wd-100p wd-sm-70p">{{.name}}</span>
+                    {{#if .name.ru == null}}
+                        <span class="d-inline-block wd-100p wd-sm-70p">{{.name}}</span>
+                    {{else}}
+                        <span class="d-inline-block wd-100p wd-sm-70p">{{.name.ru}}</span>
+                    
+                    {{/if}}
                     {{tags}}
                     <span class="pos-absolute r-100">{{.id}}</span>
                 </div>
