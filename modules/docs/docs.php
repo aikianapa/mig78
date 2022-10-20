@@ -256,7 +256,24 @@ class modDocs
 
                 $item['job_on'] = $item['job_off'] = '';
                 trim($item['par_job_dnum'])  > ' ' ? $item['job_on'] = 'X' : $item['job_off'] = 'X';
+                break;
+            case 'citizen_quote':
+                $item['prevname'] = $docs->getPrevname($item, 'other');
 
+                $item['birth_country'] = @$this->app->treeFindBranchById($ctrs, $item['birth_country'])['name'];
+                $item['ciexCountry'] = @$this->app->treeFindBranchById($ctrs, $item['ciexCountry'])['data']['fullname'];
+                $item['ciexPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexPlace'])['name'];
+                $item['ciexOutPlace'] = @$this->app->treeFindBranchById($ctrs, $item['ciexOutPlace'])['name'];
+                $item['outside_citizen'] = @$this->app->treeFindBranchById($ctrs, $item['outside_citizen'])['data']['fullname'];
+                $item['marital'] = @$this->app->treeFindBranchById($mari, $item['marital'])['name'];
+
+                if ($item['ciexOutPlace'] > '') {
+                    if ($item['ciexOut_check'] =='X') {
+                        $item['ciexOut_check'] = "Без гражданства:";
+                    } else {
+                        $item['ciexOut_check'] = "Прекращено:";
+                    }
+                }
 
                 break;
         }

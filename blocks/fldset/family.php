@@ -14,8 +14,11 @@
             <div class="col-sm-6 mb-1">
                 <input class="form-control" type="text" name="citizen" placeholder="Гражданство">
                 </div>
-            <div class="col-12">
-                <input class="form-control" type="text" name="address" placeholder="Адрес, место работы и пр...">
+            <div class="col-sm-6 mb-1">
+                <input class="form-control" type="text" name="address" placeholder="Адрес">
+            </div>
+            <div class="col-sm-6 mb-1">
+                <input class="form-control" type="text" name="job" placeholder="Место работы и пр...">
             </div>
         </wb-multiinput>
     </div>

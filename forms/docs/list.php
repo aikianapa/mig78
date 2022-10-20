@@ -119,7 +119,8 @@
 
     <modals></modals>
 </div>
-<script wb-app>
+<script>
+    $('.datetimepicker.dropdown-menu').remove()
 </script>
 
 </html>
