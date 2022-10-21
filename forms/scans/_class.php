@@ -5,17 +5,18 @@ class scansClass extends cmsFormsClass
     private $synapse = 0;
     public $app;
     public $reqlist;
-    
-    function _init() {
+
+    public function _init()
+    {
         $this->reqlist = [];
         $req = $this->app->itemList('reqlist')['list'];
         foreach ($req as $r) {
             $this->reqlist[$r['id']] = $r['name'];
         }
     }
-    
+
     public function list()
-    {   
+    {
         $out = $this->app->fromFile(__DIR__.'/list.php');
         $out->fetch();
         echo $out->outer();
@@ -26,8 +27,12 @@ class scansClass extends cmsFormsClass
         // при удалении записи нужно обработать исключение
         // когда запись удаляется при переносе в docs
     }
-    public function beforeItemShow(&$item) {
+    public function beforeItemShow(&$item)
+    {
         $item['quotename'] = $this->reqlist[$item['quote']];
+        if ((array)$item['quotename'] == $item['quotename']) {
+            $item['quotename'] = $item['quotename']['ru'];
+        }
         $item['created'] = date('d.m.Y H:i', strtotime($item['_created']));
     }
     public function afterItemRead(&$item)
@@ -74,7 +79,7 @@ class scansClass extends cmsFormsClass
             }
             // Отправляем сообщение клиенту
             $tgbot = $this->app->moduleClass('tgbot');
-            isset( $_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
+            isset($_ENV['chat_id']) ? $tgbot->chat_id = $_ENV['chat_id'] : null;
             $tgbot->token = $_ENV['bot_id'];
             $res = $tgbot->sendMessage('Ваш запрос принят в работу. Идентификатор заказа: '.$item['id']);
             // =============================

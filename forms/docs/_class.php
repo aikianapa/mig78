@@ -93,8 +93,12 @@ class docsClass extends cmsFormsClass
             $item ? null : $item=(array)$item;
             $item = $this->commonFormat($item);
             $data = $this->app->Dot($item);
-
             @$item['quotename'] = $this->app->d_reqlist[$item['quote']];
+
+            if ((array)$item['quotename'] == $item['quotename']) {
+                $item['quotename'] = $item['quotename']['ru'];
+            }
+
             @$item['created'] = date('d.m.Y H:i', strtotime($item['_created']));
             @$item['date'] = date('d.m.Y', strtotime($item['_created']));
 
