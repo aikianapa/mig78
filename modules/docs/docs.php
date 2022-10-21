@@ -302,6 +302,9 @@ class modDocs
                     $line['country'] = @$this->app->treeFindBranchById($ctrs, $line['country'])['name'];
                     $line['country_in'] = @$this->app->treeFindBranchById($ctrs, $line['country_in'])['name'];
                 }
+                $item['address'] = $docs->getAddress($item);
+                $item['address_live'] = $docs->getAddress($item,'live');
+
                 break;
         }
         $fields = $tpl->getVariables();
