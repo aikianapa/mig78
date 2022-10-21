@@ -274,7 +274,34 @@ class modDocs
                         $item['ciexOut_check'] = "Прекращено:";
                     }
                 }
+                $item['p20_1_d'] = $item['p20_1_m'] = $item['p20_1_y'] = '';
+                $item['p20_2_d'] = $item['p20_2_m'] = $item['p20_2_y'] = '';
+                $item['p20_3_d'] = $item['p20_3_m'] = $item['p20_3_y'] = '';
+                if ($item['p20_date_1']> ' ') {
+                    $tmp = strtotime($item['p20_date_1']);
+                    $item['p20_1_d'] = date('d',$tmp);
+                    $item['p20_1_m'] = date('m', $tmp);
+                    $item['p20_1_y'] = date('Y', $tmp);
+                }
 
+                if ($item['p20_date_2']> ' ') {
+                    $tmp = strtotime($item['p20_date_2']);
+                    $item['p20_2_d'] = date('d', $tmp);
+                    $item['p20_2_m'] = date('m', $tmp);
+                    $item['p20_2_y'] = date('Y', $tmp);
+                }
+
+                if ($item['p20_date_3']> ' ') {
+                    $tmp = strtotime($item['p20_date_3']);
+                    $item['p20_3_d'] = date('d', $tmp);
+                    $item['p20_3_m'] = date('m', $tmp);
+                    $item['p20_3_y'] = date('Y', $tmp);
+                }
+                $item['outgoext'] = (array)$item['outgoext'];
+                foreach($item['outgoext'] as &$line) {
+                    $line['country'] = @$this->app->treeFindBranchById($ctrs, $line['country'])['name'];
+                    $line['country_in'] = @$this->app->treeFindBranchById($ctrs, $line['country_in'])['name'];
+                }
                 break;
         }
         $fields = $tpl->getVariables();

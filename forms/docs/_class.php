@@ -334,9 +334,13 @@ class docsClass extends cmsFormsClass
                 }
                 if ($item['label'] > '') {
                     if ($fldset->find('input,textarea,select')->length == 1 or $fldset->find('label')->length == 1) {
-                        $fldset->find('label')->inner($item['label']);
-                        if ($fldset->find('label')->length !== 1) {
-                            $fldset->find('[placeholder]')->attr('placeholder', $item['label']);
+                        if ($item['label'] == '-') {
+                            $fldset->find('label')->remove();
+                        } else {
+                            $fldset->find('label')->inner($item['label']);
+                            if ($fldset->find('label')->length !== 1) {
+                                $fldset->find('[placeholder]')->attr('placeholder', $item['label']);
+                            }
                         }
                     } else {
                         $fldset->find('fieldset')->prepend('<div class="divider-text col-12">'.$item['label'].'</div>');
