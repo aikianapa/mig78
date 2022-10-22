@@ -127,7 +127,14 @@ class docsClass extends cmsFormsClass
     {
         foreach ($item as $fld => $val) {
             if ((array)$val === $val) {
-                $item[$fld] = $this->commonFormat($val);
+                if (strpos(' '.$fld, 'jobplace')) {
+                    foreach($item[$fld] as &$job) {
+                            $job['date_in'] = $job['date_in'] > ' ' ? date('m.Y', strtotime($job['date_in'])) : '';
+                            $job['date_out'] = $job['date_out'] > ' ' ? date('m.Y', strtotime($job['date_out'])) : '';
+                    }
+                } else {
+                    $item[$fld] = $this->commonFormat($val);
+                }
             } else {
                 if (validateDate($val, 'Y-m-d')) {
                     $item[$fld] = wbDate('d.m.Y', $item[$fld]);

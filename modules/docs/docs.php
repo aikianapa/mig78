@@ -58,17 +58,23 @@ class modDocs
 
 
         $docs->beforeItemShow($item);
-
+                $item['fullname'] = $docs->getFullname($item);
                 $item['male'] = $item['female'] = '';
                 $item['gender'] == 'мужской' ? $item['male']     = 'X' : null;
                 $item['gender'] == 'женский' ? $item['female']   = 'X' : null;
 
         switch ($this->post['quote']) {
-            case 'regspr':
-                $item['doc_vnj'] = $docs->getDocument($item, 'vnj');
-                $item['doc_rvp'] = $docs->getDocument($item, 'rvp');
+            case 'regspr': // (uved_rvp)
+                $item['doc_vnj'] = '';
                 $item['outgoing'] = $docs->getArrOutgoing($item);
-                $docs->beforeItemShow($item);
+                $item['rvp'] = 'разрешение на временное проживание';
+                $item['vnj'] = $this->setStyle('вид на жительство', 'strike');
+                break;
+            case 'uved_vnz':
+                $item['doc_rvp'] = '';
+                $item['outgoing'] = $docs->getArrOutgoing($item);
+                $item['vnj'] = 'вид на жительство';
+                $item['rvp'] = $this->setStyle('разрешение на временное проживание', 'strike');
                 break;
             case 'vnj':
                 foreach ($vnjr as $r) {
@@ -128,8 +134,8 @@ class modDocs
                     if ($job['date_in'] > ' ') {
                         $item['joboff'] = '';
                         $item['jobon'] = 'X';
-                        $job['date_in'] = date('m.Y', strtotime($job['date_in']));
-                        $job['date_out'] = date('m.Y', strtotime($job['date_out']));
+//                        $job['date_in'] = date('m.Y', strtotime($job['date_in']));
+//                        $job['date_out'] = date('m.Y', strtotime($job['date_out']));
                     }
                 }
                 $item['jobskon'] = $item['jobskoff'] = '';
