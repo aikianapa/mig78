@@ -28,7 +28,8 @@
                     <div class="col-12">
                         <div class="form-group">
                             <wb-data wb="table=reqlist&item={{quote}}">
-                                <h3>{{name}}</h3>
+                                <h3 wb-if="'{{name.ru}}' > ' '">{{name.ru}}</h3>
+                                <h3 wb-if="'{{name.ru}}' == ''">{{name}}</h3>
                             </wb-data>
                         </div>
                         <div class="form-group row">
