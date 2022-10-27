@@ -123,12 +123,11 @@
                     list.set("pages", data.pages);
                     $('#{{_form}}List .list-group').sortable({
                         update: function(ev, line) {
-                            line = line.item
                             let data = {}
-                            data.curr = {id: $(line).data('id'), 'sort':$(line).index()}
-                            data.next = {id: $(line).next().data('id'), 'sort':$(line).next().index()}
-                            data.prev = {id: $(line).prev().data('id'), 'sort':$(line).prev().index()}
-                            wbapp.post(`/api/v2/func/reqlist/sort`, data)
+                            $(ev.target).children().each(function(i, li){
+                                data[i] = $(li).data('id')
+                            })
+                            wbapp.post(`/api/v2/func/${form}/sort`, data)
                         }
                     });
                 })

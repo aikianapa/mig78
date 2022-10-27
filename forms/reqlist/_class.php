@@ -8,22 +8,20 @@ class reqlistClass extends cmsFormsClass
     public function afterItemRead(&$item) {
         $item['flds'] = count($item['fields']);
     }
-
-    function sort() {
+    function sort()
+    {
         $data = $this->app->vars('_post');
         $res = ['error'=>true];
-        foreach($data as $item) {
-            if (isset($item['id']) && isset($item['sort']) && $item['sort']>=0) {
-                $this->app->itemSave('reqlist',[
-                    'id'=>$item['id'],
-                    '_sort' => wbSortIndex($item['sort'])
-                ]);
-                $res = ['error'=>false];
-            }
+        foreach ($data as $sort => $item) {
+            $this->app->itemSave('stars', [
+                    'id'=>$item,
+                    '_sort' => wbSortIndex($sort)
+                ], false);
+            $res = ['error'=>false];
         }
+        $this->app->tableFlush('stars');
         header("Content-type:application/json");
         echo json_encode($res);
         exit;
     }
-
 }
