@@ -334,7 +334,25 @@ class modDocs
     }
 
     public function pay() {
-        $data = ['get'=> $this->app->vars('_get'),'post'=> $this->app->vars('_post')];
+        $data = json_decode(file_get_contents('php://input'), true);
+        @$data = (array)$data['custom_parameters'];
+        if (isset($data['document_id'])) {
+            $did = $data['document_id'];
+            $cid = $data['chat_id'];
+            $doc = $this->app->itemRead('docs', $did);
+            if ($doc['chat_id'] == $cid) {
+                @$req = $this->app->itemRead('reqlist', $doc['quote']);
+                $doc['payed'] == 'on';
+                $this->app->itemSave('docs', $doc);
+                $_POST = [
+                    'uri' => $doc['document'],
+                    'chat_id' => $cid,
+                    'doc' => $req['name']['ru'],
+                    'id' => $did
+                ];
+                $this->senddoc();
+            }
+        }
         file_put_contents(__DIR__.'/pay_'.date("j.n.Y").'.log', json_encode($data)."\n\r", FILE_APPEND);
     }
     public function senddoc()
