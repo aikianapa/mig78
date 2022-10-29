@@ -334,8 +334,9 @@ class modDocs
     }
 
     public function pay() {
-        $data = json_decode(file_get_contents('php://input'), true);
-        @$data = (array)$data['custom_parameters'];
+        $rawdata = json_decode(file_get_contents('php://input'), true);
+        $rawdata = (array)$rawdata;
+        @$data = $rawdata['custom_parameters'];
         if (isset($data['document_id'])) {
             $did = $data['document_id'];
             $cid = $data['chat_id'];
@@ -344,21 +345,21 @@ class modDocs
                 @$req = $this->app->itemRead('reqlist', $doc['quote']);
                 $doc['payed'] == 'on';
                 $this->app->itemSave('docs', $doc);
+                $name = is_array($req['name']) ? $req['name']['ru'] : $req['name'];
                 $_POST = [
                     'uri' => $doc['document'],
                     'chat_id' => $cid,
-                    'doc' => $req['name']['ru'],
+                    'doc' => $name,
                     'id' => $did
                 ];
+                file_put_contents(__DIR__.'/pay_'.date("j.n.Y").'.log', json_encode(['post'=>$rawdata,'send'=>$_POST ])."\n\r", FILE_APPEND);
                 $this->senddoc();
             }
         }
-        file_put_contents(__DIR__.'/pay_'.date("j.n.Y").'.log', json_encode($data)."\n\r", FILE_APPEND);
     }
     public function senddoc()
     {
         $data = $this->app->vars('_post');
-
         $file = $this->app->route->path_app . $data['uri'];
         if (!file_exists($file)) {
             return false;
@@ -409,14 +410,12 @@ class modDocs
             $dest = $file;
             $msg = botmsg('docready', $lang, ['id'=>$data['id'], 'doc' => $data['doc']]);
         }
-
         $res = $tgbot->sendDocument($dest);
         $chk = json_decode($res);
         if (isset($chk->ok) && $chk->ok == true) {
             $res = $tgbot->send('sendMessage', $msg);
         }
-
-        unlink($dest);
+        if ($this->app->vars('_post.demo')>'') unlink($dest);
         header("Content-type:application/json");
         echo $res;
         exit;
