@@ -384,4 +384,20 @@ class docsClass extends cmsFormsClass
         }
         echo $result;
     }
+
+    function sendmsg() {
+        $tgbot = $this->app->moduleClass('tgbot');
+        $tgbot->chat_id = $this->app->vars('_env.chat_id') > '' ? $this->app->vars('_env.chat_id') : $this->app->vars('_post.chat_id');
+        $tgbot->sendMessage($this->app->vars('_post.msg'));
+        header("Content-type:application/json");
+        return ['data'=>'test', 'chat_id'=>$tgbot->chat_id];
+    }
+
+    function getmsgs() {
+        $tgbot = $this->app->moduleClass('tgbot');
+        $tgbot->chat_id = $this->app->vars('_env.chat_id') > '' ? $this->app->vars('_env.chat_id') : $this->app->vars('_post.chat_id');
+        $res = $tgbot->getMessages();
+        header("Content-type:application/json");
+        return ['data'=>$res];
+    }
 }

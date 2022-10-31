@@ -8,6 +8,7 @@
                     <h5>Первичные данные</h5>
                 </div>
                 <div class="col-7">
+                    <a href="#botChat" class="btn btn-dark" data-toggle="modal">Чат</a>
                     <button class="btn btn-primary" type="button" id="exportPDF">Сформировать</button>
                     <button class="btn btn-secondary d-none" type="button" id="sendDemo">Отправить демо</button>
                     <button class="btn btn-info d-none" type="button" id="sendReady">Отправить документ</button>
@@ -147,5 +148,5 @@
 
 }
 </style>
-
+<meta wb-module="botchat" />
 </html>

@@ -213,6 +213,11 @@ class modTgbot
         return $this->send('sendMessage', $msg);
     }
 
+    public function getMessages() {
+        $msg = [];
+        return $this->send('getHistory', $msg);
+    }
+
     public function sendDocument($file) {
         $msg = [
                     'document' => curl_file_create($file)

@@ -122,5 +122,4 @@
 <script>
     $('.datetimepicker.dropdown-menu').remove()
 </script>
-
 </html>

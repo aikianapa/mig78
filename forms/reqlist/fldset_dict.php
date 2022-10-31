@@ -42,6 +42,15 @@
     </div>
 </div>
 
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">Текстовые сведения</label>
+    <div class="col-sm-9">
+        <select name="doc_txt" multiple class="form-control" wb-select2 wb-tree="dict=doc_types">
+            <option value="{{id}}">{{name}}</option>
+        </select>
+    </div>
+</div>
+
 <div class="divider-text">Наборы полей для заполнения</div>
 <div class="form-group col-12">
     <div class="row">
