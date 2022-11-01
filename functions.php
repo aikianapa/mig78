@@ -7,6 +7,8 @@
 
 //$_ENV['chat_id'] = "120805934";
 $_ENV['bot_id'] = '5759707566:AAH_TJlE--AWmSw-ny9AOmUp3_LZslcgmDc';
+$_ENV['bot_id'] = '1135435365:AAFHaQHZOXSaY-trfQ1NFWEw8MjgRJwWSs0';
+
 
 function botmsg($msg = 'start', $lang = 'ru', $data=[])
 {

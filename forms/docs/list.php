@@ -76,7 +76,7 @@
 
 
                 <tr>
-                    <td>{{fullname}}
+                    <td>{{last_name}} {{first_name}} {{middle_name}}
                         <img loading="lazy" src="/module/myicons/bookmark-favorite-minus.svg?size=18&stroke=dc3545" wb-if="'{{flag}}'=='on'">
                         <br />
                         <small>{{birth_date}}</small>
