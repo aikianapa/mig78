@@ -54,13 +54,14 @@
                         $('.datetimepicker.dropdown-menu').remove()
                         wbapp.loadScripts(["/engine/modules/datetimepicker/datetimepicker.js"],"datatimepicker-js",function(){
                         var did = "{{id}}"
+                        /*
                         wbapp.post('/form/docs/fldsetgen/' + $('#{{_form}}EditForm [name=quote]').val(), {
                             scan_id: did
                         }, function(res) {
                             $('#{{_form}}EditForm .form-content').html(res);
                             wbapp.init();
                         });
-
+*/
                         $('#{{_form}}EditForm [name=quote]').trigger('change')
                         $('#modaldocsEdit #exportPDF').off('click');
                         $('#modaldocsEdit #exportPDF').on('click', function() {

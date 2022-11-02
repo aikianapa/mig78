@@ -32,10 +32,10 @@ class modTgbot
 
         $this->data = $app->dot($data);
         $this->chat_id = $this->data->get('callback_query') ? $this->data->get('callback_query.message.chat.id') : $this->data->get('message.chat.id');
-        $this->token = $this->sett['token'];
+        $this->token = $app->vars('_env.bot_id') > '' ? $app->vars('_env.bot_id') : $this->sett['token'];
         $this->storage();
 
-        if ($this->sett['debug'] == 'on') {
+        if ($this->sett['debug'] == 'on' && isset($data['text'])) {
             $this->sendMessage(wbJsonEncode($data));
         }
 
@@ -69,7 +69,9 @@ class modTgbot
     public function message()
     {
         $app = &$this->app;
-        file_put_contents(__DIR__.'/log_'.date("j.n.Y").'.log', json_encode($this->data->get('message'))."\n\r", FILE_APPEND);
+        if ($this->sett['debug'] == 'on') {
+            file_put_contents(__DIR__.'/log_'.date("j.n.Y").'.log', json_encode($this->data->get('message'))."\n\r", FILE_APPEND);
+        }
         @$text = trim($this->data->get('message.text'));
         foreach ($this->sett['trans'] as $trans) {
             foreach (explode(',', $trans['phrase']) as $phrase) {

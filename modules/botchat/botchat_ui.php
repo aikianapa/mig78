@@ -1,6 +1,6 @@
 <html>
 <div id="botChat" class="modal right" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" wb-off>
         <div class="modal-content">
             <div class="modal-body ht-100v">
                 <div class="row pos-absolute b-10 wd-100p">
@@ -13,7 +13,18 @@
                 </div>
                 <div class="row pos-absolute pb-5 mr-3 scroll-y t-20" style="bottom:130px;" id="botChatArea">
                     <div class="col-12">
-<p>Повседневная практика показывает, что постоянный количественный рост и сфера нашей активности говорит о возможностях как самодостаточных, так и внешне зависимых концептуальных решений. Но реплицированные с зарубежных источников, современные исследования своевременно верифицированы. Принимая во внимание показатели успешности, курс на социально-ориентированный национальный проект прекрасно подходит для реализации прогресса профессионального сообщества. Имеется спорная точка зрения, гласящая примерно следующее: ключевые особенности структуры проекта будут призваны к ответу. Господа, семантический разбор внешних противодействий способствует подготовке и реализации распределения внутренних резервов и ресурсов. Равным образом, экономическая повестка сегодняшнего дня требует от нас анализа поэтапного и последовательного развития общества. А ещё предприниматели в сети интернет неоднозначны и будут представлены в исключительно положительном свете. Но сделанные на базе интернет-аналитики выводы набирают популярность среди определенных слоев населения, а значит, должны быть ограничены исключительно образом мышления. Противоположная точка зрения подразумевает, что стремящиеся вытеснить традиционное производство, нанотехнологии формируют глобальную экономическую сеть и при этом — описаны максимально подробно. Также как высокое качество позиционных исследований позволяет выполнить важные задания по разработке своевременного выполнения сверхзадачи. Наше дело не так однозначно, как может показаться: современная методология разработки является качественно новой ступенью системы массового участия. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: сложившаяся структура организации позволяет выполнить важные задания по разработке системы обучения кадров, соответствующей насущным потребностям. Как принято считать, некоторые особенности внутренней политики, превозмогая сложившуюся непростую экономическую ситуацию, объединены в целые кластеры себе подобных. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: современная методология разработки влечет за собой процесс внедрения и модернизации распределения внутренних резервов и ресурсов. В своём стремлении повысить качество жизни, они забывают, что начало повседневной работы по формированию позиции предполагает независимые способы реализации поставленных обществом задач.</p>                        
+                        {{#each messages}}
+                        {{#if sender == "date"}}
+                            <div class="divider-text" >
+                                {{msg}} 
+                            </div>
+                        {{else}}
+                            <div class="my-2 bd {{sender}}" >
+                                {{msg}}
+                                <div class="time">{{dtime}}</div>
+                            </div>
+                        {{/if}}
+                        {{/each}}
                     </div>
 
                 </div>
@@ -21,7 +32,42 @@
         </div>
     </div>
 </div>
+<style>
+#botChat .oper {
+    position: relative;
+        background-color: #0168fa17;
+        text-align: right;
+        border-radius: 10px;
+        margin-left: 50px;
+        padding: 0.7rem;
+        padding-bottom: 10px;
+        color: #1c273c;
+}
+#botChat .user {
+    position: relative;
+        background-color: #10b75917;
+        text-align: left;
+        border-radius: 10px;
+        margin-right: 50px;
+        padding: 0.7rem;
+        padding-bottom: 10px;
+        color: #1c273c;
+}
 
+#botChat .time {
+    position: absolute;
+    bottom: 0;
+    font-size: 12px;
+    color: #596882;
+}
+#botChat .oper .time {
+    left: 10px;
+}
+#botChat .user .time {
+    right: 10px;
+}
+
+</style>
 <script>
     /*
 var port = 4010
@@ -101,9 +147,24 @@ synapse_connect();
 var botChat = new Ractive({
     el: $('#botChat'),
     template: $('#botChat').html(),
+    data: {
+        'messages': [],
+        'lasttime': null
+    },
     on: {
-        init() {
-            console.log('Chat init');
+        complete() {
+            botChat.fire('messages')
+            let loop = setInterval(function(){
+                if ($(document).find('#docsEditForm').length) {
+                    botChat.fire('messages')
+                }
+            },5000)
+            let unloop = setInterval(function(){
+                if (!$(document).find('#docsEditForm').length) {
+                    clearInterval(loop);
+                    clearInterval(unloop);
+                }
+            },500)
         },
         message(ev) {
             $('#botChat [name=msg]').next().prop('disabled',true)
@@ -117,17 +178,65 @@ var botChat = new Ractive({
                     doc_id: did,
                     msg: msg,
                     quote: qte
-                },function(){
-                    $('#botChat [name=msg]').val('')
+                },function(data){
+                    if (data.ok) {
+                        $('#botChat [name=msg]').val('')
+                        botChat.fire('messages')
+                    } else {
+                    // здесь нужно отработать, если сообщение не отправилось
+
+                    }
                     $('#botChat [name=msg]').next().prop('disabled',false)
                 })
                 setTimeout(() => {
                     $('#botChat [name=msg]').next().prop('disabled',false)
                 }, 1000);
             }
+        },
+        messages() {
+            let cid = $('#docsEditForm [name=chat_id]').val()
+            let post = {}
+            let lasttime = botChat.get('lasttime')
+            wbapp.loader = false
+            let msgs = botChat.get('messages');
+            lasttime ? post = {'from':msgs[msgs.length -1].time} : null;
+            wbapp.post('/module/botchat/getmsg/'+cid,post,function(data){
+                let last = data.length
+                let cdate = null
+                if (last) {
+                    botChat.set('lasttime', data[last -1])
+                    data.forEach(msg => {
+                        if (msg.time && msg.sender) {
+                            let ctime = date("d.m.y",strtotime(msg.time));
+                            msg.dtime = date("H:i", strtotime(msg.time));
+                            if (ctime !== cdate) {
+                                botChat.push('messages',{sender:'date', 'msg':ctime})
+                                cdate = ctime
+                            }
+                            botChat.push('messages',msg)
+                        }
+                    });
+                }
+                wbapp.loader = true
+            })
+            wbapp.loader = true
         }
     }
 })
 </script>
 
 </html>
+
+                let last = data.length
+                let date = null
+                if (last) {
+                    botChat.set('lasttime', data[last -1])
+                    data.forEach(msg => {
+                        let cdate = date('d.m.Y',strtotime(msg.time))
+                        if (cdate !== date) {
+                            botChat.push('messages',{'sender':'date',date:cdate})
+                        }
+                        botChat.push('messages',msg)
+                    });
+                }
+                wbapp.loader = true
