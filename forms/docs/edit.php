@@ -5,10 +5,10 @@
         <div class="modal-content">
             <div class="modal-header row">
                 <div class="col-5">
-                    <h5>Первичные данные</h5>
+                    <h5>Первичные данные {{id}}</h5>
                 </div>
                 <div class="col-7">
-                    <a href="#botChat" class="btn btn-dark" data-toggle="modal">Чат</a>
+                    <a href="javascript:botChat.fire('show')" class="btn btn-dark" >Чат</a>
                     <button class="btn btn-primary" type="button" id="exportPDF">Сформировать</button>
                     <button class="btn btn-secondary d-none" type="button" id="sendDemo">Отправить демо</button>
                     <button class="btn btn-info d-none" type="button" id="sendReady">Отправить документ</button>
@@ -54,13 +54,14 @@
                         $('.datetimepicker.dropdown-menu').remove()
                         wbapp.loadScripts(["/engine/modules/datetimepicker/datetimepicker.js"],"datatimepicker-js",function(){
                         var did = "{{id}}"
+                    
                         wbapp.post('/form/docs/fldsetgen/' + $('#{{_form}}EditForm [name=quote]').val(), {
                             scan_id: did
                         }, function(res) {
                             $('#{{_form}}EditForm .form-content').html(res);
                             wbapp.init();
                         });
-
+                        
                         $('#{{_form}}EditForm [name=quote]').trigger('change')
                         $('#modaldocsEdit #exportPDF').off('click');
                         $('#modaldocsEdit #exportPDF').on('click', function() {
