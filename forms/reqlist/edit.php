@@ -46,6 +46,13 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-sm-3">Описание</label>
+                            <div class="col-sm-9">
+                                <textarea rows="auto" placeholder="Описание услуги" class="form-control" name="descr" wb-module="langinp"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                         <label class="form-control-label col-3">Цена</label>
                         <div class="col-3">
                             <input type="text" class="form-control" name="price">
