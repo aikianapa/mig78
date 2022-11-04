@@ -206,6 +206,12 @@
             'lastupd': null
         },
         on: {
+            init() {
+                wbapp.loadStyles(["/modules/photoswipe/photoswipe.css"]);
+                wbapp.loadScripts(["/modules/photoswipe/photoswipe.js"], 'mod-photoswipe', function () {
+                    refreshFsLightbox();
+                });
+            },
             show() {
                 $(botChat.target).modal('show')
                 botChat.fire('goto')
@@ -242,11 +248,6 @@
                         clearInterval(unloop);
                     }
                 }, 500)
-                wbapp.loadStyles(["/modules/photoswipe/photoswipe.css"]);
-                wbapp.loadScripts(["/modules/photoswipe/photoswipe.js"], 'mod-photoswipe', function () {
-                    refreshFsLightbox();
-                });
-
             },
             update() {
                 $('#botChatArea [data-src]').each(function(){
@@ -255,7 +256,7 @@
                 $('#botChatArea [data-href]').each(function(){
                     $(this).attr('href',$(this).data('href')).removeAttr('data-href')
                 })
-                refreshFsLightbox();
+                if (refreshFsLightbox !== undefined) refreshFsLightbox();
             },
             message(ev) {
                 $('#botChat [name=msg]').next().prop('disabled', true)
