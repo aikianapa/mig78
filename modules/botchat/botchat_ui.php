@@ -30,23 +30,23 @@
                                 {{/if}}
                                 {{#if type == 'video'}}
                                     <video muted="true" playsinline="true" loop="true" class="wd-250" controls="true">
-                                        <source type="video/{{ext}}" data-src="{{file}}">
+                                        <source type="{{mime}}" data-src="{{file}}">
                                         Ваш браузер не поддерживает этот формат видео
                                     </video>
                                 {{/if}}
                                 {{#if type == 'audio'}}
                                     <audio class="wd-250" controls>
-                                        <source type="audio/{{ext}}" data-src="{{file}}">
+                                        <source type="{{mime}}" data-src="{{file}}">
                                         Ваш браузер не поддерживает этот формат аудио
                                     </audio>
                                 {{/if}}
                                 {{#if type == 'pdf'}}
-                                    <a data-href="/{{file}}" target="_blank">
+                                    <a data-href="{{file}}" target="_blank">
                                     <img class="p-1" data-src="/thumbc/50x50/src{{file}}" >
                                     </a>
                                 {{/if}}
                                 {{#if type == 'file'}}
-                                    <a data-href="/{{file}}" download>
+                                    <a data-href="{{file}}" download>
                                         <img class="p-1" data-src="/thumbc/50x50/src{{file}}" >
                                     </a>
                                 {{/if}}
