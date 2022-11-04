@@ -8,7 +8,7 @@
                     <h5>Первичные данные {{id}}</h5>
                 </div>
                 <div class="col-7">
-                    <a href="javascript:botChat.fire('show')" class="btn btn-dark" >Чат</a>
+                    <a href="javascript:botChat.fire('show')" class="btn btn-dark">Чат</a>
                     <button class="btn btn-primary" type="button" id="exportPDF">Сформировать</button>
                     <button class="btn btn-secondary d-none" type="button" id="sendDemo">Отправить демо</button>
                     <button class="btn btn-info d-none" type="button" id="sendReady">Отправить документ</button>
@@ -51,63 +51,65 @@
                     </div>
 
                     <script>
-                        $('.datetimepicker.dropdown-menu').remove()
-                        wbapp.loadScripts(["/engine/modules/datetimepicker/datetimepicker.js"],"datatimepicker-js",function(){
-                        var did = "{{id}}"
-                    
-                        wbapp.post('/form/docs/fldsetgen/' + $('#{{_form}}EditForm [name=quote]').val(), {
-                            scan_id: did
-                        }, function(res) {
-                            $('#{{_form}}EditForm .form-content').html(res);
-                            wbapp.init();
-                        });
-                        
-                        $('#{{_form}}EditForm [name=quote]').trigger('change')
-                        $('#modaldocsEdit #exportPDF').off('click');
-                        $('#modaldocsEdit #exportPDF').on('click', function() {
-                            let data = $('#{{_form}}EditForm').serializeJson();
-                            wbapp.post('/module/docs/quote/', data, function(res) {
-                                window.open(res.uri, '_blank').focus();
-                                $('#modaldocsEdit #sendDemo').removeClass('d-none');
-                                $('#{{_form}}EditForm [name=document]').val(res.doc);
-                                $('#{{_form}}EditForm [name=status]').val('progress');
-                                $('#{{_form}}EditForm #docDemo').prop('checked', true);
+                    $('.datetimepicker.dropdown-menu').remove()
+                    wbapp.loadScripts(["/engine/modules/datetimepicker/datetimepicker.js"], "datatimepicker-js",
+                        function() {
+                            var did = "{{id}}"
+                            let test = false
+                            if (!test) {
+                                wbapp.post('/form/docs/fldsetgen/' + $('#{{_form}}EditForm [name=quote]').val(), {
+                                    scan_id: did
+                                }, function(res) {
+                                    $('#{{_form}}EditForm .form-content').html(res);
+                                    wbapp.init();
+                                });
+                            }
+                            $('#{{_form}}EditForm [name=quote]').trigger('change')
+                            $('#modaldocsEdit #exportPDF').off('click');
+                            $('#modaldocsEdit #exportPDF').on('click', function() {
+                                let data = $('#{{_form}}EditForm').serializeJson();
+                                wbapp.post('/module/docs/quote/', data, function(res) {
+                                    window.open(res.uri, '_blank').focus();
+                                    $('#modaldocsEdit #sendDemo').removeClass('d-none');
+                                    $('#{{_form}}EditForm [name=document]').val(res.doc);
+                                    $('#{{_form}}EditForm [name=status]').val('progress');
+                                    $('#{{_form}}EditForm #docDemo').prop('checked', true);
+                                })
                             })
-                        })
-                        $('#modaldocsEdit #sendDemo').off('click');
-                        $('#modaldocsEdit #sendDemo').on('click', function() {
-                            $('#{{_form}}EditForm #docDemo').trigger('click');
-                            wbapp.post('/module/docs/senddoc/', {
-                                'uri': $('#{{_form}}EditForm [name=document]').val(),
-                                'chat_id': $('#{{_form}}EditForm [name=chat_id]').val(),
-                                'doc': $('#{{_form}}EditForm h3').text(),
-                                'id': $('#{{_form}}EditForm [name=id]').val(),
-                                'demo': true
-                            }, function(res) {
-                                if (res.ok == true) {
-                                    $('#{{_form}}EditForm [name=status]').val('preview');
-                                    $('#modaldocsEdit .btn-save').trigger('click');
-                                    wbapp.toast('Ошибка', 'Документ успешно отправлен', {
-                                        bgcolor: 'success'
-                                    });
+                            $('#modaldocsEdit #sendDemo').off('click');
+                            $('#modaldocsEdit #sendDemo').on('click', function() {
+                                $('#{{_form}}EditForm #docDemo').trigger('click');
+                                wbapp.post('/module/docs/senddoc/', {
+                                    'uri': $('#{{_form}}EditForm [name=document]').val(),
+                                    'chat_id': $('#{{_form}}EditForm [name=chat_id]').val(),
+                                    'doc': $('#{{_form}}EditForm h3').text(),
+                                    'id': $('#{{_form}}EditForm [name=id]').val(),
+                                    'demo': true
+                                }, function(res) {
+                                    if (res.ok == true) {
+                                        $('#{{_form}}EditForm [name=status]').val('preview');
+                                        $('#modaldocsEdit .btn-save').trigger('click');
+                                        wbapp.toast('Ошибка', 'Документ успешно отправлен', {
+                                            bgcolor: 'success'
+                                        });
+                                    } else {
+                                        wbapp.toast('Ошибка', 'Не удалось отправить документ', {
+                                            bgcolor: 'warning'
+                                        });
+                                    }
+                                })
+                            })
+
+                            $('#modaldocsEdit #docDemo').off('click');
+                            $('#modaldocsEdit #docDemo').on('click', function() {
+                                if ($(this).prop('checked')) {
+                                    $('#modaldocsEdit #sendDemo').removeClass('d-none');
                                 } else {
-                                    wbapp.toast('Ошибка', 'Не удалось отправить документ', {
-                                        bgcolor: 'warning'
-                                    });
+                                    $('#modaldocsEdit #sendDemo').addClass('d-none');
+
                                 }
                             })
                         })
-
-                        $('#modaldocsEdit #docDemo').off('click');
-                        $('#modaldocsEdit #docDemo').on('click', function() {
-                            if ($(this).prop('checked')) {
-                                $('#modaldocsEdit #sendDemo').removeClass('d-none');
-                            } else {
-                                $('#modaldocsEdit #sendDemo').addClass('d-none');
-
-                            }
-                        })
-                    })
                     </script>
 
                 </form>
@@ -150,4 +152,5 @@
 }
 </style>
 <meta wb-module="botchat" />
+
 </html>

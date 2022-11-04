@@ -54,7 +54,26 @@ class modBotchat
             $chat_id = $this->app->vars('_route.params.0');
             $filter = ['chat_id'=>"{$chat_id}"];
             $this->app->vars('_req.from') ? $filter['time']= ['$gt'=>$this->app->vars('_req.from')] : null;
-            $list = $this->app->itemList('messages',['sort'=>'time','return'=>'time,msg,chat_id,doc_id,sender','filter'=>$filter])['list'];
+            $list = $this->app->itemList('messages',['sort'=>'time','return'=>'time,msg,chat_id,doc_id,sender,file,files','filter'=>$filter])['list'];
+
+            $types = json_decode(file_get_contents($this->app->vars('_env.dbe').'/_mimetypes.json'), true);
+
+            foreach($list as &$msg) {
+                if (isset($msg['file'])) {
+                    (array)$msg['file'] === $msg['file'] ? null : $msg['file'] = [$msg['file']];
+                    foreach($msg['file'] as &$file) {
+                        $file = str_replace('//', '/', $file);
+                        $ext = strtolower(array_pop(explode('.', $file)));
+                        $mime = isset($types[$ext]) ? $types[$ext] : 'plain/text';
+                        $file = [
+                            'file' => $file,
+                            'ext'=> $ext,
+                            'mime' => $mime
+                        ];
+                    }
+                }
+            }
+
         } else {
             $list = [];
         }

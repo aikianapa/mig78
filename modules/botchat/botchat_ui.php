@@ -12,7 +12,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="row pos-absolute pb-5 wd-100p scroll-y t-20" id="botChatArea" on-scroll="scroll">
+                <div class="row pos-absolute pb-5 wd-100p scroll-y t-20 photoswipe" id="botChatArea" on-scroll="scroll">
                     <div class="col-12">
                         {{#each messages}} {{#if sender == "date"}}
                         <div class="divider-text">
@@ -20,7 +20,40 @@
                         </div>
                         {{else}}
                         <div class="my-2 bd {{sender}}">
-                            {{msg}}
+                            {{msg}} {{#if file}}
+                            <div class="my-2">
+                                {{#each file}}
+                                {{#if type == 'image'}}
+                                    <a data-href="{{file}}" data-fslightbox="botchat">
+                                    <img class="p-1" data-src="/thumbc/50x50/src{{file}}" >
+                                    </a>
+                                {{/if}}
+                                {{#if type == 'video'}}
+                                    <video muted="true" playsinline="true" loop="true" class="wd-250" controls="true">
+                                        <source type="video/{{ext}}" data-src="/{{file}}">
+                                        Ваш браузер не поддерживает этот формат видео
+                                    </video>
+                                {{/if}}
+                                {{#if type == 'audio'}}
+                                    <audio class="wd-250" controls>
+                                        <source type="audio/{{ext}}" data-src="/{{file}}">
+                                        Ваш браузер не поддерживает этот формат аудио
+                                    </audio>
+                                {{/if}}
+                                {{#if type == 'pdf'}}
+                                    <a data-href="/{{file}}" target="_blank">
+                                    <img class="p-1" data-src="/thumbc/50x50/src{{file}}" >
+                                    </a>
+                                {{/if}}
+                                {{#if type == 'file'}}
+                                    <a data-href="/{{file}}" download>
+                                        <img class="p-1" data-src="/thumbc/50x50/src{{file}}" >
+                                    </a>
+                                {{/if}}
+                                {{/each}}
+                            </div>
+
+                            {{/if}}
                             <div class="time">{{dtime}}</div>
                         </div>
                         {{/if}} {{/each}}
@@ -66,7 +99,7 @@
         border-radius: 10px;
         margin-right: 50px;
         padding: 0.7rem;
-        padding-bottom: 10px;
+        padding-bottom: 13px;
         color: #1c273c;
     }
 
@@ -87,80 +120,80 @@
 </style>
 <script>
     /*
-            var port = 4010
-            var host = '{{_route.hostname}}'
-            var chanel = host
-            var password = 'accept'
-            var hash = wbapp._session.user.id
-            var conn
-            var synapse_connect = function() {
-                if (document.conn !== undefined) {
-                    conn = document.conn
-                } else {
-                    conn = new WebSocket('ws://' + host + ':' + port + '/socket');
-                    document.conn = conn
-                }
-
-                conn.publish = function(data) {
-                    let msg = {
-                        action: "publish",
-                        topic: conn.room,
-                        message: json_encode(data)
-                    }
-                    conn.send(json_encode(msg))
-                }
-                conn.onopen = function(e) {
-                    console.log("Connection established!")
-                };
-                conn.onmessage = function(e) {
-                    if (conn.user == undefined) {
-                        conn.user = e.data.split(' ').pop()
-                        conn.wide = e.target.room
-                        conn.send(json_encode({
-                            action: "subscribe",
-                            "topic": hash
-                        }))
-                        conn.room = hash;
+                var port = 4010
+                var host = '{{_route.hostname}}'
+                var chanel = host
+                var password = 'accept'
+                var hash = wbapp._session.user.id
+                var conn
+                var synapse_connect = function() {
+                    if (document.conn !== undefined) {
+                        conn = document.conn
                     } else {
-                        let data = e.data
-                        typeof data == "string" ? data = json_decode(data) : null;
-                        switch (data.type) {
-                            case 'func':
-                                data.data == undefined ? data.data = {} : null;
-                                if (data.func > '') eval(data.func + '(data.data)')
-                                break;
-
-                            case 'ajax':
-                                data.post == undefined ? data.post = {} : null;
-                                if (data.async !== undefined && data.async == false) {
-                                    let res = wbapp.postSync(data.url, data.post)
-                                    if (data.func > '') eval(data.func + '(res)')
-                                } else {
-                                    $.post(data.url, data.post, function(res) {
-                                        if (data.func > '') eval(data.func + '(res)')
-                                    })
-                                }
-                                break;
-                        }
+                        conn = new WebSocket('ws://' + host + ':' + port + '/socket');
+                        document.conn = conn
                     }
 
-                };
-
-                conn.onclose = function(e) {
-                    conn = null;
-                    delete document.conn;
-                    console.log("Connection closed!");
-                    let timer = setTimeout(function() {
-                        synapse_connect();
-                        if (conn) {
-                            clearInterval(timer);
+                    conn.publish = function(data) {
+                        let msg = {
+                            action: "publish",
+                            topic: conn.room,
+                            message: json_encode(data)
                         }
-                    }, 3000)
-                }
+                        conn.send(json_encode(msg))
+                    }
+                    conn.onopen = function(e) {
+                        console.log("Connection established!")
+                    };
+                    conn.onmessage = function(e) {
+                        if (conn.user == undefined) {
+                            conn.user = e.data.split(' ').pop()
+                            conn.wide = e.target.room
+                            conn.send(json_encode({
+                                action: "subscribe",
+                                "topic": hash
+                            }))
+                            conn.room = hash;
+                        } else {
+                            let data = e.data
+                            typeof data == "string" ? data = json_decode(data) : null;
+                            switch (data.type) {
+                                case 'func':
+                                    data.data == undefined ? data.data = {} : null;
+                                    if (data.func > '') eval(data.func + '(data.data)')
+                                    break;
 
-            }
-            synapse_connect();
-            */
+                                case 'ajax':
+                                    data.post == undefined ? data.post = {} : null;
+                                    if (data.async !== undefined && data.async == false) {
+                                        let res = wbapp.postSync(data.url, data.post)
+                                        if (data.func > '') eval(data.func + '(res)')
+                                    } else {
+                                        $.post(data.url, data.post, function(res) {
+                                            if (data.func > '') eval(data.func + '(res)')
+                                        })
+                                    }
+                                    break;
+                            }
+                        }
+
+                    };
+
+                    conn.onclose = function(e) {
+                        conn = null;
+                        delete document.conn;
+                        console.log("Connection closed!");
+                        let timer = setTimeout(function() {
+                            synapse_connect();
+                            if (conn) {
+                                clearInterval(timer);
+                            }
+                        }, 3000)
+                    }
+
+                }
+                synapse_connect();
+                */
 </script>
 <script>
     var botChat = new Ractive({
@@ -209,6 +242,20 @@
                         clearInterval(unloop);
                     }
                 }, 500)
+                wbapp.loadStyles(["/modules/photoswipe/photoswipe.css"]);
+                wbapp.loadScripts(["/modules/photoswipe/photoswipe.js"], 'mod-photoswipe', function () {
+                    refreshFsLightbox();
+                });
+
+            },
+            update() {
+                $('#botChatArea [data-src]').each(function(){
+                    $(this).attr('src',$(this).data('src')).removeAttr('data-src')
+                })
+                $('#botChatArea [data-href]').each(function(){
+                    $(this).attr('href',$(this).data('href')).removeAttr('data-href')
+                })
+                refreshFsLightbox();
             },
             message(ev) {
                 $('#botChat [name=msg]').next().prop('disabled', true)
@@ -270,12 +317,22 @@
                                         'msg': mdate
                                     })
                                 }
+                                if (msg.file) {
+                                    $(msg.file).each(function(i, file){
+                                        file.type = file.mime.split('/').shift()
+                                        file.mime == 'application/pdf' ? file.type = 'pdf' : null
+                                        in_array(file.type,['image','audio','video','pdf']) ? null : file.type = 'file'
+                                        msg.file[i] = file
+                                    })
+                                }
                                 botChat.set('lasttime', msg.time)
                                 botChat.push('messages', msg)
                             }
                         });
-                        if ($('#botChatScroll').hasClass('d-none') || flag === true) botChat.fire(
-                            'goto')
+                        if ($('#botChatScroll').hasClass('d-none') || flag === true) {
+                            botChat.fire('goto')
+                        }
+                        botChat.update()
                     }
                     wbapp.loader = true
                 })
