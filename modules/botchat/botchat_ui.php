@@ -30,13 +30,13 @@
                                 {{/if}}
                                 {{#if type == 'video'}}
                                     <video muted="true" playsinline="true" loop="true" class="wd-250" controls="true">
-                                        <source type="video/{{ext}}" data-src="/{{file}}">
+                                        <source type="video/{{ext}}" data-src="{{file}}">
                                         Ваш браузер не поддерживает этот формат видео
                                     </video>
                                 {{/if}}
                                 {{#if type == 'audio'}}
                                     <audio class="wd-250" controls>
-                                        <source type="audio/{{ext}}" data-src="/{{file}}">
+                                        <source type="audio/{{ext}}" data-src="{{file}}">
                                         Ваш браузер не поддерживает этот формат аудио
                                     </audio>
                                 {{/if}}
