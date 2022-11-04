@@ -114,7 +114,7 @@
 
                 </form>
                 <div class="divider-text">Сканы</div>
-                <div class="row mt-3" wb="module=photoswipe&imgset=migreg">
+                <div class="row scans mt-3" wb="module=photoswipe&imgset=migreg">
                     <wb-foreach wb="from=sources&tpl=false">
                         <a href="{{_val}}" class="col-3" wb-if="_val > ''">
                             <img data-src="/thumbc/80x100/src{{_val}}?{{wbNewId()}}">
@@ -134,7 +134,7 @@
 </div>
 <style>
 @media screen and (min-width: 1350px) {
-    .row.photoswipe {
+    .row.scans.photoswipe {
         position: fixed;
         top: 0;
         left: -81px;
@@ -145,7 +145,7 @@
         display: block;
     }
 
-    .row.photoswipe img {
+    .row.scans.photoswipe img {
         margin-bottom: 10px;
     }
 
