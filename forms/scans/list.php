@@ -130,9 +130,10 @@
 <script wb-app>
     var port = 4010
     var host = '{{_route.hostname}}'
+    host = 'mig78.ru'
     var chanel = host
     var password = 'accept'
-    var hash = md5(chanel, password)
+    var hash = md5(chanel + password)
     var conn
     var synapse_connect = function() {
         if (document.conn !== undefined) {
