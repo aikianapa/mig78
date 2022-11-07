@@ -52,7 +52,10 @@ class modBotchat
     function getmsg() {
         if ($this->app->vars('_route.params.0')) {
             $chat_id = $this->app->vars('_route.params.0');
+            $doc_id = $this->app->vars('_post.doc_id');
             $filter = ['chat_id'=>"{$chat_id}"];
+            $doc_id > '' ? $filter['doc_id'] = $doc_id : null;
+
             $this->app->vars('_req.from') ? $filter['time']= ['$gt'=>$this->app->vars('_req.from')] : null;
             $list = $this->app->itemList('messages',['sort'=>'time','return'=>'time,msg,chat_id,doc_id,sender,file,files','filter'=>$filter])['list'];
 

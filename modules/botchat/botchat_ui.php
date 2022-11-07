@@ -5,7 +5,7 @@
             <div class="modal-body ht-100v">
                 <div class="row pos-absolute b-10 wd-100p">
                     <div class="col-12">
-                        <textarea rows="2" placeholder="Сообщение" class="form-control" type="text" name="msg"></textarea>
+                        <textarea rows="2" placeholder="Сообщение" class="form-control" type="text" name="msg" on-keyup="eventkey"></textarea>
                         <button type="button" class="btn btn-light mt-2" on-click="message">
                             Отправить
                             <img loading="lazy" src="/module/myicons/send-message.svg?size=20&stroke=323232">
@@ -71,6 +71,7 @@
         bottom: 130px;
         right: 30px;
         padding-left: 20px;
+        white-space: pre-line;
     }
 
     #botChatScroll {
@@ -212,6 +213,12 @@
                     refreshFsLightbox();
                 });
             },
+            eventkey(ev) {
+                console.log(ev);
+                if (ev.event.keyCode == 13 && ev.event.ctrlKey == false && ev.event.shiftKey == false) {
+                    botChat.fire('message')
+                }
+            },
             show() {
                 $(botChat.target).modal('show')
                 botChat.fire('goto')
@@ -237,6 +244,22 @@
             },
             complete() {
                 botChat.fire('messages')
+                conn.onmessage = function(e) {
+                    let data
+                    try {
+                        data = json_decode(e.data)
+                    } catch (error) {
+                        data = {chat_id: null}
+                    }
+                    let cid = $('#docsEditForm [name=chat_id]').val()
+                    if (data.chat_id == cid) {
+                        botChat.fire('messages')
+                        let audio = new Audio()
+                        audio.src = '/modules/botchat/message.mp3'
+                        audio.autoplay = true
+                    }
+                }
+/*
                 let loop = setInterval(function() {
                     if ($(document).find('#docsEditForm').length) {
                         botChat.fire('messages')
@@ -248,6 +271,7 @@
                         clearInterval(unloop);
                     }
                 }, 500)
+                */
             },
             update() {
                 $('#botChatArea [data-src]').each(function(){
@@ -265,6 +289,9 @@
                 let did = $('#docsEditForm [name=id]').val()
                 let qte = $('#docsEditForm [name=quote]').val()
                 if (msg.trim() > ' ') {
+                    let audio = new Audio()
+                    audio.src = '/modules/botchat/send.mp3'
+                    audio.autoplay = true
                     wbapp.post('/module/botchat/sendmsg', {
                         chat_id: cid,
                         doc_id: did,
@@ -288,7 +315,8 @@
             },
             messages(ev, flag = false) {
                 let cid = $('#docsEditForm [name=chat_id]').val()
-                let post = {}
+                let did = $('#docsEditForm [name=id]').val()
+                let post = {doc_id: did}
                 let lasttime = botChat.get('lasttime')
                 let lastupd = botChat.get('lastupd')
                 let timeout = botChat.get('timeout')
@@ -299,9 +327,7 @@
                 botChat.set('lastupd', time())
                 wbapp.loader = false
                 let msgs = botChat.get('messages');
-                lasttime ? post = {
-                    'from': lasttime
-                } : null;
+                lasttime ? post.from = lasttime : null;
                 wbapp.post('/module/botchat/getmsg/' + cid, post, function(data) {
                     let last = data.length
                     let cdate = date("d.m.y", strtotime(lasttime))
