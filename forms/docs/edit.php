@@ -33,6 +33,18 @@
                                 <h3 wb-if="'{{name.ru}}' == ''">{{name}}</h3>
                             </wb-data>
                         </div>
+
+                        <div class="form-group row" wb-if="'{{_sess.user.role}}'=='admin'">
+                            <label class="col-sm-3 form-control-label">Оператор</label>
+                            <div class="col-3">
+                                <select name="oper" class="form-control" wb-select2>
+                                    <wb-foreach wb="table=users" wb-filter="isgroup=">
+                                        <option value="{{id}}">{{id}} {{last_name}} {{first_name}}</option>    
+                                    </wb-foreach>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label class="col-sm-3 form-control-label">Документ готов (демо версия)</label>
                             <div class="col-3">

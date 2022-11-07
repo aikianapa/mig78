@@ -47,12 +47,9 @@
     </nav>
 
     <wb-var date="" />
-    <wb-var filter="
-            '$or' : [
-                {'_role':'reg'},
-                {'_creator':'{{_sess.user.id}}'}
-            ]
-    }" wb-if="in_array({{_sess.user.role}},['partner','',null])" />
+    <wb-var filter="" wb-if="'{{_sess.user.role}}'=='admin'" />
+    <wb-var filter="oper={{_sess.user.id}}" wb-if="'{{_sess.user.role}}'=='oper'" />
+
     <table class="table table-striped table-hover tx-15">
         <thead>
             <tr>
@@ -64,7 +61,7 @@
             </tr>
         </thead>
         <tbody id="docsList">
-            <wb-foreach wb="table=docs&sort=_created:d&bind=cms.list.docs&sort=_created:d&size={{_sett.page_size}}" wb-filter="oper={{_sess.user.id}}"
+            <wb-foreach wb="table=docs&sort=_created:d&bind=cms.list.docs&sort=_created:d&size={{_sett.page_size}}"
                 __wb-return="id;doc_num;doc_ser;date;@status;order;status;birth_date;fullname;_created;code;_id;_table;_form;_creator;_created;_role;_site"
                 wb-filter="{{_var.filter}}">
                 <tr wb-if="'{{_var.date}}'!=='{{date}}'" class="bg-transparent">
@@ -73,11 +70,9 @@
                         <div class="divider-text tx-primary">{{date}}</div>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td>{{last_name}} {{first_name}} {{middle_name}}
-                        <img loading="lazy" src="/module/myicons/bookmark-favorite-minus.svg?size=18&stroke=dc3545" wb-if="'{{flag}}'=='on'">
+                        <img loading="lazy" src="/module/myicons/bookmark-favorite-minus.svg?size=18&stroke=10b759" wb-if="'{{oper}}'=='{{_sess.user.id}}'">
                         <br />
                         <small>{{birth_date}}</small>
                     </td>
