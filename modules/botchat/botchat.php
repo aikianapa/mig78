@@ -29,7 +29,7 @@ class modBotchat
         @$req = $this->app->itemList('reqlist',["filter"=>["id"=>$qid]])['list'];
         $quote = $req ? $req[$qid]['name'] : "";
         (array)$quote === $quote ? $quote = $quote['ru'] : null;
-        $res = $tgbot->sendMessage("<b>{$quote}</b> № {$did}:<br>".$msg);
+        $res = $tgbot->sendMessage("<b>{$quote}</b> #{$did}:<br>".$msg);
         $res = json_decode($res, true);
         if ($res['ok']) {
             $msg = wbItemSave('messages',[
