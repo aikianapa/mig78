@@ -21,6 +21,14 @@ class usersClass extends cmsFormsClass
     {
         isset($item['phone']) ? null : $item['phone'] = '';
         $item['phone'] = preg_replace('/[^0-9]/', '', $item['phone']);
+
+        if (!isset($item['isgroup'])) {
+            $item['isgroup'] = '';
+        }
         return $item;
+    }
+
+    function beforeItemSave(&$item) {
+        isset($item['isgroup']) ? null : $item['isgroup'] = '';
     }
 }
