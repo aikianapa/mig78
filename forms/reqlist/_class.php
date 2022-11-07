@@ -13,13 +13,13 @@ class reqlistClass extends cmsFormsClass
         $data = $this->app->vars('_post');
         $res = ['error'=>true];
         foreach ($data as $sort => $item) {
-            $this->app->itemSave('stars', [
+            $this->app->itemSave('reqlist', [
                     'id'=>$item,
                     '_sort' => wbSortIndex($sort)
                 ], false);
             $res = ['error'=>false];
         }
-        $this->app->tableFlush('stars');
+        $this->app->tableFlush('reqlist');
         header("Content-type:application/json");
         echo json_encode($res);
         exit;
