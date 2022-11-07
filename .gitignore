@@ -10,3 +10,5 @@ forms/news
 forms/pages
 *.DS_Store
 ._*
+
+assets/css/main.css
