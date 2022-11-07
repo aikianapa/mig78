@@ -38,7 +38,7 @@
                             <label class="col-sm-3 form-control-label">Оператор</label>
                             <div class="col-3">
                                 <select name="oper" class="form-control" wb-select2>
-                                    <wb-foreach wb="table=users&tpl=false" wb-filter="isgroup=&role=[oper,admin]">
+                                    <wb-foreach wb="table=users&tpl=false" wb-filter="{'isgroup':'','role':{'$in':[oper,admin]}}">
                                         <option value="{{id}}">{{last_name}} {{first_name}}</option>    
                                     </wb-foreach>
                                 </select>
