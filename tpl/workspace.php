@@ -7,8 +7,8 @@
 <wb-include wb="{'src':'/engine/modules/yonger/tpl/ws_glob.php'}" wb-if=' "{{_route.subdomain}}" == "" OR "{{_sett.modules.yonger.standalone}}" == "on" ' />
 <wb-include wb="{'src':'/engine/modules/yonger/tpl/ws_site.php'}" wb-if=' "{{_route.subdomain}}" > ""  AND "{{_sett.modules.yonger.standalone}}" !== "on" ' />
 <modals></modals>
-</body>
 <script wb-app>
+    "use strict"
     var port = 4010
     var host = '{{_route.hostname}}'
     host = 'mig78.ru'
@@ -70,8 +70,17 @@
                         }
                         break;
                     case 'chat':
-                        console.log(data);
-                        wbapp.toast('Сообщение','Пришло сообщение в чат по документу')
+                        if (data.oper_id !== wbapp._session.user.id) {
+                            return;
+                        }
+                        if ($('#botChat').is(':visible')) {
+                            $('#botChat').trigger('recv', data)
+                        } else {
+                            wbapp.toast('Сообщение','Пришло сообщение в чат по документу '+data.doc_id,{
+                                bgcolor: 'primary',
+                                audio: '/modules/botchat/message.mp3'
+                            })
+                        }
                         break;
                 }
             }
@@ -94,4 +103,5 @@
 
 
 </script>
+</body>
 </html>

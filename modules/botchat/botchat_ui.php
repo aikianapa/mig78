@@ -210,7 +210,9 @@
             init() {
                 wbapp.loadStyles(["/modules/photoswipe/photoswipe.css"]);
                 wbapp.loadScripts(["/modules/photoswipe/photoswipe.js"], 'mod-photoswipe', function () {
+                    setTimeout(function(){
                     refreshFsLightbox();
+                    },500)
                 });
             },
             eventkey(ev) {
@@ -244,13 +246,9 @@
             },
             complete() {
                 botChat.fire('messages')
-                conn.onmessage = function(e) {
-                    let data
-                    try {
-                        data = json_decode(e.data)
-                    } catch (error) {
-                        data = {chat_id: null}
-                    }
+                $('#botChat').off('recv')
+                $('#botChat').on('recv', function(ev, data) {
+                    console.log(data);
                     let cid = $('#docsEditForm [name=chat_id]').val()
                     if (data.chat_id == cid) {
                         botChat.fire('messages')
@@ -258,7 +256,7 @@
                         audio.src = '/modules/botchat/message.mp3'
                         audio.autoplay = true
                     }
-                }
+                })
 /*
                 let loop = setInterval(function() {
                     if ($(document).find('#docsEditForm').length) {
