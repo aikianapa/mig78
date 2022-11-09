@@ -32,7 +32,11 @@
                     {{#if safepay == 'on'}}
                     <span class="badge badge-info badge-sm wd-20 mr-2 d-none d-sm-inline-block">Б</span>
                     {{else}}
+                    {{#if external == 'on'}} 
+                    <span class="badge badge-warning badge-sm wd-20 mr-2 d-none d-sm-inline-block">В</span>
+                    {{else}}
                     <span class="badge badge-light badge-sm wd-20 mr-2 d-none d-sm-inline-block">{{.flds}}</span>
+                    {{/if}}
                     {{/if}}
                     {{#if .name.ru == null}}
                         <span class="d-inline-block wd-100p wd-sm-70p">{{.name}}</span>
