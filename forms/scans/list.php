@@ -173,6 +173,12 @@
         $('#scansList').undelegate('a[data-ajax]', wbapp.evClick);
         $('#scansList').delegate('a[data-ajax]', wbapp.evClick, function() {
             let id = $(this).parents('[data-id]').data('id');
+            conn.publish({
+                'type': 'scans',
+                'action': 'hide',
+                'scan_id': id,
+                'cast': 'wide'
+            });
             itemBlock(id)
         })
 

@@ -25,6 +25,14 @@
 </div>
 
 <div class="row mt-2">
+    <label class="form-control-label col-sm-3">Внешний</label>
+    <div class="col-sm-9">
+        <input name="external" wb-module="module=switch" />
+    </div>
+</div>
+
+
+<div class="row mt-2">
     <label class="form-control-label col-sm-3">Документы</label>
     <div class="col-sm-9">
         <select name="doc" multiple class="form-control select2" wb-select2 wb-tree="dict=doc_types">

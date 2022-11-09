@@ -1,107 +1,34 @@
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-<meta wb-if='!wbCheckAllow("{{_sett.modules.yonger.allow}}")' http-equiv="refresh" content="0;URL=/signin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta wb-if='!wbCheckAllow("{{_sett.modules.yonger.allow}}")' http-equiv="refresh" content="0;URL=/signin" />
 </head>
+
 <body wb-if='wbCheckAllow("{{_sett.modules.yonger.allow}}")'>
-<wb-include wb="{'src':'/engine/modules/yonger/tpl/ws_glob.php'}" wb-if=' "{{_route.subdomain}}" == "" OR "{{_sett.modules.yonger.standalone}}" == "on" ' />
-<wb-include wb="{'src':'/engine/modules/yonger/tpl/ws_site.php'}" wb-if=' "{{_route.subdomain}}" > ""  AND "{{_sett.modules.yonger.standalone}}" !== "on" ' />
-<modals></modals>
-<script wb-app>
-    "use strict"
-    var port = 4010
-    var host = '{{_route.hostname}}'
-    host = 'mig78.ru'
-    var chanel = host
-    var password = 'accept'
-    var hash = md5(chanel + password)
-    var conn
-    var synapse_connect = function() {
-        if (document.conn !== undefined) {
-            conn = document.conn
-        } else {
-            conn = new WebSocket('ws://' + host + ':' + port + '/socket');
-            document.conn = conn
-        }
-
-        conn.publish = function(data) {
-            let msg = {
-                action: "publish",
-                topic: conn.room,
-                message: json_encode(data)
-            }
-            conn.send(json_encode(msg))
-        }
-        conn.onopen = function(e) {
-            console.log("Connection established!")
-        };
-        conn.onmessage = function(e) {
-            if (conn.user == undefined) {
-                conn.user = e.data.split(' ').pop()
-                conn.wide = e.target.room
-                conn.send(json_encode({
-                    action: "subscribe",
-                    "topic": hash
-                }))
-                conn.room = hash;
-            } else {
-                let data = e.data
-                try {
-                    typeof data == "string" ? data = json_decode(data) : null;    
-                } catch (error) {
-                    void(0)
-                }
-                
-                switch (data.type) {
-                    case 'func':
-                        data.data == undefined ? data.data = {} : null;
-                        if (data.func > '') eval(data.func + '(data.data)')
-                        break;
-
-                    case 'ajax':
-                        data.post == undefined ? data.post = {} : null;
-                        if (data.async !== undefined && data.async == false) {
-                            let res = wbapp.postSync(data.url, data.post)
-                            if (data.func > '') eval(data.func + '(res)')
-                        } else {
-                            $.post(data.url, data.post, function(res) {
-                                if (data.func > '') eval(data.func + '(res)')
-                            })
-                        }
-                        break;
-                    case 'chat':
-                        if (data.oper_id !== wbapp._session.user.id) {
-                            return;
-                        }
-                        if ($('#botChat').is(':visible')) {
-                            $('#botChat').trigger('recv', data)
-                        } else {
-                            wbapp.toast('Сообщение','Пришло сообщение в чат по документу '+data.doc_id,{
-                                bgcolor: 'primary',
-                                audio: '/modules/botchat/message.mp3'
-                            })
-                        }
-                        break;
-                }
-            }
-        };
-
-        conn.onclose = function(e) {
-            conn = null;
-            delete document.conn;
-            console.log("Connection closed!");
-            let timer = setTimeout(function() {
-                synapse_connect();
-                if (conn) {
-                    clearInterval(timer);
-                }
-            }, 3000)
-        }
-
-    }
-    synapse_connect();
-
-
-</script>
+    <wb-include wb="{'src':'/engine/modules/yonger/tpl/ws_glob.php'}" wb-if=' "{{_route.subdomain}}" == "" OR "{{_sett.modules.yonger.standalone}}" == "on" '
+    />
+    <modals></modals>
+    <div class="off-canvas off-canvas-right px-1 scroll-y" id="toasts" wb-off>
+        <i class="btn-close fa fa-close r-10 t-10 pos-absolute cursor-pointer" aria-label="Close"></i>
+        <div class="p-2 tx-gray-700">Сообщения</div>
+        <ul  class="list-group">
+        {{#each list}}
+        <li class="list-group-item" data-idx="{{@index}}">
+            {{#if type=='docmsg'}}
+                Сообщение по документу 
+                <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/docs/edit/{{doc_id}}','html':'modals'}" data-id="{{doc_id}}">
+                    #{{doc_id}}
+                </a>
+            {{else}}
+                {{msg}}
+            {{/if}}
+            <span class="pos-absolute r-5 t-5 cursor-pointer" on-click="closeitem">×</span>
+        </li>
+        {{/each}}
+        </ul>
+    </div>
+    <script wb-app src="/assets/js/workspace.js?{{wbNewId()}}"></script>
 </body>
+
 </html>
