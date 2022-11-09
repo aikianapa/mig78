@@ -112,16 +112,48 @@ var toasts_init = function() {
         data: {},
         on: {
             init() {
+                // сообщения из чата
+                let that = this
                 let list = wbapp.storage('cms.toasts')
                 if (typeof list == 'object') {
                     this.set('list', array_values(list))
                 } else {
                     this.set('list', [])
                 }
+                list = this.get('list')
+                let oid = wbapp._session.user.id
+                let time = wbapp.storage('cms.toasts_time')
+                let docs = []
+                let idx = 0
+                $(list).each(function(i, item) {
+                    if (docs[item.doc_id] == undefined) {
+                        docs[item.doc_id] = idx
+                        idx++
+                    }
+                })
+                time ? null : time = '2022-01-01 00:00:00'
+                wbapp.post(`/api/v2/list/messages?*oper_id=${oid}&time>>=${time}&@sort=time&@return=time,doc_id`, {}, function(data) {
+                    $(data).each(function(i, item) {
+                        if (item.doc_id > '') {
+                            let line = { type: 'docmsg', doc_id: item.doc_id, time: item.time }
+                            if (docs[item.doc_id] == undefined) {
+                                docs[item.doc_id] = idx
+                                idx++
+                                list.push(line)
+                            } else {
+                                let pos = docs[item.doc_id]
+                                list[pos] = line
+                            }
+                        }
+                        time = item.time
+                    })
+                    that.set('list', list)
+                    wbapp.storage('cms.toasts', list)
+                    wbapp.storage('cms.toasts_time', time)
+                })
             },
             update() {
-                let list = toasts.get('list')
-                wbapp.storage('cms.toasts', list)
+                wbapp.storage('cms.toasts', toasts.get('list'))
             },
             closeitem(ev) {
                 let idx = $(ev.node).parent('[data-idx]').attr('data-idx')
@@ -129,9 +161,11 @@ var toasts_init = function() {
                 toasts.update()
             }
         },
-        message(message) {
-            let audio = new Audio('/modules/botchat/message.mp3')
-            audio.autoplay = true
+        message(message, play = true) {
+            if (play) {
+                let audio = new Audio('/modules/botchat/message.mp3')
+                audio.autoplay = true
+            }
             toasts.push('list', { msg: message })
             toasts.update()
             $(this.el).addClass('show')
