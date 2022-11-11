@@ -31,6 +31,12 @@
     </div>
 </div>
 
+<div class="row mt-2">
+    <label class="form-control-label col-sm-3">По предоплате</label>
+    <div class="col-sm-9">
+        <input name="prepaid" wb-module="module=switch" />
+    </div>
+</div>
 
 <div class="row mt-2">
     <label class="form-control-label col-sm-3">Документы</label>

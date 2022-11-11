@@ -17,6 +17,7 @@
         <li class="list-group-item" data-idx="{{@index}}">
             {{#if type=='docmsg'}}
                 Сообщение по документу 
+                <div class="tx-semibold">{{quote}}</div>
                 <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/docs/edit/{{doc_id}}','html':'modals'}" data-id="{{doc_id}}">
                     #{{doc_id}}
                 </a>

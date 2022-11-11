@@ -132,10 +132,10 @@ var toasts_init = function() {
                     }
                 })
                 time ? null : time = '2022-01-01 00:00:00'
-                wbapp.post(`/api/v2/list/messages?*oper_id=${oid}&time>>=${time}&@sort=time&@return=time,doc_id`, {}, function(data) {
+                wbapp.post(`/api/v2/list/messages?*oper_id=${oid}&time>>=${time}&@sort=time&@return=time,doc_id,quote`, {}, function(data) {
                     $(data).each(function(i, item) {
                         if (item.doc_id > '') {
-                            let line = { type: 'docmsg', doc_id: item.doc_id, time: item.time }
+                            let line = { type: 'docmsg', doc_id: item.doc_id, time: item.time, quote: item.quote }
                             if (docs[item.doc_id] == undefined) {
                                 docs[item.doc_id] = idx
                                 idx++
