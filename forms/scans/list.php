@@ -26,12 +26,12 @@
                 <div class="tx-right pos-absolute t-10 r-10">
                     <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/scans/edit/{{.id}}','html':'#yongerscans modals'}"
                         class="d-inline">
-                        <img src="/module/myicons/content-edit-pen.svg?size=24&stroke=323232">
+                        <svg class="mi mi-content-edit-pen.svg" size="24" stroke="323232" wb-on wb-module="myicons"></svg>
                     </a>
                     {{#if ~/user.role == 'admin'}}
                     <div class="dropdown dropright d-inline">
                         <a class="cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
+                            <svg class="mi mi-trash-delete-bin.2.svg" size="24" stroke="dc3545" wb-on wb-module="myicons"></svg>
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#" on-click="remove">

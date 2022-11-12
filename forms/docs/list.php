@@ -26,19 +26,25 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': ['*status','flag']}">
-                        <img src="/module/myicons/asterisk-rotate-arrow-circle.svg?size=24&stroke=666666"> Все</a>
+                        <svg class="mi mi-asterisk-rotate-arrow-circle" size="24" stroke="666666" wb-on wb-module="myicons"></svg>
+                        Все</a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'new'}}">
-                        <img src="/module/myicons/thunder-lightning-circle.1.svg?size=24&stroke=666666"> Новые</a>
+                        <svg class="mi mi-thunder-lightning-circle.1" size="24" stroke="666666" wb-on wb-module="myicons"></svg>
+                        Новые</a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'progress'}}">
-                        <img src="/module/myicons/loading-checkmark-status-circle.svg?size=24&stroke=ffc107"> В работе
+                        <svg class="mi mi-loading-checkmark-status-circle" size="24" stroke="ffc107" wb-on wb-module="myicons"></svg>
+                        В работе
                     </a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'preview'}}">
-                        <img src="/module/myicons/attachment-link-circle.svg?size=24&stroke=ffc107"> Превью
+                        <svg class="mi mi-attachment-link-circle" size="24" stroke="ffc107" wb-on wb-module="myicons"></svg>
+                        Превью
                     </a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'ready'}}">
-                        <img src="/module/myicons/checkmark-circle-1.svg?size=24&stroke=10b759"> Готовые</a>
+                        <svg class="mi mi-checkmark-circle-1" size="24" stroke="10b759" wb-on wb-module="myicons"></svg>
+                        Готовые</a>
                     <a class="dropdown-item" href="#" data-ajax="{'target':'#{{_form}}List','filter_remove': 'status flag','filter_add':{'*status':'archive'}}">
-                        <img src="/module/myicons/zip-archive-circle.svg?size=24&stroke=dc3545"> Архив</a>
+                        <svg class="mi mi-zip-archive-circle" size="24" stroke="dc3545" wb-on wb-module="myicons"></svg>
+                        Архив</a>
                 </div>
             </div>
 
@@ -79,12 +85,12 @@
                     <td>{{doc_ser}} №{{doc_num}}</td>
                     <td>{{quotename}}</td>
                     <td>
-                        <img data-src="/module/myicons/thunder-lightning-circle.1.svg?size=24&stroke=666666" wb-if="'{{status}}' == 'new'">
-                        <img data-src="/module/myicons/loading-checkmark-status-circle.svg?size=24&stroke=ffc107" wb-if="'{{status}}' == 'progress'">
-                        <img data-src="/module/myicons/checkmark-circle-1.svg?size=24&stroke=10b759" wb-if="'{{status}}' == 'ready'">
-                        <img data-src="/module/myicons/attachment-link-circle.svg?size=24&stroke=10b759" wb-if="'{{status}}' == 'preview'">
-                        <img data-src="/module/myicons/warning-alarm-delete-error.svg?size=24&stroke=dc3545" wb-if="'{{status}}' == 'error'">
-                        <input wb-module="swico" name="archive" wb-if="'{{status}}' == 'archive'" data-ico-on="zip-archive-circle" data-ico-off="checkmark-circle-1"
+                        <svg class="mi mi-thunder-lightning-circle.1" size="24" stroke="666666" wb-on wb-module="myicons" title="Новый" wb-if="'{{status}}' == 'new'"></svg>
+                        <svg class="mi mi-loading-checkmark-status-circle" size="24" stroke="ffc107" wb-on wb-module="myicons" title="В процессе" wb-if="'{{status}}' == 'progress'"></svg>
+                        <svg class="mi mi-checkmark-circle-1" size="24" stroke="10b759" wb-on wb-module="myicons" title="Готовый" wb-if="'{{status}}' == 'ready'"></svg>
+                        <svg class="mi mi-attachment-link-circle" size="24" stroke="10b759" wb-on wb-module="myicons" title="Превью" wb-if="'{{status}}' == 'preview'"></svg>
+                        <svg class="mi mi-warning-alarm-delete-error" size="24" stroke="dc3545" wb-on wb-module="myicons" title="Ошибка" wb-if="'{{status}}' == 'error'"></svg>
+                        <input wb-module="swico" name="archive" wb-if="'{{status}}' == 'archive'" data-ico-on="zip-archive-circle" data-ico-off="checkmark-circle-1" title="Архив"
                             data-color-on="dc3545" data-color-off="10b759" onchange="wbapp.save($(this),{'table':'{{_form}}','id':'{{_id}}','field':'archive','silent':'true'})">
 
 
@@ -94,11 +100,11 @@
                     <td>
                         <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/docs/edit/{{id}}','html':'#yongerDocs modals'}" data-id="{{id}}"
                             class="d-inline editBtn">
-                            <img src="/module/myicons/content-edit-pen.svg?size=24&stroke=323232">
+                            <svg class="d-inline mi mi-content-edit-pen.svg" size="24" stroke="323232" wb-on wb-module="myicons"></svg>
                         </a>
                         <a href="javascript:" wb-if="'{{_sess.user.role}}'=='admin'" data-ajax="{'url':'/ajax/rmitem/docs/{{id}}','update':'cms.list.docs','html':'#yongerDocs modals'}"
                             class="d-inline">
-                            <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
+                            <svg class="d-inline mi mi-trash-delete-bin.2.svg" size="24" stroke="dc3545" wb-on wb-module="myicons"></svg>
                         </a>
                     </td>
                 </tr>
