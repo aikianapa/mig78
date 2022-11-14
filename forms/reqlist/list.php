@@ -51,21 +51,23 @@
                     <a href="javascript:"
                         data-ajax="{'url':'/cms/ajax/form/reqlist/edit/{{.id}}','html':'#yongerReqlist modals'}"
                         class="d-inline">
-                        <img src="/module/myicons/content-edit-pen.svg?size=24&stroke=323232">
+                        <svg class="mi mi-content-edit-pen" size="24" stroke="323232" wb-on wb-module="myicons"></svg>
                     </a>
                     {{#if ~/user.role == 'admin'}}
 
                     {{#if active == "on"}}
-                    <img src="/module/myicons/24/82C43C/power-turn-on-square.1.svg" width="24" height="24"
-                        class="cursor-pointer" data-item="{{id}}" on-click="switch">
+                    <span class="cursor-pointer d-inline" data-item="{{id}}" on-click="switch">
+                        <svg class="mi mi-power-turn-on-square.1" size="24" stroke="82C43C" wb-on wb-module="myicons"></svg>
+                    </span>
                     {{else}}
-                    <img src="/module/myicons/24/FC5A5A/power-turn-on-square.svg" width="24" height="24"
-                        class="cursor-pointer" data-item="{{id}}" on-click="switch">
+                    <span class="cursor-pointer d-inline" data-item="{{id}}" on-click="switch">
+                        <svg class="mi mi-power-turn-on-square" size="24" stroke="FC5A5A" wb-on wb-module="myicons"></svg>
+                    </span>
                     {{/if}}
 
                     <div class="dropdown dropright d-inline">
                         <a class="cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="/module/myicons/trash-delete-bin.2.svg?size=24&stroke=dc3545" class="d-inline">
+                            <svg class="mi mi-trash-delete-bin.2 d-inline" size="24" stroke="dc3545" wb-on wb-module="myicons"></svg>
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#" on-click="remove">

@@ -78,7 +78,7 @@
                 </tr>
                 <tr>
                     <td>{{last_name}} {{first_name}} {{middle_name}}
-                        <img loading="lazy" src="/module/myicons/bookmark-favorite-minus.svg?size=18&stroke=10b759" wb-if="'{{oper}}'=='{{_sess.user.id}}'">
+                        <svg class="mi mi-bookmark-favorite-minus" size="24" stroke="10b759" wb-module="myicons" wb-if="'{{oper}}'=='{{_sess.user.id}}'"></svg>
                         <br />
                         <small>{{birth_date}}</small>
                     </td>
@@ -100,11 +100,11 @@
                     <td>
                         <a href="javascript:" data-ajax="{'url':'/cms/ajax/form/docs/edit/{{id}}','html':'#yongerDocs modals'}" data-id="{{id}}"
                             class="d-inline editBtn">
-                            <svg class="d-inline mi mi-content-edit-pen.svg" size="24" stroke="323232" wb-on wb-module="myicons"></svg>
+                            <svg class="d-inline mi mi-content-edit-pen" size="24" stroke="323232" wb-on wb-module="myicons"></svg>
                         </a>
                         <a href="javascript:" wb-if="'{{_sess.user.role}}'=='admin'" data-ajax="{'url':'/ajax/rmitem/docs/{{id}}','update':'cms.list.docs','html':'#yongerDocs modals'}"
                             class="d-inline">
-                            <svg class="d-inline mi mi-trash-delete-bin.2.svg" size="24" stroke="dc3545" wb-on wb-module="myicons"></svg>
+                            <svg class="d-inline mi mi-trash-delete-bin.2" size="24" stroke="dc3545" wb-on wb-module="myicons"></svg>
                         </a>
                     </td>
                 </tr>
