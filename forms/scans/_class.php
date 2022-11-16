@@ -6,15 +6,6 @@ class scansClass extends cmsFormsClass
     public $app;
     public $reqlist;
 
-    public function _init()
-    {
-        $this->reqlist = [];
-        $req = $this->app->itemList('reqlist')['list'];
-        foreach ($req as $r) {
-            $this->reqlist[$r['id']] = $r['name'];
-        }
-    }
-
     public function list()
     {
         $out = $this->app->fromFile(__DIR__.'/list.php');
@@ -29,6 +20,7 @@ class scansClass extends cmsFormsClass
     }
     public function beforeItemShow(&$item)
     {
+        $this->getReqlist();
         $item['quotename'] = $this->reqlist[$item['quote']];
         if ((array)$item['quotename'] == $item['quotename']) {
             $item['quotename'] = $item['quotename']['ru'];
@@ -128,5 +120,18 @@ class scansClass extends cmsFormsClass
         $block = wbItemSave('tmp', $block, true);
         header("Content-type:application/json");
         return ['msg'=>'scanblocks','blocks'=>array_keys($block['blocks'])];
+    }
+
+    function getReqlist() {
+        if ($this->app->vars('_env.reqlist')) {
+            $this->reqlist = $this->app->vars('_env.reqlist');
+        } else {
+            $this->reqlist = [];
+            $req = $this->app->itemList('reqlist', ['return'=>['id','name']])['list'];
+            foreach ($req as $r) {
+                $this->reqlist[$r['id']] = $r['name'];
+            }
+            $this->app->vars('_env.reqlist', $this->reqlist);
+        }
     }
 }

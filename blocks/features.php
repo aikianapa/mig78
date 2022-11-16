@@ -30,7 +30,7 @@
                                 <img class="logo" width="74" height="74" src="assets/images/feature/logo/1.png"
                                     alt="{{header_blk1}}" wb-if="'{{image_blk1.0.img}}' == ''">
                                 <img class="logo" width="74" height="74" src="/thumb/74x74/src/{{image_blk1.0.img}}"
-                                    alt="{{header_blk1}}" wb-if="'{{image_blk1.0.img}}' > ''">
+                                    alt="{{header_blk1}}" wb-if="'{{image_blk1.0.img}}' >< ''">
                                 <h4 class="title my-6">
                                     <a href="{{link_blk1}}">{{header_blk1}}</a>
                                 </h4>
