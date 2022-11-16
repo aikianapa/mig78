@@ -133,6 +133,17 @@
                         </a>
                     </wb-foreach>
                 </div>
+                <div class="divider-text">Тексты</div>
+                <ul class="list-group">
+                    <wb-foreach wb="from=sources_txt&tpl=false">
+                        <li class="list-group-item tx-right tx-semibold"  wb-tree="dict=doc_types&item={{q}}">
+                            {{name}}
+                        </li>
+                        <li class="list-group-item">
+                            {{a}}
+                        </li>
+                    </wb-foreach>
+                </ul>
                 <div style="margin-bottom:200px;">
                     &nbsp;
                 </div>
