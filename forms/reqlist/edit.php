@@ -70,6 +70,12 @@
                         </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-3">Реф. ссылка</label>
+                            <div class="col-sm-9">
+                                <input placeholder="Реферальная ссылка" class="form-control" type="text" name="refurl">
+                            </div>
+                        </div>
 
                         <wb-include wb-src="/forms/reqlist/fldset_dict.php"></wb-include>
                     </div>
