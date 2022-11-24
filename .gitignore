@@ -10,5 +10,6 @@ forms/news
 forms/pages
 *.DS_Store
 ._*
+.htaccess
 
 assets/css/main.css

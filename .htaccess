@@ -11,6 +11,9 @@ RewriteBase /
 Options +FollowSymLinks
 RewriteEngine On
 
+#RewriteCond %{HTTP:X-HTTPS} !1
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
 RewriteRule ^(.*)\.less$ index.php 
 RewriteRule ^(.*)\.scss$ index.php 
 
