@@ -29,7 +29,7 @@
                             </div>
                         </div>
 
-                        <div class="row mt-2">
+                        <div class="form-group row">
                             <label class="form-control-label col-sm-3">Категории</label>
                             <div class="col-sm-9">
                                 <select name="categories" multiple class="form-control" wb-select2 wb-tree="dict=categories">
