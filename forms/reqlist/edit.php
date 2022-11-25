@@ -1,6 +1,6 @@
 <html>
-<div class="modal fade effect-scale show removable" id="modalScansEdit" data-keyboard="false" data-backdrop="static"
-    tabindex="-1" role="dialog" aria-hidden="true" data-id="{{id}}" wb-allow="admin,partner,reg,doc,oper">
+<div class="modal fade effect-scale show removable" id="modalScansEdit" data-keyboard="false" data-backdrop="static" tabindex="-1"
+    role="dialog" aria-hidden="true" data-id="{{id}}" wb-allow="admin,partner,reg,doc,oper">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header row">
@@ -10,8 +10,7 @@
                 <div class="col-7">
 
                 </div>
-                <i class="fa fa-close r-20 position-absolute cursor-pointer" data-dismiss="modal"
-                    aria-label="Close"></i>
+                <i class="fa fa-close r-20 position-absolute cursor-pointer" data-dismiss="modal" aria-label="Close"></i>
             </div>
             <div class="modal-body pd-20">
                 <form class="row" method="post" id="{{_form}}EditForm">
@@ -25,17 +24,24 @@
                                             <input name="active" wb-module="swico">
                                         </span>
                                     </div>
-                                    <input type="text" name="id" class="form-control" wb="module=smartid" required
-                                        wb-enabled="admin">
+                                    <input type="text" name="id" class="form-control" wb="module=smartid" required wb-enabled="admin">
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <label class="form-control-label col-sm-3">Категории</label>
+                            <div class="col-sm-9">
+                                <select name="categories" multiple class="form-control" wb-select2 wb-tree="dict=categories">
+                                    <option value="{{id}}">{{name}}</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-3">Тэги</label>
                             <div class="col-sm-9">
-                                <input placeholder="Тэги" class="form-control" type="text" name="tags"
-                                    wb-module="tagsinput">
+                                <input placeholder="Тэги" class="form-control" type="text" name="tags" wb-module="tagsinput">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -60,14 +66,19 @@
                         </div>
 
                         <div class="form-group row">
-                        <label class="form-control-label col-3">Цена</label>
-                        <div class="col-3">
-                            <input type="text" class="form-control" name="price">
-                        </div>
-                        <label class="form-control-label col-3">Срок выполнения</label>
-                        <div class="col-3">
-                            <input type="text" class="form-control" name="price_period" wb-module="langinp">
-                        </div>
+                            <label class="form-control-label col-3">Цена</label>
+                            <div class="col-9">
+
+                                <wb-multiinput name="prices">
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" name="price" placeholder="Цена">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" name="price_period" wb-module="langinp" placeholder="Срок выполнения">
+                                    </div>
+
+                                </wb-multiinput>
+                            </div>
                         </div>
 
                         <div class="form-group row">
@@ -93,32 +104,32 @@
     </div>
 </div>
 <style>
-@media screen and (min-width: 1350px) {
-    .row.photoswipe {
-        position: fixed;
-        top: 0;
-        left: -81px;
-        height: 100vh;
-        width: 100px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        display: block;
-    }
+    @media screen and (min-width: 1350px) {
+        .row.photoswipe {
+            position: fixed;
+            top: 0;
+            left: -81px;
+            height: 100vh;
+            width: 100px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            display: block;
+        }
 
-    .row.photoswipe img {
-        margin-bottom: 10px;
-    }
+        .row.photoswipe img {
+            margin-bottom: 10px;
+        }
 
-}
+    }
 </style>
 <script>
-$('#exportPDF').off('click');
-$('#exportPDF').on('click', function() {
-    let data = $('#{{_form}}EditForm').serializeJson();
-    wbapp.post('/module/docs/quote/', data, function(res) {
-        window.open(res.path, '_blank').focus();
+    $('#exportPDF').off('click');
+    $('#exportPDF').on('click', function() {
+        let data = $('#{{_form}}EditForm').serializeJson();
+        wbapp.post('/module/docs/quote/', data, function(res) {
+            window.open(res.path, '_blank').focus();
+        })
     })
-})
 </script>
 
 </html>
