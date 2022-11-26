@@ -68,15 +68,13 @@
                         <div class="form-group row">
                             <label class="form-control-label col-3">Цена</label>
                             <div class="col-9">
-
                                 <wb-multiinput name="prices">
                                     <div class="col-6">
                                         <input type="text" class="form-control" name="price" placeholder="Цена">
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control" name="price_period" wb-module="langinp" placeholder="Срок выполнения">
+                                        <input type="text" class="form-control" name="price_period" wb-module="langinp" placeholder="Срок/Период">
                                     </div>
-
                                 </wb-multiinput>
                             </div>
                         </div>
