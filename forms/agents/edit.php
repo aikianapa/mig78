@@ -28,6 +28,16 @@
                                 <input wb-module="mask" wb-mask="8 (999) 999-99-99" name="phone" class="form-control" placeholder="Телефон">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3">Регион работы</label>
+                            <div class="col-sm-9">
+                                <wb-multiinput name="region">
+                                    <select name="region" wb-select2 multiple wb-tree="dict=locations&branch=regions&children=false">
+                                        <option balue="{{id}}">{{name}}</option>
+                                    </select>
+                                </wb-multiinput>
+                            </div>
+                        </div>
                     </div>
 
                 </form>
