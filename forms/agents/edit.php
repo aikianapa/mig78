@@ -33,7 +33,7 @@
                             <div class="col-sm-9">
                                 <wb-multiinput name="region">
                                     <select name="region" wb-select2 multiple wb-tree="dict=locations&branch=regions&children=false">
-                                        <option balue="{{id}}">{{name}}</option>
+                                        <option value="{{id}}">{{name}}</option>
                                     </select>
                                 </wb-multiinput>
                             </div>
