@@ -38,13 +38,13 @@
                                 </wb-multiinput>
                             </div>
                         </div>
-                    </div>
                         <div class="form-group row">
                             <label class="col-sm-3">Описание</label>
                             <div class="col-sm-9">
                                 <textarea placeholder="Описание" class="form-control" rows="auto" name="descr"></textarea>
                             </div>
                         </div>
+                    </div>
                 </form>
                 <div style="margin-bottom:200px;">
                     &nbsp;
