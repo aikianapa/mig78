@@ -30,12 +30,16 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3">Регион работы</label>
+                            <wb-var regions="[]"/>
+                            <wb-data wb="table=catalogs&item=locations&field=tree.data.regions.children&parent=false">
+                                <wb-var regions="{{_current}}"/>
+                            </wb-data>
                             <div class="col-sm-9">
-                                <wb-multiinput name="region">
-                                    <select name="region" wb-select2 multiple wb-tree="dict=locations&branch=regions&children=false">
-                                        <option value="{{id}}">{{name}}</option>
+                                    <select name="region" wb-select2 multiple>
+                                        <wb-foreach wb="from=_var.regions&tpl=false" wb-filter="active=on">
+                                            <option value="{{id}}">{{name}}</option>
+                                        </wb-foreach>
                                     </select>
-                                </wb-multiinput>
                             </div>
                         </div>
                         <div class="form-group row">
