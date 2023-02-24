@@ -10,17 +10,17 @@
                 <div class="col-7">
 
                 </div>
-                <i class="fa fa-close r-20 position-absolute cursor-pointer" data-dismiss="modal" aria-label="Close"></i>
+                <i class="cursor-pointer fa fa-close r-20 position-absolute" data-dismiss="modal" aria-label="Close"></i>
             </div>
             <div class="modal-body pd-20">
-                <form class="row" method="post" id="{{_form}}EditForm">
+                <form class="row" method="post" id="{{_form}}EditForm" wb-module="bsform">
                     <div class="col-12">
-                        <div class="form-group row mb-2">
+                        <div class="mb-2 form-group row">
                             <label class="col-lg-3 form-control-label">Идентификатор</label>
                             <div class="col-lg-9">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text p-1">
+                                        <span class="p-1 input-group-text">
                                             <input name="active" wb-module="swico">
                                         </span>
                                     </div>
@@ -33,6 +33,7 @@
                             <label class="form-control-label col-sm-3">Категории</label>
                             <div class="col-sm-9">
                                 <select name="categories" multiple class="form-control" wb-select2 wb-tree="dict=categories">
+                                    {{_current}}
                                     <option value="{{id}}">{{name}}</option>
                                 </select>
                             </div>
@@ -78,6 +79,9 @@
                                 </wb-multiinput>
                             </div>
                         </div>
+
+                        <label>Процент отчислений</label>
+                        <input name="percent" type="number" class="wd-100 tx-right">
 
                         <div class="form-group row">
                             <label class="col-sm-3">Реф. ссылка</label>
